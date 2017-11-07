@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>ggplot2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">ggplot2</h1>
+
+</div>
+
+
+<div id="plot-using-ggplot2" class="section level2">
+<h2>Plot using ggplot2</h2>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter plot</h3>
+<pre class="r"><code>library(ggplot2);</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(dplyr);</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>head(diamonds);</code></pre>
+<pre><code>## # A tibble: 6 x 10
+##   carat       cut color clarity depth table price     x     y     z
+##   &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
+## 2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
+## 3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
+## 4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
+## 5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
+## 6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48</code></pre>
+<pre class="r"><code># This will just loads the dataset. No plot will be printed until you add the geom layers.
+ggplot(diamonds);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># Here we have added x and y axis. Still no plot of data. 
+ggplot(diamonds, aes(x=carat, y=price)); </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+</div>
+<div id="add-geom_point-layer" class="section level3">
+<h3>Add geom_point() layer</h3>
+<pre class="r"><code># Add geom_point layer. Each layer can be added by +
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="add-geom_smooth-layer-linear-modeling" class="section level3">
+<h3>Add geom_smooth() layer, linear modeling</h3>
+<pre class="r"><code># 
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() + geom_smooth();</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code># se=FALSE removes confidence bands
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() + geom_smooth(se=FALSE);</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+<div id="explore-aesthetic-parameter-col" class="section level3">
+<h3>Explore aesthetic parameter “col”</h3>
+<pre class="r"><code># Color the points w.r.t. cut column
+ggplot(diamonds, aes(x=carat, y=price, color=cut))+ geom_point() + geom_smooth();</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="assign-aes-to-individual-layer" class="section level3">
+<h3>Assign aes() to individual layer</h3>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut)) + geom_smooth(); # We have removed aes to smooth layer</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="explore-aesthetic-parameter-shape" class="section level3">
+<h3>Explore aesthetic parameter “shape”</h3>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth(); # We have removed aes to smooth layer</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values
+## because more than 6 becomes difficult to discriminate; you have 8.
+## Consider specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 5445 rows containing missing values (geom_point).</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="add-axis-lables-and-plot-title-using-labs" class="section level3">
+<h3>Add axis lables and plot title using labs()</h3>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;);</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values
+## because more than 6 becomes difficult to discriminate; you have 8.
+## Consider specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 5445 rows containing missing values (geom_point).</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="change-color-pelette" class="section level3">
+<h3>Change color pelette</h3>
+<pre class="r"><code>ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;)+scale_colour_brewer(palette = &quot;Set1&quot;) ;</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values
+## because more than 6 becomes difficult to discriminate; you have 8.
+## Consider specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 5445 rows containing missing values (geom_point).</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="save-the-ggplot-object-and-then-print." class="section level3">
+<h3>Save the ggplot object and then print.</h3>
+<pre class="r"><code>g=ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;);
+print(g);</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values
+## because more than 6 becomes difficult to discriminate; you have 8.
+## Consider specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 5445 rows containing missing values (geom_point).</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="the-theme" class="section level3">
+<h3>The Theme</h3>
+<p>We can use theme() function to adjust size of labels. Parameters plot.title, axis.text.x, axis.text.y, axis.title.x, axis.title.y can be set using element_text() function</p>
+<pre class="r"><code>g &lt;- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;);
+
+gg1 &lt;- g + theme(plot.title=element_text(size=30, face=&quot;bold&quot;), 
+                  axis.text.x=element_text(size=15), 
+                  axis.text.y=element_text(size=15),
+                  axis.title.x=element_text(size=25),
+                  axis.title.y=element_text(size=25));
+
+print(gg1);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="adjusting-the-legend-title" class="section level3">
+<h3>Adjusting the legend title</h3>
+<p>You can change legned title. Based on the type of legend ggplot2 provides different function. For a legend representing color and if the color attribute is derived from discrete values, use scale_color_discrete() function. If legend correspond to shape and discrete use scale_shape_discrete(). Other functions are scale_shape_continuous(name=“legend title”). For fill attribute: scale_fill_continuous(name=“legend title”)</p>
+<pre class="r"><code>gg2 &lt;- gg1 + scale_color_discrete(name=&quot;Cut of diamonds&quot;) + scale_shape_discrete(name=&quot;clarity attribute&quot;);
+print(gg2);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="facet_wrap" class="section level3">
+<h3>Facet_wrap</h3>
+<pre class="r"><code># Split based on &quot;cut&quot; column. plot will be distributed in n*3 layouts
+gg &lt;- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;)
+gg3 = gg + facet_wrap( ~ cut, ncol=3);
+print(gg3);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="bar-charts" class="section level3">
+<h3>Bar charts</h3>
+<pre class="r"><code>ggplot(diamonds,aes(x=cut))+geom_bar();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds,aes(x=cut))+geom_bar(aes(fill=clarity));</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds,aes(x=cut))+geom_bar(aes(fill=clarity)) + coord_flip();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-13-3.png" width="672" /></p>
+<pre class="r"><code># Suppose for every cut class, plot mean depth. x-axis: cut class while y-axis: mean(depth)
+tempdf=group_by(diamonds, cut) %&gt;% summarise(meandepth=mean(depth))
+ggplot(tempdf, aes(x=cut, y=meandepth))+geom_col();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-13-4.png" width="672" /></p>
+<pre class="r"><code># geom bar for continious data
+ggplot(diamonds, aes(x=carat))+geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-13-5.png" width="672" /></p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>Density plot</h3>
+<pre class="r"><code>ggplot(diamonds, aes(carat))+ geom_density();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, colour=cut))+ geom_density();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density(alpha=0.1);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
+<pre class="r"><code># Stacked density plots:
+ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density(alpha=0.1, position=&quot;stack&quot;);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
+</div>
+<div id="box-plot" class="section level3">
+<h3>Box plot</h3>
+<pre class="r"><code>ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot();</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(notch = TRUE);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(x=cut, y=table, colour=cut)) + geom_boxplot(notch = TRUE);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-15-3.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(fill = &quot;white&quot;, colour = &quot;#3366FF&quot;); </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-15-4.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(outlier.colour = &quot;red&quot;, outlier.shape = 1);</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-15-5.png" width="672" /></p>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<ol style="list-style-type: decimal">
+<li><a href="http://r-statistics.co/ggplot2-Tutorial-With-R.html" class="uri">http://r-statistics.co/ggplot2-Tutorial-With-R.html</a></li>
+<li><a href="http://ggplot2.tidyverse.org/reference/" class="uri">http://ggplot2.tidyverse.org/reference/</a></li>
+</ol>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

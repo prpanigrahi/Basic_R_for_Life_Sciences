@@ -1,0 +1,142 @@
+---
+title: "ggplot2"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Plot using ggplot2
+
+### Scatter plot
+```{r}
+library(ggplot2);
+library(dplyr);
+head(diamonds);
+
+# This will just loads the dataset. No plot will be printed until you add the geom layers.
+ggplot(diamonds);
+# Here we have added x and y axis. Still no plot of data. 
+ggplot(diamonds, aes(x=carat, y=price)); 
+```
+
+### Add geom_point() layer
+```{r}
+# Add geom_point layer. Each layer can be added by +
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() 
+```
+
+### Add geom_smooth() layer, linear modeling
+```{r}
+# 
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() + geom_smooth();
+# se=FALSE removes confidence bands
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point() + geom_smooth(se=FALSE);
+```
+
+### Explore aesthetic parameter "col"
+```{r}
+# Color the points w.r.t. cut column
+ggplot(diamonds, aes(x=carat, y=price, color=cut))+ geom_point() + geom_smooth();
+```
+
+### Assign aes() to individual layer
+```{r}
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut)) + geom_smooth(); # We have removed aes to smooth layer
+```
+
+### Explore aesthetic parameter "shape"
+```{r}
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth(); # We have removed aes to smooth layer
+```
+
+### Add axis lables and plot title using labs()
+```{r}
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title="Scatterplot", x="Carat", y="Price");
+```
+
+### Change color pelette
+```{r}
+ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title="Scatterplot", x="Carat", y="Price")+scale_colour_brewer(palette = "Set1") ;
+```
+
+### Save the ggplot object and then print.
+```{r}
+g=ggplot(diamonds, aes(x=carat, y=price))+ geom_point(aes(color=cut, shape=clarity)) + geom_smooth() + labs(title="Scatterplot", x="Carat", y="Price");
+print(g);
+```
+
+### The Theme
+We can use theme() function to adjust size of labels. Parameters plot.title, axis.text.x, axis.text.y,  axis.title.x,  axis.title.y can be set using element_text() function
+
+```{r}
+g <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title="Scatterplot", x="Carat", y="Price");
+
+gg1 <- g + theme(plot.title=element_text(size=30, face="bold"), 
+                  axis.text.x=element_text(size=15), 
+                  axis.text.y=element_text(size=15),
+                  axis.title.x=element_text(size=25),
+                  axis.title.y=element_text(size=25));
+
+print(gg1);
+```
+
+### Adjusting the legend title
+You can change legned title. Based on the type of legend ggplot2 provides different function. For a legend representing color and if the color attribute is derived from discrete values, use scale_color_discrete() function. If legend correspond to shape and discrete use scale_shape_discrete(). Other functions are 
+scale_shape_continuous(name="legend title"). For fill  attribute: scale_fill_continuous(name="legend title")
+```{r}
+gg2 <- gg1 + scale_color_discrete(name="Cut of diamonds") + scale_shape_discrete(name="clarity attribute");
+print(gg2);
+```
+
+### Facet_wrap
+```{r}
+# Split based on "cut" column. plot will be distributed in n*3 layouts
+gg <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title="Scatterplot", x="Carat", y="Price")
+gg3 = gg + facet_wrap( ~ cut, ncol=3);
+print(gg3);
+```
+
+### Bar charts
+```{r}
+ggplot(diamonds,aes(x=cut))+geom_bar();
+ggplot(diamonds,aes(x=cut))+geom_bar(aes(fill=clarity));
+ggplot(diamonds,aes(x=cut))+geom_bar(aes(fill=clarity)) + coord_flip();
+# Suppose for every cut class, plot mean depth. x-axis: cut class while y-axis: mean(depth)
+tempdf=group_by(diamonds, cut) %>% summarise(meandepth=mean(depth))
+ggplot(tempdf, aes(x=cut, y=meandepth))+geom_col();
+# geom bar for continious data
+ggplot(diamonds, aes(x=carat))+geom_histogram()
+```
+
+### Density plot
+```{r}
+ggplot(diamonds, aes(carat))+ geom_density();
+ggplot(diamonds, aes(carat, colour=cut))+ geom_density();
+ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density();
+ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density(alpha=0.1);
+# Stacked density plots:
+ggplot(diamonds, aes(carat, colour=cut, fill= cut))+ geom_density(alpha=0.1, position="stack");
+```
+
+### Box plot
+```{r}
+ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot();
+ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(notch = TRUE);
+ggplot(diamonds, aes(x=cut, y=table, colour=cut)) + geom_boxplot(notch = TRUE);
+ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(fill = "white", colour = "#3366FF"); 
+ggplot(diamonds, aes(x=cut, y=table)) + geom_boxplot(outlier.colour = "red", outlier.shape = 1);
+```
+
+### References
+1. http://r-statistics.co/ggplot2-Tutorial-With-R.html
+2. http://ggplot2.tidyverse.org/reference/
+

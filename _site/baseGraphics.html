@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data Visualization using R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data Visualization using R</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Copyright: BioSakshat</p>
+<p>Last update: June 2017</p>
+<div id="lets-begin" class="section level2">
+<h2>Lets Begin</h2>
+<p>R has high-level and low-level plotting functions.</p>
+<div id="simple-scatter-plot" class="section level3">
+<h3>Simple scatter plot</h3>
+<pre class="r"><code>x=sample(x = 100, size = 50); # Create a vector x, 50 elements, values between 0 and 100
+plot(x); # Plot the value of x against the index</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>plot(x, type=&quot;l&quot;); # type: line</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<pre class="r"><code>plot(x, type=&quot;o&quot;); # type: overplotted (point and line)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<pre class="r"><code>plot(x, type=&quot;h&quot;); # type: histogram like</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
+<pre class="r"><code>plot(x, type=&quot;s&quot;); # type: stair steps</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-5.png" width="672" /></p>
+<pre class="r"><code>plot(x, type=&quot;n&quot;); # type: no plotting</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-1-6.png" width="672" /></p>
+</div>
+<div id="saving-plot" class="section level3">
+<h3>Saving plot</h3>
+<p>Steps: Create a graphics device (BMP, JPEG, PNG, TIFF) then plot and switch off the device.</p>
+<pre class="r"><code># File will be saved in current working directory getwd()
+png(filename = &quot;myplot.png&quot;, width = 480, height = 480, units = &quot;px&quot; , type=&quot;cairo&quot;);
+plot(x, type=&quot;l&quot;);
+dev.off();</code></pre>
+<pre><code>## png 
+##   2</code></pre>
+</div>
+<div id="add-titlesubtitlex-axis-labely-axis-label-to-plot" class="section level3">
+<h3>Add title/subtitle/x-axis label/y-axis label to plot</h3>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="increase-line-thickness" class="section level3">
+<h3>Increase line thickness</h3>
+<pre class="r"><code># Parameters: lwd
+plot(x, type=&quot;l&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="assign-color-to-lines-and-points" class="section level3">
+<h3>Assign color to lines and points</h3>
+<pre class="r"><code># Parameters: col
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = &quot;red&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code># There are 50 elements in x. so 50 points in plot. 
+# col=c(“red”,”green”,”blue”) is a vector of 3 elements which will be recycled to color the 50 points. 
+# So points will look like alternate red/green/blue.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code># length(x) is 50. col=rainbow(length(x)) will generate 50 consecutive colors which will be assigned to 50 points on the plot.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = rainbow(length(x)));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<pre class="r"><code># Lets display first 20 points as red, next 20 as blue and last 10 as green. Create a vector of colors where red is repeated 20 times followed by blue 20 times and green 10 times.
+# Using c() and rep() function we created veccol vector
+# col=veccol assigns 50 colors of veccol vector to 50 points on the plot.
+veccol=c(rep(&quot;red&quot;,20),rep(&quot;blue&quot;,20),rep(&quot;green&quot;,10));
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
+</div>
+<div id="explore-built-in-colors" class="section level3">
+<h3>Explore built-in colors</h3>
+<pre class="r"><code>head(colors(), 50) # Explore default colors, 50 displayed</code></pre>
+<pre><code>##  [1] &quot;white&quot;          &quot;aliceblue&quot;      &quot;antiquewhite&quot;   &quot;antiquewhite1&quot; 
+##  [5] &quot;antiquewhite2&quot;  &quot;antiquewhite3&quot;  &quot;antiquewhite4&quot;  &quot;aquamarine&quot;    
+##  [9] &quot;aquamarine1&quot;    &quot;aquamarine2&quot;    &quot;aquamarine3&quot;    &quot;aquamarine4&quot;   
+## [13] &quot;azure&quot;          &quot;azure1&quot;         &quot;azure2&quot;         &quot;azure3&quot;        
+## [17] &quot;azure4&quot;         &quot;beige&quot;          &quot;bisque&quot;         &quot;bisque1&quot;       
+## [21] &quot;bisque2&quot;        &quot;bisque3&quot;        &quot;bisque4&quot;        &quot;black&quot;         
+## [25] &quot;blanchedalmond&quot; &quot;blue&quot;           &quot;blue1&quot;          &quot;blue2&quot;         
+## [29] &quot;blue3&quot;          &quot;blue4&quot;          &quot;blueviolet&quot;     &quot;brown&quot;         
+## [33] &quot;brown1&quot;         &quot;brown2&quot;         &quot;brown3&quot;         &quot;brown4&quot;        
+## [37] &quot;burlywood&quot;      &quot;burlywood1&quot;     &quot;burlywood2&quot;     &quot;burlywood3&quot;    
+## [41] &quot;burlywood4&quot;     &quot;cadetblue&quot;      &quot;cadetblue1&quot;     &quot;cadetblue2&quot;    
+## [45] &quot;cadetblue3&quot;     &quot;cadetblue4&quot;     &quot;chartreuse&quot;     &quot;chartreuse1&quot;   
+## [49] &quot;chartreuse2&quot;    &quot;chartreuse3&quot;</code></pre>
+<pre class="r"><code># colors() will list all colorsUsing c() and rep() function we created veccol
+vector</code></pre>
+<pre><code>## function (mode = &quot;logical&quot;, length = 0L) 
+## .Internal(vector(mode, length))
+## &lt;bytecode: 0x02e9734c&gt;
+## &lt;environment: namespace:base&gt;</code></pre>
+<pre class="r"><code>rainbow(5); # Create a vector of 5 contiguous colors.</code></pre>
+<pre><code>## [1] &quot;#FF0000FF&quot; &quot;#CCFF00FF&quot; &quot;#00FF66FF&quot; &quot;#0066FFFF&quot; &quot;#CC00FFFF&quot;</code></pre>
+</div>
+<div id="explore-different-symbols" class="section level3">
+<h3>Explore different symbols</h3>
+<pre class="r"><code># Parameter: pch
+# Try ?pch to explore more about points.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="explore-different-line-types" class="section level3">
+<h3>Explore different line types</h3>
+<pre class="r"><code># Parameter: lty
+# Try other lty values (0=blank, 1=solid (default), 2=dashed, 3=dotted, 4=dotdash, 5=longdash, 6=twodash)
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="rescale-the-x-axis-and-y-axis" class="section level3">
+<h3>Rescale the x-axis and y-axis</h3>
+<pre class="r"><code># Parameter: xlim, ylim.
+# xlim and ylim parameters are used to change the default x and y axis ranges.
+# We have to give the minimum and maximum values of x and y-axis.
+# xlim=c(0,100) will scale x-axis from 0 to 100.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, xlim=c(0,100), ylim=c(0,150));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="magnification-of-labels-and-symbols" class="section level3">
+<h3>Magnification of labels and symbols</h3>
+<pre class="r"><code># Parameter: cex.lab, cex.axis, cex.main, cex.sub, cex
+# cex.lab=1.5 will magnify the x-axis and y-axis labels by 50%. 
+# Default cex.lab=1
+# cex.axis=1.2 magnifies the labels on the tick-marks of axis.
+# cex.main=1.2 magnifies the title
+# cex.sub=1.2 magnifies the subtitle.
+# cex=1.2 magnifies the symbol/text on the plots
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="explore-bty-box-type" class="section level3">
+<h3>Explore bty (box type)</h3>
+<pre class="r"><code># bty=”n” will not draw box around the plot.
+# If bty is one of &quot;o&quot; (the default), &quot;l&quot;, &quot;7&quot;, &quot;c&quot;, &quot;u&quot;, or &quot;]&quot; the resulting box resembles the corresponding upper case letter.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, bty=&quot;n&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="explore-las-style-of-axis-labels" class="section level3">
+<h3>Explore las (style of axis labels)</h3>
+<pre class="r"><code># Style of axis tick mark labels is given by las=1. 
+# 0: parallel to axis, 1: always horizontal, 2: always perpendicular to axis, 3: always vertical)
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="explore-col.axis-col.lab-col.main-col.sub-parameters" class="section level3">
+<h3>Explore col.axis, col.lab, col.main, col.sub parameters</h3>
+<pre class="r"><code># col.axis=”red” will color the axis labels on the tick marks to red color
+# col.lab=”brown” will color the x-axis and y-axis labels to brown.
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, col.axis = &quot;red&quot;, col.lab = &quot;blue&quot;, col.main = &quot;pink&quot;, col.sub = &quot;brown&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="low-level-plotting-functions-lines" class="section level3">
+<h3>Low level plotting functions (lines)</h3>
+<p>lines() draws lines on a plot. To draw lines we need x and y coordinates of points. The syntax: pass x- coordinates of all points as 1st argument and all y- coordinates as 2nd argument. lty and lwd can alsoplot(x, type=“o”, xlab = “Index”, ylab = “Expression values”, main= “Scatter plot”, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));</p>
+<p>be used.</p>
+<pre class="r"><code># First call high level plotting function
+plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));
+
+# Call low level plotting functions which will be applied on the plot generated above.
+lines(c(0,60),c(50,50), lty=2, col=&quot;red&quot;, lwd=2);
+lines(c(-10,60),c(100,100), lty=2, col=&quot;blue&quot;,lwd=2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="low-level-plotting-functions-legend" class="section level3">
+<h3>Low level plotting functions (legend)</h3>
+<p>legend() draws legends on a plot. To draw legend we need to specify where to draw legend by specifying x and y coordinates as 1st and 2nd argument. The legends to be written as 3rd argument. Colors of legends are passed by col parameter while lwd sets line width.</p>
+<pre class="r"><code>plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));
+legend(0,155,c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;), lwd=2, col=c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;))</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="adding-texts-to-existing-plot-text" class="section level3">
+<h3>Adding texts to existing plot (text)</h3>
+<p>text() adds texts to existing plots. To add text, we need x- and y- coordinates which we pass as 1st and 2nd arguments respectively. Third argument (labels) is the texts that are to be written on the plot. Since we want to write the values of x on the points, the x and y coordinates of text will be exactly same as the points i.e. x-coordinates will be 1 to 50 while y coordinates will be value of x itself. The text to be added will also be x.</p>
+<pre class="r"><code>plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));
+text(1:50,x,labels=x);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>pos=3 will add the text on the top of point. pos=1/2/3/4 means below/left/top/right to point</p>
+<p>cex=0.6 decrease the text size.</p>
+<pre class="r"><code>plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));
+text(1:50,x,labels=x, pos=3, cex=0.6);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Offset is usedbarplot(A, names.arg = c(“Day1”,“Day2”,“Day3”,“Day4”,“Day5”), xlab=“Days”, ylab=“Revenue”, border=“red”); to put space between point and text.</p>
+<pre class="r"><code>plot(x, type=&quot;o&quot;, xlab = &quot;Index&quot;, ylab = &quot;Expression values&quot;, main= &quot;Scatter plot&quot;, lwd = 2, col = veccol, pch = 15, lty=2, cex.lab=1.2, cex.axis=1.2, cex= 1.2, cex.main=1.2, las = 1, ylim=c(0,150));
+text(1:50,x,labels=x, pos=3, cex=0.6, offset = 0.8);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="explore-line-plot" class="section level3">
+<h3>Explore Line Plot</h3>
+<p>Create 3 vectors x1, x2, x3 with 50 elements with different range values. To visualize x1, x2 and x3 as lines, we need to first draw x1 using high-level plot() command then x2 and x3 can be drawn using low-level lines() command by adding lines to the already existing plots.</p>
+<p>Below code plot 3-lines but we can’t see x2 and x3 lines since the plot(x1) will plot using x1 whose y-axis margin lies between 0-50 but x2 values between 50-100 and x3 between 100-150. So x2 and x3 will be out-of margin on the plot.</p>
+<pre class="r"><code>x1=sample(1:50, 50);
+x2=sample(50:100, 50);
+x3=sample(100:150, 50);
+plot(x1, type= &quot;l&quot;, lty = 2);
+lines(x2, lty = 2, col=&quot;red&quot;);
+lines(x3, lty = 2, col = &quot;blue&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>To correctly see x2 and x3, we fi{#morelines}rst set the ylim to 0-200</p>
+<pre class="r"><code>plot(x1, type= &quot;l&quot;, lty = 2, ylim=c(0,200));
+lines(x2, lty = 2, col=&quot;red&quot;);
+lines(x3, lty = 2, col = &quot;blue&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="explore-simple-bar-plot" class="section level3">
+<h3>Explore simple Bar plot</h3>
+<p>Barplot: Here x can be considered as heights of bars in a bar plot.</p>
+<pre class="r"><code>x=c(3, 2, 6, 8, 4);
+barplot(x);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<pre class="r"><code># Using names.arg=c() we can name the bars.
+# border=”red” will give red border to bars.
+barplot(x, names.arg = c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;,&quot;Day4&quot;,&quot;Day5&quot;), border = &quot;red&quot;, xlab=&quot;Days&quot;, ylab=&quot;Revenue&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-21-2.png" width="672" /></p>
+<pre class="r"><code># horiz=TRUE will make horizontal bar plot. Note: xlab and ylab need to be changed accordingly.
+barplot(x, names.arg = c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;,&quot;Day4&quot;,&quot;Day5&quot;), border = &quot;red&quot;, horiz = TRUE, xlab=&quot;Revenue&quot;, ylab=&quot;Days&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-21-3.png" width="672" /></p>
+</div>
+<div id="explore-stacked-bar-plot" class="section level3">
+<h3>Explore stacked bar plot</h3>
+<p>When argument to barplot() is a matrix, a stacked bar plot will be generated.</p>
+<pre class="r"><code># Create a matrix
+A &lt;- matrix(c(3,5,7,1,9,4,6,5,2,12,2,1,7,6,8), nrow=3, byrow = TRUE);
+print(A);</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    3    5    7    1    9
+## [2,]    4    6    5    2   12
+## [3,]    2    1    7    6    8</code></pre>
+<pre class="r"><code>barplot(A);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code># Using names.arg assign name to each bar
+barplot(A, names.arg = c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;,&quot;Day4&quot;,&quot;Day5&quot;), xlab=&quot;Days&quot;, ylab=&quot;Revenue&quot;, border=&quot;red&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<pre class="r"><code># col parameter to color each stack.
+barplot(A, names.arg = c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;,&quot;Day4&quot;,&quot;Day5&quot;), xlab=&quot;Days&quot;, ylab=&quot;Revenue&quot;, border=&quot;red&quot;, col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;));
+# Add legend (Note on using pch in legend)
+legend(x=0.2, y=24,c(&quot;High&quot;,&quot;Mid&quot;,&quot;Low&quot;), pch = 15, col=c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;))</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+</div>
+<div id="grouped-bar-plots" class="section level3">
+<h3>Grouped Bar plots</h3>
+<p>The argument beside=TRUE will convert stacked to grouped bar plot</p>
+<p>space=c(0.1, 1) specifies to add 0.1 spacing between bars and spacing of 1 between each groups.</p>
+<pre class="r"><code>barplot(A, names.arg = c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day3&quot;,&quot;Day4&quot;,&quot;Day5&quot;), xlab=&quot;Days&quot;, ylab=&quot;Revenue&quot;, border=&quot;red&quot;, col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;), beside = TRUE, space = c(0.1, 1));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="histogram" class="section level3">
+<h3>Histogram</h3>
+<pre class="r"><code>x=sample(20,1000, replace = TRUE);
+hist(x);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<pre class="r"><code># labels=TRUE will add label on the bars.
+# col will fill the bars with colors
+# border is to give border color of bar.
+hist(x, labels = TRUE, col = &quot;lightblue&quot;, border=&quot;pink&quot;,ylim=c(0,130));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<pre class="r"><code># Breaks=20 will assign number of histogram bins to 20.
+hist(x, labels = TRUE, col = &quot;lightblue&quot;, border=&quot;pink&quot;,ylim=c(0,130), breaks = 20);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-24-3.png" width="672" /></p>
+<pre class="r"><code># Freq=FALSE will plot probability instead of frequency. Note: Probaility lies between 0 to 1. So we have to change ylim accordingly.
+hist(x, labels = FALSE, col = &quot;lightblue&quot;, border=&quot;pink&quot;,ylim=c(0,0.2), breaks = 20, freq = FALSE);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-24-4.png" width="672" /></p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>Density plot</h3>
+<p>density(x) function computes kernel density estimates of x which is plotted by plot(density(x)).</p>
+<pre class="r"><code>plot(density(x), xlab=&quot;Value&quot;, ylab=&quot;Probability density of x&quot;, cex.lab=1.2, cex.axis=1.2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div id="plot-density-plot-of-two-distributions" class="section level4">
+<h4>Plot density plot of two distributions</h4>
+<p>x and y are two distributions whose density are estimated using density(x) and density(y).</p>
+<pre class="r"><code>x=sample(20,1000, replace = TRUE);
+y=sample(50:100,1000, replace = TRUE);
+
+# Plot density of x and y. Since the x-ranges of x and y are different (x values between 0-20 while y between 50 and 100), we can’t see distribution of y in this plot.
+plot(density(x));
+lines(density(y));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code># Change xlim between 0 and 100 so that both x and y densities are within plot-margin.
+plot(density(x), xlim = c(0,120), xlab=&quot;Value&quot;, ylab=&quot;Probability density&quot;, main=&quot;Probability density of x and y&quot;);
+lines(density(y),col=&quot;red&quot;);
+legend(100, 0.05, c(&quot;x&quot;,&quot;y&quot;), col=c(&quot;black&quot;,&quot;red&quot;), lwd=5)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+</div>
+</div>
+<div id="box-plots" class="section level3">
+<h3>Box plots</h3>
+<p>Create a matrix of 1000*4 dimensions. Let’s assume that these are the gene expression values of 1000 genes measured across two days among control and treatment sample. Columns represents: Control-Day1, Control-Day2, Treatment-Day1 and Treatment-Day2.</p>
+<pre class="r"><code>x1=sample(1:100,1000, replace = TRUE);
+x2=sample(100:200,1000, replace = TRUE);
+x3=sample(200:300,1000, replace = TRUE);
+x4=sample(300:400,1000, replace = TRUE);
+m=cbind(x1,x2,x3,x4)
+head(m);</code></pre>
+<pre><code>##      x1  x2  x3  x4
+## [1,] 14 150 277 384
+## [2,] 53 108 229 321
+## [3,] 66 122 296 325
+## [4,] 74 141 273 332
+## [5,] 10 167 235 328
+## [6,] 52 197 211 366</code></pre>
+<pre class="r"><code>boxplot(m);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code># col parameters sets colors to each box.
+boxplot(m, col=c(&quot;red&quot;,&quot;blue&quot;,&quot;red&quot;,&quot;blue&quot;),xlab=&quot;Day&quot;,ylab=&quot;Expression&quot;)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<pre class="r"><code># names parameter sets names below each box.
+boxplot(m, col=c(&quot;red&quot;,&quot;blue&quot;,&quot;red&quot;,&quot;blue&quot;),xlab=&quot;Day&quot;,ylab=&quot;Expression&quot;, names= c(&quot;Day1&quot;,&quot;Day2&quot;,&quot;Day1&quot;,&quot;Day2&quot;));
+legend(0.5, 400, c(&quot;Control&quot;,&quot;Treatment&quot;), col=c(&quot;red&quot;,&quot;blue&quot;), pch =15)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-27-3.png" width="672" /></p>
+</div>
+<div id="pie-chart" class="section level3">
+<h3>Pie chart</h3>
+<pre class="r"><code>x=c(70, 15, 5);
+pie(x); # 1st argument is the proportion values</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre class="r"><code># col assigns colors to each category
+pie(x, col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<pre class="r"><code># labels will assign labels to each category
+pie(x, col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;), labels = x);
+legend(0.97, 0.92, c(&quot;High&quot;,&quot;Mid&quot;,&quot;Low&quot;), pch=15,col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;) )</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-28-3.png" width="672" /></p>
+</div>
+<div id="venn-diagram" class="section level3">
+<h3>Venn diagram</h3>
+<pre class="r"><code>library(gplots);</code></pre>
+<pre><code>## Warning: package &#39;gplots&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess</code></pre>
+<pre class="r"><code>x1=1:5
+x2=4:6
+x3=c(4, 8:10);
+x4=c(7,5,10);
+x5=c(7, 10);
+v1=venn(list(x1, x2, x3));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<pre class="r"><code>v2=venn(list(x1, x2, x3, x4));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<pre class="r"><code>v3=venn(list(x1, x2, x3, x4, x5));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-29-3.png" width="672" /></p>
+</div>
+<div id="heatmap" class="section level3">
+<h3>Heatmap</h3>
+<pre class="r"><code>m1 = read.table(&quot;_site/data/Day2/GenExp_heatmap.txt&quot;,sep=&quot;\t&quot;, header=TRUE);
+rownames(m1)=m1$Gene;
+m1$Gene=NULL;
+m1=as.matrix(m1); # Convert data.frame to matrix
+head(m1);</code></pre>
+<pre><code>##          D1    D2    D3    D4    D5
+## Gene1  0.59  1.01  0.36 -1.25 -1.11
+## Gene2 -0.76 -1.42 -0.09 -0.93 -0.45
+## Gene3 -0.37  0.76  0.06 -1.31  0.94
+## Gene4 -0.19  1.59 -0.15  1.01  0.74
+## Gene5  1.45  0.26  0.46 -0.30 -0.59
+## Gene6 -1.24 -0.14  1.15  2.16 -2.72</code></pre>
+<pre class="r"><code>library(gplots);
+heatmap.2(m1);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<pre class="r"><code># Disable trace. trace=”none” will prevent to draw tract of color key. 
+heatmap.2(m1, trace = &quot;none&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-2.png" width="672" /></p>
+<pre class="r"><code># Disable column clustering. Colv=FALSE will prevent the ordering of column as per hierarchical clustering. So the dendrogram won’t be displayed. Rowv=FALSE will prevent clustering of rows.
+heatmap.2(m1, trace = &quot;none&quot;, Colv = FALSE);</code></pre>
+<pre><code>## Warning in heatmap.2(m1, trace = &quot;none&quot;, Colv = FALSE): Discrepancy: Colv
+## is FALSE, while dendrogram is `both&#39;. Omitting column dendogram.</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-3.png" width="672" /></p>
+<pre class="r"><code># Disable row clustering
+heatmap.2(m1, trace = &quot;none&quot;, Rowv = FALSE);</code></pre>
+<pre><code>## Warning in heatmap.2(m1, trace = &quot;none&quot;, Rowv = FALSE): Discrepancy: Rowv
+## is FALSE, while dendrogram is `both&#39;. Omitting row dendogram.</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-4.png" width="672" /></p>
+<pre class="r"><code># Data scaling
+
+heatmap.2(m1, trace = &quot;none&quot;, scale = &quot;row&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-5.png" width="672" /></p>
+<pre class="r"><code># Add cellnote. notecex: magnification for cell note. cellnote=m will allow us to write the values of matrix m in each cell. notecol=”black” will set the color of notes in each cell as black.
+heatmap.2(m1, trace = &quot;none&quot;, scale = &quot;row&quot;, cellnote = m1, notecol = &quot;black&quot;, notecex=0.8);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-6.png" width="672" /></p>
+<pre class="r"><code># col parameter
+heatmap.2(m1, trace = &quot;none&quot;, scale = &quot;row&quot;, col=redgreen(75));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-7.png" width="672" /></p>
+<pre class="r"><code># Custom colors
+library(RColorBrewer)</code></pre>
+<pre><code>## Warning: package &#39;RColorBrewer&#39; was built under R version 3.3.2</code></pre>
+<pre class="r"><code>my_palette &lt;- colorRampPalette(c(&quot;blue&quot;,&quot;white&quot;,&quot;red&quot;))(n = 149)
+heatmap.2(m1, trace = &quot;none&quot;, scale = &quot;row&quot;, col=my_palette);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-31-8.png" width="672" /></p>
+<p>The argument (n = 149) lets us define how many individuals colors we want to have in our palette. Obviously, the higher the number of individual colors, the smoother the transition will be; the number 149 should be sufficiently large enough for a smooth transition. By default, RColorBrewer will divide the colors evenly so that every color in our palette will be an interval of individual colors of similar size. However, sometimes we want to have a little skewed color range depending on the data we are analyzing. Our example dataset (m1) ranges from –3 to 3, and we are particularly interested in samples that have a (relatively) high expression: R values in the range between 2 to 3 and -2 to -3. In this case, we can define our color breaks “unevenly” by using the following code:</p>
+<pre class="r"><code># Color breaks
+col_breaks = c(seq(-3,-2,length=50), # for red
+seq(-1.9,2,length=50),  # for yellow
+seq(2.1,3,length=50)) # for green
+heatmap.2(m1, trace = &quot;none&quot;, col=my_palette, breaks = col_breaks);</code></pre>
+<pre><code>## Warning in image.default(z = matrix(z, ncol = 1), col = col, breaks =
+## tmpbreaks, : unsorted &#39;breaks&#39; will be sorted before use</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<pre class="r"><code># Adjust Row and column label size using cexRow and cexCol parameter
+heatmap.2(m1, trace = &quot;none&quot;, col=my_palette, breaks = col_breaks, cexRow=0.5,cexCol=0.75);</code></pre>
+<pre><code>## Warning in image.default(z = matrix(z, ncol = 1), col = col, breaks =
+## tmpbreaks, : unsorted &#39;breaks&#39; will be sorted before use</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<pre class="r"><code># Categorize genes (Rows) into category, red and blue.
+heatmap.2(m1, trace = &quot;none&quot;, col=my_palette, breaks = col_breaks, RowSideColors = c(rep(&quot;red&quot;,10),rep(&quot;blue&quot;,10)));</code></pre>
+<pre><code>## Warning in image.default(z = matrix(z, ncol = 1), col = col, breaks =
+## tmpbreaks, : unsorted &#39;breaks&#39; will be sorted before use</code></pre>
+<pre class="r"><code>legend(&quot;topright&quot;,      # location of the legend on the heatmap plot
+    legend = c(&quot;category1&quot;, &quot;category2&quot;), # category labels
+    col = c(&quot;red&quot;, &quot;blue&quot;),  # color key
+    lty= 1,             # line style
+    lwd = 2            # line width
+)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<pre class="r"><code># Explore
+# labRow=NA: Disable row label
+# key = TRUE: Disable color key panel
+# density.info=&quot;none&quot;: disable density info in color key panel</code></pre>
+</div>
+<div id="scatter-plot-matrices" class="section level3">
+<h3>Scatter plot Matrices</h3>
+<p>pairs() function is useful to draw a matrix of scatterplots. This is useful to get a global view of data distribution.</p>
+<pre class="r"><code>x1=sample(1:100, 30, replace = TRUE);
+x2=sample(1:100, 30, replace = TRUE);
+x3=sample(1:100, 30, replace = TRUE);
+x4=sample(1:100, 30, replace = TRUE);
+# m is a dataframe of dimension 30*4.
+m=data.frame(x1,x2,x3,x4);
+head(m);</code></pre>
+<pre><code>##   x1 x2 x3 x4
+## 1  2 38 91 39
+## 2 96 58 10 88
+## 3  2 42 95 21
+## 4 31 11 62 90
+## 5 12 75 30 44
+## 6 85 64 55 18</code></pre>
+<pre class="r"><code>pairs(m);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<pre class="r"><code>pairs(m, pch =16, col=rep(c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;), each=10));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
+</div>
+<div id="ballon-plot" class="section level3">
+<h3>Ballon plot</h3>
+<pre class="r"><code>library(gplots)
+pathway = sample(c(&quot;P1&quot;,&quot;P2&quot;,&quot;P3&quot;), 50, replace = TRUE)
+genes = sample(c(&quot;Gene1&quot;,&quot;Gene2&quot;,&quot;Gene3&quot;,&quot;Gene4&quot;,&quot;Gene5&quot;), 50, replace = TRUE);
+tab &lt;- table(pathway, genes);
+print(tab);</code></pre>
+<pre><code>##        genes
+## pathway Gene1 Gene2 Gene3 Gene4 Gene5
+##      P1     3     2     4     4     5
+##      P2     3     6     2     2     5
+##      P3     2     3     4     2     3</code></pre>
+<pre class="r"><code>balloonplot(tab, main=&quot;Gene distributions in pathway&quot;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+<div id="multi-panel-plots" class="section level3">
+<h3>Multi panel plots</h3>
+<p>By setting the mfrow parameter in par() to number of rows and columns, multi-panel plots can be generated.</p>
+<pre class="r"><code>#  we set the mfrow parameter to c(2,2) i.e. 2 rows and 2 columns and pass mfrow in par() function. par() after modifying the graphics parameter, returns original state of graphics device which we store in oldpar. 
+oldpar= par(mfrow=c(2,2));
+
+x1=sample(1:100, 30, replace = TRUE);
+x2=sample(1:100, 30, replace = TRUE);
+x3=sample(1:100, 30, replace = TRUE);
+x4=sample(1:100, 30, replace = TRUE);
+# m is a dataframe of dimension 30*4.
+m=data.frame(x1,x2,x3,x4);
+
+hist(m[,1]);
+hist(m[,2]);
+hist(m[,3]);
+hist(m[,4]);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<pre class="r"><code># Reset to old graphics setting
+par(oldpar);</code></pre>
+</div>
+<div id="pca-prinicipal-component-analysis" class="section level3">
+<h3>PCA (Prinicipal Component Analysis)</h3>
+<pre class="r"><code>head(iris);</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>piris=princomp(iris[,1:4], cor=TRUE, scores=TRUE);
+# Summary of individual principal components
+summary(piris);</code></pre>
+<pre><code>## Importance of components:
+##                           Comp.1    Comp.2     Comp.3      Comp.4
+## Standard deviation     1.7083611 0.9560494 0.38308860 0.143926497
+## Proportion of Variance 0.7296245 0.2285076 0.03668922 0.005178709
+## Cumulative Proportion  0.7296245 0.9581321 0.99482129 1.000000000</code></pre>
+<pre class="r"><code># Shows a screeplot
+plot(piris);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<pre class="r"><code># biplot
+biplot(piris);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<p><strong>Plot PCA objects using ggfortify pacakge</strong></p>
+<pre class="r"><code># Load ggfortify library
+library(ggfortify);</code></pre>
+<pre><code>## Warning: package &#39;ggfortify&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.3</code></pre>
+<p><strong>Plot PC1 vs PC2</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><strong>Plot PC2 and PC3</strong></p>
+<pre class="r"><code>autoplot(piris, x=2, y=3);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><strong>Draw Frame (draws convex for each cluster)</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, frame=TRUE);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><strong>Pass original data for additional features</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, data=iris, colour=&#39;Species&#39;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><strong>Draw PCA loadings</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, data=iris, colour=&#39;Species&#39;, loadings = TRUE, loadings.label = TRUE, loadings.colour = &#39;blue&#39;, loadings.label.size = 3);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p><strong>Show frame</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, data=iris, frame=TRUE, colour=&#39;Species&#39;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, data=iris, frame=TRUE, colour=&#39;Species&#39;, frame.type=&#39;t&#39;);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-46-2.png" width="672" /></p>
+<p><strong>Show Labels</strong></p>
+<pre class="r"><code>autoplot(piris, x=1, y=2, data=iris, colour=&#39;Species&#39;, label=TRUE, label.size=3, shape=FALSE);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-47-1.png" width="672" /> Explore ggfortify package for further details. <a href="https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html" class="uri">https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html</a></p>
+</div>
+<div id="classical-metric-multidimensional-scaling" class="section level3">
+<h3>Classical (Metric) Multidimensional Scaling</h3>
+<p>Multidimensional scaling takes a set of dissimilarities and returns a set of points such that the distances between the points are approximately equal to the dissimilarities.</p>
+<pre class="r"><code>m1 = read.table(&quot;_site/data/Day2/GenExp_heatmap.txt&quot;,sep=&quot;\t&quot;, header=TRUE);
+rownames(m1)=m1$Gene;
+m1$Gene=NULL;
+m1=as.matrix(m1); # Convert data.frame to matrix
+head(m1);</code></pre>
+<pre><code>##          D1    D2    D3    D4    D5
+## Gene1  0.59  1.01  0.36 -1.25 -1.11
+## Gene2 -0.76 -1.42 -0.09 -0.93 -0.45
+## Gene3 -0.37  0.76  0.06 -1.31  0.94
+## Gene4 -0.19  1.59 -0.15  1.01  0.74
+## Gene5  1.45  0.26  0.46 -0.30 -0.59
+## Gene6 -1.24 -0.14  1.15  2.16 -2.72</code></pre>
+<pre class="r"><code># Gene clustering
+distmat = dist(m1, upper = TRUE, diag = TRUE);
+cmd = cmdscale(distmat, k=2);
+plot(cmd[,1], cmd[,2], type = &quot;n&quot;, xlab = &quot;Dim 1&quot;, ylab = &quot;Dim 2&quot;, asp = 1, main = &quot;cmdscale&quot;)
+text(cmd[,1], cmd[,2], rownames(cmd), cex = 0.6);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<pre class="r"><code># Sample clustering
+distmat = dist(t(m1), upper = TRUE, diag = TRUE);
+cmd = cmdscale(distmat, k=2);
+plot(cmd[,1], cmd[,2], type = &quot;n&quot;, xlab = &quot;Dim 1&quot;, ylab = &quot;Dim 2&quot;, asp = 1, main = &quot;cmdscale&quot;)
+text(cmd[,1], cmd[,2], rownames(cmd), cex = 0.6);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-48-2.png" width="672" /></p>
+</div>
+<div id="plotting-k-means" class="section level3">
+<h3>Plotting K-means</h3>
+<pre class="r"><code># Using autoplot function of gfortify package
+autoplot(kmeans(iris[,1:4], 3), data = iris);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<pre class="r"><code># 4 cluster
+autoplot(kmeans(iris[,1:4], 4), data = iris);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-49-2.png" width="672" /></p>
+<pre class="r"><code># Add label
+autoplot(kmeans(iris[,1:4], 4), data = iris, label = TRUE, label.size=3, shape=FALSE);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-49-3.png" width="672" /></p>
+</div>
+<div id="dendrogram" class="section level3">
+<h3>Dendrogram</h3>
+<pre class="r"><code># Pass distance matrix to hclust function
+hc = hclust(dist(iris[,1:4]));
+plot(hc, cex=0.5);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<pre class="r"><code># Cut the tree at h=2
+# Convert hclust object to dendrogram object
+plot(cut(as.dendrogram(hc), h =2)$upper, main = &quot;Upper tree of cut at h=2&quot;)</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-50-2.png" width="672" /></p>
+<p>Explore <a href="https://rpubs.com/gaston/dendrograms" class="uri">https://rpubs.com/gaston/dendrograms</a> for advanced plots.</p>
+</div>
+<div id="network-graphs" class="section level3">
+<h3>Network graphs</h3>
+<pre class="r"><code>library(igraph);</code></pre>
+<pre><code>## Warning: package &#39;igraph&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<pre class="r"><code>data=matrix(sample(0:1, 100, replace=TRUE), nc=10);
+rownames(data) &lt;- paste(&quot;G&quot;,1:10,sep=&quot;&quot;);
+colnames(data) &lt;- paste(&quot;G&quot;,1:10,sep=&quot;&quot;);
+print(data);</code></pre>
+<pre><code>##     G1 G2 G3 G4 G5 G6 G7 G8 G9 G10
+## G1   1  0  0  0  1  0  0  1  1   1
+## G2   0  1  1  1  0  0  0  1  1   1
+## G3   1  1  1  1  0  1  1  1  0   1
+## G4   1  1  1  1  1  0  1  1  0   1
+## G5   1  0  0  1  1  1  0  1  0   1
+## G6   1  1  1  1  0  0  1  1  0   0
+## G7   0  1  0  1  0  1  0  1  1   1
+## G8   0  1  1  1  0  1  1  1  0   1
+## G9   0  0  0  1  0  1  0  0  0   0
+## G10  1  0  0  1  0  0  1  0  0   1</code></pre>
+<pre class="r"><code>network=graph_from_adjacency_matrix(data , mode=&#39;undirected&#39;, diag=F );
+print(network);</code></pre>
+<pre><code>## IGRAPH b1a57f0 UN-- 10 35 -- 
+## + attr: name (v/c)
+## + edges from b1a57f0 (vertex names):
+##  [1] G1--G3  G1--G4  G1--G5  G1--G6  G1--G8  G1--G9  G1--G10 G2--G3 
+##  [9] G2--G4  G2--G6  G2--G7  G2--G8  G2--G9  G2--G10 G3--G4  G3--G6 
+## [17] G3--G7  G3--G8  G3--G10 G4--G5  G4--G6  G4--G7  G4--G8  G4--G9 
+## [25] G4--G10 G5--G6  G5--G8  G5--G10 G6--G7  G6--G8  G6--G9  G7--G8 
+## [33] G7--G9  G7--G10 G8--G10</code></pre>
+<pre class="r"><code>plot(network);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<pre class="r"><code># Customize vertex shape
+plot(network, vertex.shape=c(&quot;circle&quot;,&quot;square&quot;));</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-51-2.png" width="672" /></p>
+<pre class="r"><code># Customize vertex color to G1 and G2
+plot(network, vertex.shape=c(&quot;circle&quot;,&quot;square&quot;), vertex.color=c(&quot;lightpink&quot;,&quot;lightblue&quot;), vertex.size=20);</code></pre>
+<p><img src="baseGraphics_files/figure-html/unnamed-chunk-51-3.png" width="672" /> Explore <a href="http://www.r-graph-gallery.com/portfolio/network/" class="uri">http://www.r-graph-gallery.com/portfolio/network/</a> for advanced network graphs.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
