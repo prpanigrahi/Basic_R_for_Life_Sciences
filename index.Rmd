@@ -1,0 +1,42 @@
+
+---
+title: "BioSakshat"
+---
+
+Hello, Participants!
+
+Welcome you to the 3-day hands on workshop on Basic R for Life Sciences (2017).
+
+http://biosakshat.weebly.com/
+
+
+![](image/biosakshat.png)
+<br>
+<br>
+<br>
+<br>
+
+## How to explore the site
+ * Start with **Data structure** module followed by **Data Manipulation** and **Visualization** module.
+ * Explore **Bioconductor**
+ * Explore **Case study**.
+ * **Tasks** section provides various tasks and their solutions.
+ * **Study more** gives all the website materials in PDF format.
+
+
+## Topics covered
+ * Introduction to R & Rstudio
+ * Understand data, data types & data structures
+ * Vector, Matrix, data frames, list, factor (Create, modify, delete)
+ * Interconvert data types, fetching elements
+ * File reading & writing.
+ * Create own function.
+ * Apply set of function for data manipulation
+ * dplyr package
+ * Basic plots
+ * Advanced plot (PCA, heatmap, Clustering)
+ * Bioconductor
+ * Write R script
+ * R using Command line.
+ * Practice with case study 
+ 

@@ -1,0 +1,57 @@
+name: "Basic R for Life Sciences 2017"
+navbar:
+  title: "BRLS-2017"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Data Structure"
+      icon: fa-gear
+      menu:
+        - text: "Introduction"
+          href: intro.html
+        - text: "Vector"
+          href: vector.html
+        - text: "Matrix and Array"
+          href: matrix.html
+        - text: "Data Frame"
+          href: dataframe.html
+        - text: "List"
+          href: list.html
+        - text: "Conditions/Loops"
+          href: loop.html
+        - text: "Function"
+          href: function.html
+    - text: "Data Manipulation"
+      icon: fa-gear
+      menu:
+        - text: "Input-Output"
+          href: io.html
+        - text: "Apply set of function"
+          href: apply.html          
+        - text: "Dplyr"
+          href: dplyr.html
+    - text: "Visualization"
+      icon: fa-gear
+      menu:
+        - text: "Base Graphics"
+          href: baseGraphics.html
+        - text: "ggplot2 Graphics"
+          href: ggplot2.html
+    - text: "Bioconductor"
+      href: bioconductor.html
+    - text: "Case study"
+      href: casestudy.html
+    - text: "Tasks"
+      icon: fa-gear
+      menu:
+        - text: "Tasks"
+          href: task.html
+        - text: "Solutions"
+          href: solution.html
+    - text: "StudyMore"
+      href: study.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+      

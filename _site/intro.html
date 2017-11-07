@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Introduction to R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="lets-begin" class="section level2">
+<h2>Lets Begin</h2>
+<p>We assume that R or Rstudio is installed. R is an integrated suite of software facilities for data manipulation, calculation and graphical display.</p>
+<p>In all the documents, the R codes written in shaded box are the codes which you can copy and try in R console. The results are shown in unshaded box.</p>
+<p>Lets first understand the difference between expression and assignment statements in R.</p>
+</div>
+<div id="expression" class="section level2">
+<h2>Expression</h2>
+<p><strong>Expressions are evaluated, results are printed. Results are not stored.</strong></p>
+<p>Semicolon ‘;’ is optional to end a statement. Its recommended to give ; at the end of each statement.</p>
+<p># (Hash), is used to comment single line.</p>
+<pre class="r"><code># Space around + is optional but code looks clean. So recommended. Statement is not executed.
+2 + 5; </code></pre>
+<pre><code>## [1] 7</code></pre>
+<p>Lets explore some more. You can use R console as calculator.</p>
+<pre class="r"><code>2 * 3; </code></pre>
+<pre><code>## [1] 6</code></pre>
+</div>
+<div id="assignment" class="section level2">
+<h2>Assignment</h2>
+<p>An assignment is a statement which is <strong>evaluated and result is stored but results of the evaluation are not printed on console</strong>.</p>
+<p>Right hand side is evaluated whose results is stored in left hand side.</p>
+<p>Either use <strong>=</strong> or <strong>&lt;-</strong> as Assignment operator.</p>
+<pre class="r"><code># In this example value of x will be 2.
+x=2; # 2 will be assigned to x; Value of x will not be printed on console.
+x &lt;- 2+5;
+x;</code></pre>
+<pre><code>## [1] 7</code></pre>
+</div>
+<div id="working-directory" class="section level2">
+<h2>Working directory</h2>
+<pre class="r"><code># Present working directory
+getwd();</code></pre>
+<pre><code>## [1] &quot;E:/BioSakshat/Gitprojects/LearnR_website&quot;</code></pre>
+<pre class="r"><code># setwd(): change the working directory by passing path of new directory.
+# Enclose the path between &quot; &quot; (double quotes)
+setwd(&quot;/home/user/&quot;)</code></pre>
+</div>
+<div id="list-of-objects-in-workspaceenvironment" class="section level2">
+<h2>List of objects in workspace/environment</h2>
+<pre class="r"><code># Lists all objects/variables created in the workspace/environment
+ls();</code></pre>
+<pre><code>## [1] &quot;x&quot;</code></pre>
+<pre class="r"><code># rm():Delete provided object
+rm(x); </code></pre>
+</div>
+<div id="getting-help-in-r" class="section level2">
+<h2>getting help in R</h2>
+<pre class="r"><code># Access to R documentation
+help.start()
+# Help on mean
+?mean
+help(solve)
+# More depth search
+??mean
+# Explore examples on mean
+example(mean);</code></pre>
+<div id="some-things-to-remember" class="section level3">
+<h3>Some things to Remember</h3>
+<ul>
+<li>R is case sensitive</li>
+<li>; is ends a statement</li>
+<li># is used to comment</li>
+</ul>
+</div>
+</div>
+<div id="data-types" class="section level2">
+<h2>Data Types</h2>
+<p>Every programming language deals with data. It is important to understand what kind of data you are dealing with and how you are going to store this. You can refer these two concepts as <strong>Data types</strong> and <strong>Data structures</strong> respectively. First we will start with data types and then move to data structures.</p>
+<p>Data can be either in the form of integer, numeric, character or logical/boolean (TRUE/FALSE). Thus based on kind of data, data types in R can be broadly categorized into 5 categories</p>
+<ul>
+<li><strong>Integer (int)</strong>: Represents integer data such as -2, 0, 2.</li>
+<li><strong>Numeric (num):</strong> Represents integers as well as decimals such as 2, 2.3, -2.3.</li>
+<li><strong>Logical (logi)</strong>: Represents boolean values such as TRUE and FALSE. One can also write T and F respectively. It is important to note about the case sensitivity while dealing with logical/boolean data. If you write true/false/True/False/t/f, it will not considered as logical data types (Everything has to be capital T/TRUE/F/FALSE).</li>
+<li><strong>Character (chr)</strong>: Represents single character (e.g. ‘M’, ‘F’) or multi-character string (e.g. ‘ABC’,‘DEF’) data. Both single (’) and double quotes (“) can be used to store character data (‘ABC’,”ABC“).</li>
+<li><strong>Factor</strong>: Stores categorical data. We will explain this in detail in later sections.</li>
+</ul>
+</div>
+<div id="data-structures" class="section level2">
+<h2>Data Structures</h2>
+<p>Depending on the data, it can be stored in different way which defines the data structure. In R, data can be stored in 5 different ways, in the form of vector, matrix, array, data frames and list.</p>
+<ul>
+<li><strong>Vector</strong> (One dimensional, Homogeneous)</li>
+<li><strong>Matrix</strong> (Two dimensional, Homogeneous)</li>
+<li><strong>Array</strong> (Multi dimensional, Homogeneous)</li>
+<li><strong>Data frames</strong> (Two dimensional, Heterogeneous)</li>
+<li><strong>List</strong> (Multi-component, Heterogeneous)</li>
+</ul>
+<div class="figure">
+<img src="image/datastructures.png" alt="Figure 1: Data structures in R" />
+<p class="caption">Figure 1: Data structures in R</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
