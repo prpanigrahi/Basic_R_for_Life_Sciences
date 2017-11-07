@@ -1,0 +1,106 @@
+---
+title: "Conditional Statements & Loops"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## Conditional execution
+Syntax:  
+if (expr_1)  
+{  
+    expr_2    
+    ......  
+    ......  
+}else{    
+  expr_3    
+  ......  
+  ......  
+}  
+
+```{r}
+x=sample(1:50,10);
+sum(x);
+if(sum(x)>500)
+{
+  print("Sum of x is greater than 500");
+}else{
+  print("Sum of x is less than 500");
+}
+```
+
+## Repetitive execution using for loop
+```{r}
+for(i in 5:10)
+{
+  print(i);
+}
+```
+
+```{r}
+for(i in c(10,15,17,16,25))
+{
+  print(i);
+}
+```
+
+```{r}
+x=c(10,15,17,16,25);
+for(i in x)
+{
+  print(i);
+}
+```
+
+```{r}
+x=c(10,15,17,16,25);
+for(i in 1:length(x))
+{
+  print(c(i,x[i]));
+}
+```
+
+Store squares of values of above vector in separate vector s using for loop
+```{r}
+s = NULL;
+for(i in 1:length(x))
+{
+  s[i] = x[i] ^ 2;
+}
+x;
+s;
+```
+Note: Usually we don’t need to use for loop to perform operations on a single vector. The vector s created using above for loop can simply be created using command, s<- x^2. But for loop is very useful to perform operations on
+multiple columns and rows of a matrix or data frame.
+
+### Task
+Create a matrix of 5 rows for values 1 to 50. Calculate the means of all rows in a matrix and store them in a vector m.
+```{r}
+mat=matrix(sample(1:50, 50, replace = TRUE), nrow=10);
+mat;
+m=NULL;
+for(i in 1:nrow(mat))
+{
+  m[i] = mean(mat[i,]);
+}
+m;
+```
+
+
+
+
+

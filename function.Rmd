@@ -1,0 +1,44 @@
+---
+title: "Functions"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+
+### Define function
+Define a function to find maximum values of every column of a matrix.
+```{r}
+getcolmax = function(m)
+{
+  mx=NULL;
+  for(i in 1:ncol(m))
+  {
+  mx[i] = max(m[,i]);
+  }
+  return(mx);
+}
+```
+
+### Call function
+```{r}
+mat=matrix(sample(1:50, 50, replace = TRUE), nrow=10);
+mat;
+getcolmax(mat);
+```
+
+

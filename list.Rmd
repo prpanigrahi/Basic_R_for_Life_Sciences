@@ -1,0 +1,56 @@
+---
+title: "List"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## .
+An R list is an object consisting of an ordered collection of objects known as its components.
+
+```{r}
+x1=1:5; # vector
+x2=matrix(1:20, ncol=5);
+x3= data.frame(1:5, letters[1:5]);
+mylist = list(comp1=x1, comp2=x2, comp3=x3);
+mylist;
+```
+
+## Access component of list using $ notation
+```{r}
+# Access componene1 using $ notation
+mylist$comp1;
+mylist$comp2;
+```
+
+## Access component of list using []
+Using [] returns list while using [[]] returns the component.
+```{r}
+# Fetching 2nd component using []. Returns list
+m1 = mylist[2];
+# Fetching 2nd component using [[]]. Returns matrix
+m2 = mylist[[2]];
+m1;
+str(m1);
+m2;
+str(m2);
+```
+
+
+
+
+
