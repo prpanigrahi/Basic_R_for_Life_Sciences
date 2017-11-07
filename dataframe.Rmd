@@ -1,0 +1,69 @@
+---
+title: "Data Frame"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## Data Frame
+
+### Create a data frame
+```{r}
+x=1:26;
+z=letters;
+y=paste(z, x, sep=":");
+d=data.frame(C1=x, C2=y, C3=z);
+d;
+str(d);
+colnames(d);
+rownames(d);
+dim(d);
+# edit(d);
+```
+
+###  Fetch values from a data frame
+```{r}
+d;
+d[,1];
+d$C1;
+d[3,];
+d[3,1];
+d$C1[3];
+```
+
+### Insert column to data frame
+```{r}
+d;
+d$C5=1;
+# d$C6=1:100; #Error
+d$C6=seq(3, 8, length=26);
+```
+
+### Delete column or row from data frame
+```{r}
+d$C5=NULL;
+head(d);
+```
+
+### Check for data frame
+```{r}
+is.data.frame(d);
+```
+
+**Task: Now Go to [Task page](task.html) and finish Data Frame**
+
+

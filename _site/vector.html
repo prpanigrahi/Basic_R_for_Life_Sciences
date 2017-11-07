@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Vector</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Vector</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="lets-begin" class="section level2">
+<h2>Lets Begin</h2>
+<div class="figure">
+<img src="image/vector.png" alt="Figure 1: Vector" />
+<p class="caption">Figure 1: Vector</p>
+</div>
+<p>Vector is one dimensional way of data storage in which sequence of numbers/characters/logical values can be stored. In the above image, example shows measured temperature of a city for 5 days. So we have 5 temperature values and all values are of integer type (25C, 30C etc). These 5 integers are stored in a sequence, which we term as integer vector (A vector storing integers). Therefore a vector can be understood as a single entity/variable/object storing an ordered collection of elements. Similarly, names of each students in a class can be stored in the form of a Character vector. Since all elements stored in a vector are of only one data types, i.e either integer or numeric or character or logical, vector is a homogeneous data structure (integer vector, numeric vector, character vector and logical vector respectively).</p>
+</div>
+<div id="creating-a-vector" class="section level2">
+<h2>Creating a vector</h2>
+<p>In R vectors can be created using</p>
+<ul>
+<li>Assignment operator (=)</li>
+<li>Range operator (:)</li>
+<li>Concatenate function c()</li>
+<li>Sequence function seq()</li>
+<li>Repeat function rep()</li>
+<li>Sample function</li>
+</ul>
+<p>We will explore these one by one.</p>
+<div id="create-vector-of-one-element" class="section level3">
+<h3>Create Vector of one element</h3>
+<pre class="r"><code>x1=2; # Integer data type
+x2=2.3; # Numeric data type
+x3=&quot;A&quot;; # Single Character. Double quote was used.
+x4=&quot;ABC&quot;; # Multiple Characters. Double quote was used.
+x5=&#39;A&#39;; # Single Character. Single quote was used.
+x6=&#39;ABC&#39;; # Multiple Characters. Single quote was used.
+x7=TRUE; # Logical. Note the use of TRUE (All capital)
+x8=FALSE; # Logical. Note the use of FALSE (All capital)
+#x9=true;  # Error since true is written in small. R is case sensitive.</code></pre>
+<ul>
+<li><p>In the above examples, x1 is an integer vector of one element having value 2. Similarly x2 is a numeric vector with one element 2.3. The vectors x3, x4, x5 and x6 are character vectors storing character data. Note that the character data can be either single character (“A”) or multiple character (“ABC”). Similarly one can use either single or double quote to assign character data types. The vector x7 and x8 are logical vector storing boolean values (TRUE or FALSE). Note that TRUE/FALSE can be also be written as T/F but everything has to be capital. R is case sensitive i.e. X and x are different. Thus x9=true; will throw error since R will not understand true.</p></li>
+<li><p>The = is assignment operator using which the results from right hand side expression is stored in left hand side variable. When we say x1=2, 2 (right side) is assigned to x1 (left side).</p></li>
+<li><p>Also note semicolon (;) at the end of few statements. Use of ; is optional. However it is recommended that you must end every statement with ; so that R understands it is end of a statement.</p></li>
+</ul>
+<p>So far we saw vectors with one element. Now we will explore how to create vectors with more than one element.</p>
+</div>
+<div id="create-vector-using-range-operator" class="section level3">
+<h3>Create Vector using Range operator (:)</h3>
+<pre class="r"><code>x1=1:5; 
+x1;</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>x2=5:1;
+x2;</code></pre>
+<pre><code>## [1] 5 4 3 2 1</code></pre>
+<p>In the above example x1 stores 5 elements 1, 2, 3, 4 and 5 while x2 stores 5, 4, 3, 2, 1. So using range operator you can assign more than one element incremented/decremented by 1.</p>
+</div>
+<div id="create-vector-using-c" class="section level3">
+<h3>Create Vector using c()</h3>
+<p>Range operator (:) is handy when you have sequence of integers incremented or decremented by 1. What if you have random data and there is no pattern. In such case you can use concatenate function c().</p>
+<pre class="r"><code># Integer vector with 3 element
+x1=c(2,10,35);
+x1;</code></pre>
+<pre><code>## [1]  2 10 35</code></pre>
+<pre class="r"><code># Character vector with 3 elements
+x2=c(&quot;Gene&quot;,&quot;Expression&quot;,&#39;Chromosome&#39;);
+x2;</code></pre>
+<pre><code>## [1] &quot;Gene&quot;       &quot;Expression&quot; &quot;Chromosome&quot;</code></pre>
+<pre class="r"><code># Logical vector
+x3=c(T,F,TRUE,FALSE);
+x3;</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>x4=c(x1,44,55);  # x4 will now contain 2, 10, 35, 44, 55
+x4;</code></pre>
+<pre><code>## [1]  2 10 35 44 55</code></pre>
+<p>In the example x1 is a vector with 3 elements: 2, 10 and 35. Similarly x2 is a character vector and x3 is a logical vector. Note that, since x2 is a character vector and each element are characters, you have to write within either single or double quote (e.g. “Gene”, “Expression”, ‘Chromosome’). In case of x4, first element is x1 vector thus x4 will first store 2, 10, 35 followed by 44 and 55.</p>
+</div>
+<div id="generate-regular-sequence-of-numbers-using-seq-function" class="section level3">
+<h3>Generate regular sequence of numbers using seq() function</h3>
+<p>Generate regular sequences.</p>
+<pre class="r"><code># Generate a sequence of number from 0 to 10 incremented by 2
+x1=seq(from=0, to=10, by=2)
+x1;</code></pre>
+<pre><code>## [1]  0  2  4  6  8 10</code></pre>
+<pre class="r"><code># Generate a sequence of 50 number from 0 to 10
+x2=seq(from=0, to=10, length=30)
+x2;</code></pre>
+<pre><code>##  [1]  0.0000000  0.3448276  0.6896552  1.0344828  1.3793103  1.7241379
+##  [7]  2.0689655  2.4137931  2.7586207  3.1034483  3.4482759  3.7931034
+## [13]  4.1379310  4.4827586  4.8275862  5.1724138  5.5172414  5.8620690
+## [19]  6.2068966  6.5517241  6.8965517  7.2413793  7.5862069  7.9310345
+## [25]  8.2758621  8.6206897  8.9655172  9.3103448  9.6551724 10.0000000</code></pre>
+<p>In R there are several inbuilt functions which can be used to do certain tasks. Functions can be called by their name followed by (). Inside () various parameters required to the function can be passed as key=value pair. In the above example to x1 will generate sequence of number from 0 (from=0) to 10 (to=10), incremented by 2 (by=2). Thus x2 will contain 0, 2, 4, 6, 8 and 10. Note that from=0, to=10 and by=2 are 3 parameters which we pass to seq() function and these are separated by comma (,). In case of 2nd example, we just replace by parameter with length=50. So we use same function to generate 50 elements between 0 to 10.</p>
+</div>
+<div id="create-vector-using-rep-function" class="section level3">
+<h3>Create vector using rep() function</h3>
+<p>rep replicates the values in x.</p>
+<pre class="r"><code># Create a vector x1 with 3 elements
+x1=c(2,3,5);
+x1;</code></pre>
+<pre><code>## [1] 2 3 5</code></pre>
+<pre class="r"><code># Repeat each element of x1, 3 times
+x2=rep(x1,each=3);
+x2;</code></pre>
+<pre><code>## [1] 2 2 2 3 3 3 5 5 5</code></pre>
+<pre class="r"><code># Repeat x1, 3 times.
+x3=rep(x1, times=3);
+x3;</code></pre>
+<pre><code>## [1] 2 3 5 2 3 5 2 3 5</code></pre>
+<pre class="r"><code>rep(1:4, each = 2, times = 4);</code></pre>
+<pre><code>##  [1] 1 1 2 2 3 3 4 4 1 1 2 2 3 3 4 4 1 1 2 2 3 3 4 4 1 1 2 2 3 3 4 4</code></pre>
+<p>x1 is a vector with 3 elements (2, 3, 5). Using rep() function, the first argument we pass is a vector, when we specify each=3, rep() function will repeat each element of x1 3 times and store in x2. Thus x2 will store 2, 2, 2, 3, 3, 3, 5, 5, 5. When we specify times=3, rep() function will repeat the x1 vector 3 times. Thus x3 will store 2, 3, 5, 2, 3, 5, 2, 3, 5.</p>
+</div>
+<div id="create-a-vector-using-sample" class="section level3">
+<h3>Create a vector using sample()</h3>
+<p>sample takes a sample of the specified size from the elements of x using either with or without replacement.</p>
+<pre class="r"><code># Fetch 10 random number from the database 1:50
+sample(1:50, 10);</code></pre>
+<pre><code>##  [1]  2 49 27 31 16 14 33 26 15 10</code></pre>
+<pre class="r"><code># Fetch 100 random number from the database 20:30. Since we are fetching more elements than present in database, we need to specify replace=TRUE (Should sampling be with replacement?)
+sample(20:30, 100, replace = TRUE);</code></pre>
+<pre><code>##   [1] 21 25 25 27 27 24 28 28 21 28 29 25 29 30 29 21 20 22 23 20 25 24 24
+##  [24] 27 30 27 29 21 30 20 29 22 21 29 21 30 21 23 24 24 28 30 21 20 28 29
+##  [47] 25 26 22 20 22 23 24 29 24 20 24 26 30 23 24 21 30 27 25 22 27 23 29
+##  [70] 21 29 28 29 21 20 29 23 29 20 28 24 23 22 22 28 30 22 22 24 20 27 30
+##  [93] 27 25 30 29 25 20 28 24</code></pre>
+</div>
+<div id="rnorm-function" class="section level3">
+<h3>rnorm() function</h3>
+<p>The Normal Distribution.</p>
+<pre class="r"><code># Fetch 50 element from a normal distribution
+rnorm(50);</code></pre>
+<pre><code>##  [1] -0.33947659  1.18421330  1.26449736 -0.80094934 -0.11101353
+##  [6] -0.17163330 -0.57014025  0.89615922 -0.16436141  0.78442586
+## [11]  0.47038024 -0.25916965 -1.34957804 -0.49907908  1.09746627
+## [16]  1.24201865 -0.67916731 -0.36130357  0.76689316  0.09572528
+## [21] -0.78032864 -0.74065061  0.53857052  0.85625262 -0.63400637
+## [26]  0.56723804  0.45377112  0.47416407 -0.41020812  0.25702847
+## [31] -0.48518615  0.33864976 -1.85886543  1.35713175  0.52229644
+## [36] -0.11380629  0.36442696 -1.27874689  1.78400211 -0.68902175
+## [41]  0.75980679 -0.84037241 -1.58303509  0.13358215  1.22526276
+## [46] -0.30302856 -2.10579478 -0.86309893 -0.75388509  0.95585698</code></pre>
+<pre class="r"><code>rnorm(50, mean=5, sd=2);</code></pre>
+<pre><code>##  [1]  4.591098  4.086869  3.291382  3.236566  4.393003  5.137515  9.624502
+##  [8]  4.978015  4.999060  1.951534  3.107941  5.280697  7.120681  2.809229
+## [15]  6.328117  4.692529  7.350387  3.825919  6.151406  4.538983  5.030422
+## [22]  5.023429  5.909770  4.972700  2.259665  7.044727 11.091493  7.590905
+## [29]  8.327381  7.384594  5.434234  5.740811  6.590314  6.496393  6.425664
+## [36]  4.455996  7.363049  6.107538  4.787815  5.288657  3.718269  5.204330
+## [43]  6.363852  4.539236  2.277308  5.327213  6.291902  5.036022  8.221094
+## [50]  6.630806</code></pre>
+<p><strong>Task: Now Go to <a href="task.html">Task page</a> and finish Vector creation</strong></p>
+</div>
+</div>
+<div id="fetching-elements-from-a-vector" class="section level2">
+<h2>Fetching elements from a vector</h2>
+<pre class="r"><code>x=c(10,20,30,40,50,60);
+length(x);</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>x[1]; # 1st element</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>x[4]; # 4th element</code></pre>
+<pre><code>## [1] 40</code></pre>
+<pre class="r"><code>x[2:3]; # 2nd to 3rd element</code></pre>
+<pre><code>## [1] 20 30</code></pre>
+<pre class="r"><code>x[c(1,3,5)]; # 1st, 3rd, 4th element</code></pre>
+<pre><code>## [1] 10 30 50</code></pre>
+<pre class="r"><code>x[3:length(x)];</code></pre>
+<pre><code>## [1] 30 40 50 60</code></pre>
+<pre class="r"><code>x[-1]; # Exclude 1st element</code></pre>
+<pre><code>## [1] 20 30 40 50 60</code></pre>
+<pre class="r"><code>x[-c(1,3)] # Exclude 1st, 3rd element</code></pre>
+<pre><code>## [1] 20 40 50 60</code></pre>
+<pre class="r"><code>x[10]; # NA: Missing value</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code># x[1, 3, 5] # Error</code></pre>
+</div>
+<div id="delete-elements-from-a-vector" class="section level2">
+<h2>Delete element(s) from a vector</h2>
+<pre class="r"><code>x=10:20;
+x;</code></pre>
+<pre><code>##  [1] 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>x=x[-3];
+x;</code></pre>
+<pre><code>##  [1] 10 11 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>x=x[-c(7,3)];
+x;</code></pre>
+<pre><code>## [1] 10 11 14 15 16 18 19 20</code></pre>
+<pre class="r"><code>x=x[-c(2,length(x))];
+x;</code></pre>
+<pre><code>## [1] 10 14 15 16 18 19</code></pre>
+</div>
+<div id="add-elements-to-existing-vector" class="section level2">
+<h2>Add element(s) to existing vector</h2>
+<pre class="r"><code>x=10:20;
+x;</code></pre>
+<pre><code>##  [1] 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>x=c(x,55);
+x;</code></pre>
+<pre><code>##  [1] 10 11 12 13 14 15 16 17 18 19 20 55</code></pre>
+<pre class="r"><code>x=c(33,x,77);
+x;</code></pre>
+<pre><code>##  [1] 33 10 11 12 13 14 15 16 17 18 19 20 55 77</code></pre>
+<pre class="r"><code>y=seq(100,110,0.5);
+y;</code></pre>
+<pre><code>##  [1] 100.0 100.5 101.0 101.5 102.0 102.5 103.0 103.5 104.0 104.5 105.0
+## [12] 105.5 106.0 106.5 107.0 107.5 108.0 108.5 109.0 109.5 110.0</code></pre>
+<pre class="r"><code>x=c(x,y);
+x;</code></pre>
+<pre><code>##  [1]  33.0  10.0  11.0  12.0  13.0  14.0  15.0  16.0  17.0  18.0  19.0
+## [12]  20.0  55.0  77.0 100.0 100.5 101.0 101.5 102.0 102.5 103.0 103.5
+## [23] 104.0 104.5 105.0 105.5 106.0 106.5 107.0 107.5 108.0 108.5 109.0
+## [34] 109.5 110.0</code></pre>
+</div>
+<div id="replace-elements-in-existing-vector" class="section level2">
+<h2>Replace elements in existing vector</h2>
+<pre class="r"><code>x=sample(20:30, 5);
+x;</code></pre>
+<pre><code>## [1] 20 22 21 25 24</code></pre>
+<pre class="r"><code>x[2]=111111;
+x;</code></pre>
+<pre><code>## [1]     20 111111     21     25     24</code></pre>
+<pre class="r"><code>x[c(1,3)]=c(555, 777);
+x;</code></pre>
+<pre><code>## [1]    555 111111    777     25     24</code></pre>
+<p><strong>Task: Now Go to <a href="task.html">Task page</a> and finish Fetching vector elements and Vector manipulation section</strong></p>
+</div>
+<div id="inbuilt-functions-for-numeric-vector" class="section level2">
+<h2>Inbuilt functions for numeric vector</h2>
+<pre class="r"><code>x=seq(4, 8, length=10);
+x;</code></pre>
+<pre><code>##  [1] 4.000000 4.444444 4.888889 5.333333 5.777778 6.222222 6.666667
+##  [8] 7.111111 7.555556 8.000000</code></pre>
+<pre class="r"><code>length(x);</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>sort(x);</code></pre>
+<pre><code>##  [1] 4.000000 4.444444 4.888889 5.333333 5.777778 6.222222 6.666667
+##  [8] 7.111111 7.555556 8.000000</code></pre>
+<pre class="r"><code>order(x);</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>max(x);</code></pre>
+<pre><code>## [1] 8</code></pre>
+<pre class="r"><code>min(x);</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>range(x);</code></pre>
+<pre><code>## [1] 4 8</code></pre>
+<pre class="r"><code>mean(x);</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>median(x);</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>mode(x);</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>sd(x);</code></pre>
+<pre><code>## [1] 1.345622</code></pre>
+<pre class="r"><code>var(x);</code></pre>
+<pre><code>## [1] 1.8107</code></pre>
+<pre class="r"><code>quantile(x);</code></pre>
+<pre><code>##   0%  25%  50%  75% 100% 
+##    4    5    6    7    8</code></pre>
+<pre class="r"><code>summary(x);</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       4       5       6       6       7       8</code></pre>
+<pre class="r"><code>sin(x);</code></pre>
+<pre><code>##  [1] -0.75680250 -0.96431712 -0.98446429 -0.81332939 -0.48416406
+##  [6] -0.06092533  0.37415123  0.73652996  0.95580043  0.98935825</code></pre>
+<pre class="r"><code>log(x, base=2);</code></pre>
+<pre><code>##  [1] 2.000000 2.152003 2.289507 2.415037 2.530515 2.637430 2.736966
+##  [8] 2.830075 2.917538 3.000000</code></pre>
+<pre class="r"><code>log(x, base=10);</code></pre>
+<pre><code>##  [1] 0.6020600 0.6478175 0.6892102 0.7269987 0.7617608 0.7939455 0.8239087
+##  [8] 0.8519375 0.8782664 0.9030900</code></pre>
+</div>
+<div id="correlation-using-cor" class="section level2">
+<h2>Correlation using cor()</h2>
+<pre class="r"><code>x=sample(1:100,20);
+y=sample(1:100,20);
+x;</code></pre>
+<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89</code></pre>
+<pre class="r"><code>y;</code></pre>
+<pre><code>##  [1] 56 27 29 26 95  2 87 73 60 65 55 63 96 79  6 15 54 89 94  7</code></pre>
+<pre class="r"><code># Methods: &quot;pearson&quot;, &quot;kendall&quot;, &quot;spearman&quot;
+cor(x,y, method = &quot;spearman&quot;);</code></pre>
+<pre><code>## [1] -0.437594</code></pre>
+<pre class="r"><code>cor(x,y, method = &quot;pearson&quot;);</code></pre>
+<pre><code>## [1] -0.5226678</code></pre>
+</div>
+<div id="set-operations" class="section level2">
+<h2>Set operations</h2>
+<pre class="r"><code>x;</code></pre>
+<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89</code></pre>
+<pre class="r"><code>y;</code></pre>
+<pre><code>##  [1] 56 27 29 26 95  2 87 73 60 65 55 63 96 79  6 15 54 89 94  7</code></pre>
+<pre class="r"><code>union(x,y);</code></pre>
+<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89 56 27 29
+## [24] 26 73 60 65 55 63 96 79  6 54 94</code></pre>
+<pre class="r"><code>intersect(x,y); </code></pre>
+<pre><code>## [1] 95  2  7 87 15 89</code></pre>
+<pre class="r"><code>setdiff(x,y); # x - y</code></pre>
+<pre><code>##  [1] 98 78 52  3 77 85 88 72  4 41 84 83 50  8</code></pre>
+<pre class="r"><code>setdiff(y,x); # y - x</code></pre>
+<pre><code>##  [1] 56 27 29 26 73 60 65 55 63 96 79  6 54 94</code></pre>
+</div>
+<div id="arithmetic-expressions" class="section level2">
+<h2>Arithmetic expressions</h2>
+<p>Vector recycling. Shorter vector are recycled to match the length of longest vector. Once length of all vectors are equal, then arithmentic operations are performed.</p>
+<pre class="r"><code>x=c(3,4,5,6);
+y=c(6,7,8,9);
+z=c(1,2);
+p=c(9,10,11);
+x+y;</code></pre>
+<pre><code>## [1]  9 11 13 15</code></pre>
+<pre class="r"><code>x+z;</code></pre>
+<pre><code>## [1] 4 6 6 8</code></pre>
+<pre class="r"><code>x+p;</code></pre>
+<pre><code>## Warning in x + p: longer object length is not a multiple of shorter object
+## length</code></pre>
+<pre><code>## [1] 12 14 16 15</code></pre>
+</div>
+<div id="arithmetic-operators" class="section level2">
+<h2>Arithmetic operators</h2>
+<pre class="r"><code>x=1:3;
+y=6:8;
+z=10:12;
+x;</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>y;</code></pre>
+<pre><code>## [1] 6 7 8</code></pre>
+<pre class="r"><code>z;</code></pre>
+<pre><code>## [1] 10 11 12</code></pre>
+<pre class="r"><code>x-y;</code></pre>
+<pre><code>## [1] -5 -5 -5</code></pre>
+<pre class="r"><code>x*4;</code></pre>
+<pre><code>## [1]  4  8 12</code></pre>
+<pre class="r"><code>x*y;</code></pre>
+<pre><code>## [1]  6 14 24</code></pre>
+<pre class="r"><code>y/5;</code></pre>
+<pre><code>## [1] 1.2 1.4 1.6</code></pre>
+<pre class="r"><code>y%%5;</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>y^3;</code></pre>
+<pre><code>## [1] 216 343 512</code></pre>
+</div>
+<div id="operator-precedence" class="section level2">
+<h2>Operator precedence</h2>
+<pre class="r"><code>x+2*y+z;</code></pre>
+<pre><code>## [1] 23 27 31</code></pre>
+<pre class="r"><code>x+2*y/z;</code></pre>
+<pre><code>## [1] 2.200000 3.272727 4.333333</code></pre>
+<pre class="r"><code>(x+2)*y+z;</code></pre>
+<pre><code>## [1] 28 39 52</code></pre>
+<pre class="r"><code>(x+2)*(y+z);</code></pre>
+<pre><code>## [1]  48  72 100</code></pre>
+<pre class="r"><code>n=10;
+1:n-1;</code></pre>
+<pre><code>##  [1] 0 1 2 3 4 5 6 7 8 9</code></pre>
+<pre class="r"><code>1:(n-1);</code></pre>
+<pre><code>## [1] 1 2 3 4 5 6 7 8 9</code></pre>
+<p><strong>Task: Now Go to <a href="task.html">Task page</a> and finish Vector arithmetic</strong></p>
+</div>
+<div id="conditional-statements" class="section level2">
+<h2>Conditional statements</h2>
+<pre class="r"><code>x=10:30;
+x;</code></pre>
+<pre><code>##  [1] 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30</code></pre>
+<pre class="r"><code>x &gt; 15;</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [12]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>x == 15;</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+## [12] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code>x &gt; 15 &amp; x %% 2==0;</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [12] FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>x[x &gt; 15 &amp; x %% 2==0];</code></pre>
+<pre><code>## [1] 16 18 20 22 24 26 28 30</code></pre>
+<pre class="r"><code>x &gt; 15 | x %% 2==0;</code></pre>
+<pre><code>##  [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [12]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>x[x &gt; 15 | x %% 2==0];</code></pre>
+<pre><code>##  [1] 10 12 14 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30</code></pre>
+<pre class="r"><code># which() function returns the indices which satisfies the condition to TRUE
+tempind=which(x &gt; 15 &amp; x %% 2==0);
+tempind;</code></pre>
+<pre><code>## [1]  7  9 11 13 15 17 19 21</code></pre>
+<pre class="r"><code>x[tempind];</code></pre>
+<pre><code>## [1] 16 18 20 22 24 26 28 30</code></pre>
+</div>
+<div id="check-for-missing-values" class="section level2">
+<h2>Check for missing values</h2>
+<pre class="r"><code>x=c(1:5,NA,NA,2:3,NA,NA,3);
+is.na(x);</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
+## [12] FALSE</code></pre>
+<pre class="r"><code>which(is.na(x));</code></pre>
+<pre><code>## [1]  6  7 10 11</code></pre>
+</div>
+<div id="check-data-types-and-data-structures" class="section level2">
+<h2>Check data types and data structures</h2>
+<pre class="r"><code>x1=1:10;
+str(x1);</code></pre>
+<pre><code>##  int [1:10] 1 2 3 4 5 6 7 8 9 10</code></pre>
+<pre class="r"><code>x2=c(1.2, 2.3);
+str(x2);</code></pre>
+<pre><code>##  num [1:2] 1.2 2.3</code></pre>
+<pre class="r"><code>x3=c(&quot;aaa&quot;,&quot;bbb&quot;);
+str(x3);</code></pre>
+<pre><code>##  chr [1:2] &quot;aaa&quot; &quot;bbb&quot;</code></pre>
+<pre class="r"><code>x4=c(&#39;ccc&#39;,&#39;ddd&#39;);
+str(x4);</code></pre>
+<pre><code>##  chr [1:2] &quot;ccc&quot; &quot;ddd&quot;</code></pre>
+<pre class="r"><code>x5=c(T,F);
+str(x5);</code></pre>
+<pre><code>##  logi [1:2] TRUE FALSE</code></pre>
+<pre class="r"><code>str(letters);</code></pre>
+<pre><code>##  chr [1:26] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; ...</code></pre>
+</div>
+<div id="implicit-data-type-conversion" class="section level2">
+<h2>Implicit Data type conversion</h2>
+<p>Conversion Order: Logical -&gt; Integer -&gt; Numeric -&gt; character</p>
+<pre class="r"><code>x1=c(1, &quot;abc&quot;, TRUE);
+str(x1);</code></pre>
+<pre><code>##  chr [1:3] &quot;1&quot; &quot;abc&quot; &quot;TRUE&quot;</code></pre>
+<pre class="r"><code>x2=c(1,TRUE);
+str(x2);</code></pre>
+<pre><code>##  num [1:2] 1 1</code></pre>
+</div>
+<div id="character-vector-and-related-functions" class="section level2">
+<h2>Character vector and related functions</h2>
+<pre class="r"><code>x=c(&quot;gene1&quot;,&quot;gene2&quot;,&quot;gene3&quot;);
+y=c(&#39;prot&#39;,&#39;rna&#39;,&#39;lipid&#39;);
+z=letters;
+nchar(x);</code></pre>
+<pre><code>## [1] 5 5 5</code></pre>
+<pre class="r"><code>nchar(y);</code></pre>
+<pre><code>## [1] 4 3 5</code></pre>
+<pre class="r"><code>substr(&quot;abcdef&quot;, 2, 4);</code></pre>
+<pre><code>## [1] &quot;bcd&quot;</code></pre>
+<pre class="r"><code>substr(c(x,y), 1, 2);</code></pre>
+<pre><code>## [1] &quot;ge&quot; &quot;ge&quot; &quot;ge&quot; &quot;pr&quot; &quot;rn&quot; &quot;li&quot;</code></pre>
+<pre class="r"><code>paste(letters, 1:5);</code></pre>
+<pre><code>##  [1] &quot;a 1&quot; &quot;b 2&quot; &quot;c 3&quot; &quot;d 4&quot; &quot;e 5&quot; &quot;f 1&quot; &quot;g 2&quot; &quot;h 3&quot; &quot;i 4&quot; &quot;j 5&quot; &quot;k 1&quot;
+## [12] &quot;l 2&quot; &quot;m 3&quot; &quot;n 4&quot; &quot;o 5&quot; &quot;p 1&quot; &quot;q 2&quot; &quot;r 3&quot; &quot;s 4&quot; &quot;t 5&quot; &quot;u 1&quot; &quot;v 2&quot;
+## [23] &quot;w 3&quot; &quot;x 4&quot; &quot;y 5&quot; &quot;z 1&quot;</code></pre>
+<pre class="r"><code>paste(letters, 1:5, sep=&quot;:&quot;);</code></pre>
+<pre><code>##  [1] &quot;a:1&quot; &quot;b:2&quot; &quot;c:3&quot; &quot;d:4&quot; &quot;e:5&quot; &quot;f:1&quot; &quot;g:2&quot; &quot;h:3&quot; &quot;i:4&quot; &quot;j:5&quot; &quot;k:1&quot;
+## [12] &quot;l:2&quot; &quot;m:3&quot; &quot;n:4&quot; &quot;o:5&quot; &quot;p:1&quot; &quot;q:2&quot; &quot;r:3&quot; &quot;s:4&quot; &quot;t:5&quot; &quot;u:1&quot; &quot;v:2&quot;
+## [23] &quot;w:3&quot; &quot;x:4&quot; &quot;y:5&quot; &quot;z:1&quot;</code></pre>
+<pre class="r"><code>paste(letters, 1:5, sep=&quot;:&quot;, collapse = &quot;,&quot;);</code></pre>
+<pre><code>## [1] &quot;a:1,b:2,c:3,d:4,e:5,f:1,g:2,h:3,i:4,j:5,k:1,l:2,m:3,n:4,o:5,p:1,q:2,r:3,s:4,t:5,u:1,v:2,w:3,x:4,y:5,z:1&quot;</code></pre>
+</div>
+<div id="explicit-data-type-conversion" class="section level2">
+<h2>Explicit Data Type Conversion</h2>
+<pre class="r"><code>x=c(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;);
+str(x);</code></pre>
+<pre><code>##  chr [1:3] &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
+<pre class="r"><code>x=as.numeric(x);
+str(x);</code></pre>
+<pre><code>##  num [1:3] 1 2 3</code></pre>
+<pre class="r"><code>x=1:5;
+str(x);</code></pre>
+<pre><code>##  int [1:5] 1 2 3 4 5</code></pre>
+<pre class="r"><code>x=as.character(x);
+str(x);</code></pre>
+<pre><code>##  chr [1:5] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

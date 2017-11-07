@@ -1,0 +1,373 @@
+---
+title: "Vector"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+
+## Lets Begin
+
+![Figure 1: Vector](image/vector.png)
+
+Vector is one dimensional way of data storage in which sequence of numbers/characters/logical values can be stored. In the above image, example shows measured temperature of a city for 5 days. So we have 5 temperature values and all values are of integer type (25C, 30C etc). These 5 integers are stored in a sequence, which we term as integer vector (A vector storing integers). Therefore a vector can be understood as a single entity/variable/object storing an ordered collection of elements. Similarly, names of each students in a class can be stored in the form of a Character vector. Since all elements stored in a vector are of only one data types, i.e either integer or numeric or character or logical, vector is a homogeneous data structure (integer vector, numeric vector, character vector and logical vector respectively).
+
+## Creating a vector
+In R vectors can be created using
+
+  * Assignment operator (=)
+  * Range operator (:)
+  * Concatenate function c()
+  * Sequence function seq()
+  * Repeat function rep()
+  * Sample function
+
+We will explore these one by one.
+
+### Create Vector of one element
+```{r}
+x1=2; # Integer data type
+x2=2.3; # Numeric data type
+x3="A"; # Single Character. Double quote was used.
+x4="ABC"; # Multiple Characters. Double quote was used.
+x5='A'; # Single Character. Single quote was used.
+x6='ABC'; # Multiple Characters. Single quote was used.
+x7=TRUE; # Logical. Note the use of TRUE (All capital)
+x8=FALSE; # Logical. Note the use of FALSE (All capital)
+#x9=true;  # Error since true is written in small. R is case sensitive.
+```
+
+ * In the above examples, x1 is an integer vector of one element having value 2. Similarly x2 is a numeric vector with one element 2.3. The vectors x3, x4, x5 and x6 are character vectors storing character data. Note that the character data can be either single character ("A") or multiple character ("ABC"). Similarly one can use either single or double quote to assign character data types. The vector x7 and x8 are logical vector storing boolean values (TRUE or FALSE). Note that TRUE/FALSE can be also be written as T/F but everything has to be capital. R is case sensitive i.e. X and x are different. Thus x9=true; will throw error since R will not understand true.
+
+ * The = is assignment operator using which the results from right hand side expression is stored in left hand side variable. When we say x1=2, 2 (right side) is assigned to x1 (left side).
+
+ * Also note semicolon (;) at the end of few statements. Use of ; is optional. However it is recommended that you must end every statement with ; so that R understands it is end of a statement.
+
+So far we saw vectors with one element. Now we will explore how to create vectors with more than one element.
+
+### Create Vector using Range operator (:)
+```{r}
+x1=1:5; 
+x1;
+x2=5:1;
+x2;
+```
+In the above example x1 stores 5 elements 1, 2, 3, 4 and 5 while x2 stores 5, 4, 3, 2, 1. So using range operator you can assign more than one element incremented/decremented by 1.
+
+
+### Create Vector using c()
+Range operator (:) is handy when you have sequence of integers incremented or decremented by 1. What if you have random data and there is no pattern. In such case you can use concatenate function c(). 
+```{r}
+# Integer vector with 3 element
+x1=c(2,10,35);
+x1;
+
+# Character vector with 3 elements
+x2=c("Gene","Expression",'Chromosome');
+x2;
+
+# Logical vector
+x3=c(T,F,TRUE,FALSE);
+x3;
+
+x4=c(x1,44,55);  # x4 will now contain 2, 10, 35, 44, 55
+x4;
+```
+In the example x1 is a vector with 3 elements: 2, 10 and 35. Similarly x2 is a character vector and x3 is a logical vector. Note that, since x2 is a character vector and each element are characters, you have to write within either single or double quote (e.g. "Gene", "Expression", 'Chromosome'). In case of x4, first element is x1 vector thus x4 will first store 2, 10, 35 followed by 44 and 55.
+
+### Generate regular sequence of numbers using seq() function
+Generate regular sequences.
+```{r}
+# Generate a sequence of number from 0 to 10 incremented by 2
+x1=seq(from=0, to=10, by=2)
+x1;
+# Generate a sequence of 50 number from 0 to 10
+x2=seq(from=0, to=10, length=30)
+x2;
+```
+In R there are several inbuilt functions which can be used to do certain tasks. Functions can be called by their name followed by (). Inside () various parameters required to the function can be passed as key=value pair. In the above example to x1 will generate sequence of number from 0 (from=0) to 10 (to=10), incremented by 2 (by=2). Thus x2 will contain 0, 2, 4, 6, 8 and 10. Note that from=0, to=10 and by=2 are 3 parameters which we pass to seq() function and these are separated by comma (,). In case of 2nd example, we just replace by parameter with length=50. So we use same function to generate 50 elements between 0 to 10.
+
+### Create vector using rep() function
+rep replicates the values in x.
+```{r}
+# Create a vector x1 with 3 elements
+x1=c(2,3,5);
+x1;
+
+# Repeat each element of x1, 3 times
+x2=rep(x1,each=3);
+x2;
+
+# Repeat x1, 3 times.
+x3=rep(x1, times=3);
+x3;
+
+rep(1:4, each = 2, times = 4);
+```
+x1 is a vector with 3 elements (2, 3, 5). Using rep() function, the first argument we pass is a vector, when we specify each=3, rep() function will repeat each element of x1 3 times and store in x2. Thus x2 will store 2, 2, 2, 3, 3, 3, 5, 5, 5. When we specify times=3, rep() function will repeat the x1 vector 3 times. Thus x3 will store 2, 3, 5, 2, 3, 5, 2, 3, 5.
+
+### Create a vector using sample()
+sample takes a sample of the specified size from the elements of x using either with or without replacement.
+```{r}
+# Fetch 10 random number from the database 1:50
+sample(1:50, 10);
+# Fetch 100 random number from the database 20:30. Since we are fetching more elements than present in database, we need to specify replace=TRUE (Should sampling be with replacement?)
+sample(20:30, 100, replace = TRUE);
+```
+
+### rnorm() function
+The Normal Distribution. 
+```{r}
+# Fetch 50 element from a normal distribution
+rnorm(50);
+rnorm(50, mean=5, sd=2);
+```
+
+
+**Task: Now Go to [Task page](task.html) and finish Vector creation**
+
+
+##  Fetching elements from a vector
+
+```{r}
+x=c(10,20,30,40,50,60);
+length(x);
+x[1]; # 1st element
+x[4]; # 4th element
+x[2:3]; # 2nd to 3rd element
+x[c(1,3,5)]; # 1st, 3rd, 4th element
+x[3:length(x)];
+x[-1]; # Exclude 1st element
+x[-c(1,3)] # Exclude 1st, 3rd element
+x[10]; # NA: Missing value
+# x[1, 3, 5] # Error
+```
+
+## Delete element(s) from a vector
+```{r}
+x=10:20;
+x;
+```
+```{r}
+x=x[-3];
+x;
+```
+
+```{r}
+x=x[-c(7,3)];
+x;
+```
+
+```{r}
+x=x[-c(2,length(x))];
+x;
+```
+
+## Add element(s) to existing vector
+```{r}
+x=10:20;
+x;
+x=c(x,55);
+x;
+```
+
+```{r}
+x=c(33,x,77);
+x;
+```
+
+```{r}
+y=seq(100,110,0.5);
+y;
+x=c(x,y);
+x;
+```
+
+## Replace elements in existing vector
+```{r}
+x=sample(20:30, 5);
+x;
+x[2]=111111;
+x;
+x[c(1,3)]=c(555, 777);
+x;
+```
+
+
+**Task: Now Go to [Task page](task.html) and finish Fetching vector elements and Vector manipulation section**
+
+
+## Inbuilt functions for numeric vector
+```{r}
+x=seq(4, 8, length=10);
+x;
+length(x);
+sort(x);
+order(x);
+max(x);
+min(x);
+range(x);
+mean(x);
+median(x);
+mode(x);
+sd(x);
+var(x);
+quantile(x);
+summary(x);
+sin(x);
+log(x, base=2);
+log(x, base=10);
+```
+
+## Correlation using cor()
+```{r}
+x=sample(1:100,20);
+y=sample(1:100,20);
+x;
+y;
+# Methods: "pearson", "kendall", "spearman"
+cor(x,y, method = "spearman");
+cor(x,y, method = "pearson");
+```
+
+## Set operations
+```{r}
+x;
+y;
+union(x,y);
+intersect(x,y); 
+setdiff(x,y); # x - y
+setdiff(y,x); # y - x
+```
+
+## Arithmetic expressions
+Vector recycling. Shorter vector are recycled to match the length of longest vector. Once length of all vectors are equal, then arithmentic operations are performed.
+```{r}
+x=c(3,4,5,6);
+y=c(6,7,8,9);
+z=c(1,2);
+p=c(9,10,11);
+x+y;
+x+z;
+x+p;
+```
+
+## Arithmetic operators
+```{r}
+x=1:3;
+y=6:8;
+z=10:12;
+x;
+y;
+z;
+x-y;
+x*4;
+x*y;
+y/5;
+y%%5;
+y^3;
+```
+
+## Operator precedence
+```{r}
+x+2*y+z;
+x+2*y/z;
+(x+2)*y+z;
+(x+2)*(y+z);
+n=10;
+1:n-1;
+1:(n-1);
+```
+
+
+**Task: Now Go to [Task page](task.html) and finish Vector arithmetic**
+
+
+## Conditional statements
+```{r}
+x=10:30;
+x;
+x > 15;
+x == 15;
+x > 15 & x %% 2==0;
+x[x > 15 & x %% 2==0];
+x > 15 | x %% 2==0;
+x[x > 15 | x %% 2==0];
+# which() function returns the indices which satisfies the condition to TRUE
+tempind=which(x > 15 & x %% 2==0);
+tempind;
+x[tempind];
+```
+
+## Check for missing values
+```{r}
+x=c(1:5,NA,NA,2:3,NA,NA,3);
+is.na(x);
+which(is.na(x));
+```
+
+## Check data types and data structures
+```{r}
+x1=1:10;
+str(x1);
+x2=c(1.2, 2.3);
+str(x2);
+x3=c("aaa","bbb");
+str(x3);
+x4=c('ccc','ddd');
+str(x4);
+x5=c(T,F);
+str(x5);
+str(letters);
+```
+
+## Implicit Data type conversion
+Conversion Order: Logical -> Integer -> Numeric -> character
+```{r}
+x1=c(1, "abc", TRUE);
+str(x1);
+x2=c(1,TRUE);
+str(x2);
+```
+
+## Character vector and related functions
+```{r}
+x=c("gene1","gene2","gene3");
+y=c('prot','rna','lipid');
+z=letters;
+nchar(x);
+nchar(y);
+substr("abcdef", 2, 4);
+substr(c(x,y), 1, 2);
+paste(letters, 1:5);
+paste(letters, 1:5, sep=":");
+paste(letters, 1:5, sep=":", collapse = ",");
+```
+
+## Explicit Data Type Conversion
+```{r}
+x=c("1","2","3");
+str(x);
+x=as.numeric(x);
+str(x);
+x=1:5;
+str(x);
+x=as.character(x);
+str(x);
+```
+
+

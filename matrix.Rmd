@@ -1,0 +1,143 @@
+---
+title: "Matrix and Array"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## Matrix
+
+### Create a matrix from vector using dim attributes
+```{r}
+x=21:70;
+dim(x)=c(10,5); # 10 row, 5 col
+x;
+```
+
+
+### Create matrix using matrix()
+```{r}
+x=21:70;
+matrix(x, ncol=10); # 10 col
+m=matrix(x, ncol=10, byrow = TRUE); # Fill elements row wise
+```
+
+### Functions that can be applied to a matrix
+```{r}
+# Data structure of m
+str(m); 
+# Dimension of m
+dim(m);
+# Number of rows
+nrow(m);
+# Number of columns
+ncol(m);
+# Column means
+colMeans(m);
+# Row means
+rowMeans(m);
+# Transpose
+t(m);
+# Fetch column names
+colnames(m);
+# Fetch row names
+rownames(m);
+# head
+head(m);
+```
+
+### Assign column/row names
+```{r}
+colnames(m)=paste("C",1:ncol(m),sep="");
+rownames(m)=paste("R",1:nrow(m),sep="");
+m;
+```
+
+### Fetch elements from a matrix using indices
+```{r}
+m;
+# 1st row, 3rd column
+m[1,3];
+# 1st tp 3rd row and 3rd to 5th column
+m[c(1:3),c(3:5)];
+# 1st row
+m[1,];
+# 3rd column
+m[,3];
+# 3rd element. Here matrix is converted to vector and 3rd element is returned
+m[3];
+```
+
+### Fetch element using index matrix
+```{r}
+m;
+index=c(2,3,3,4,4,5);
+m[index]
+```
+
+### Fetch elements from a matrix using row and column names
+```{r}
+m;
+m["R1","C3"];
+```
+
+### Insert rows and columns by rbind() and cbind()
+```{r}
+m1=matrix(1:10, nrow=5);
+m1;
+m1=rbind(m1, 999);
+m1;
+m1=rbind(m1, c(2,3));
+m1;
+m1=cbind(m1, 1:5);
+m1;
+m1=cbind(m1, 10:20);
+m1;
+```
+
+### Create matrix using rbind() and cbind()
+```{r}
+x=seq(2, 4, length=10);
+y=1:10;
+x;
+y;
+cbind(x,y);
+rbind(x,y);
+```
+
+### Delete row(s) and column(s)
+```{r}
+m;
+m=m[-1,];
+m;
+m=m[,-3];
+m;
+```
+
+### Check for matrix
+```{r}
+is.matrix(m);
+```
+
+### Conditional statements on matrix
+```{r}
+m;
+m%%5==0;
+which(m%%5==0, arr.ind = TRUE);
+```
+
+**Task: Now Go to [Task page](task.html) and finish Matrix**
