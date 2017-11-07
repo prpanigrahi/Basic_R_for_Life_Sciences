@@ -1,0 +1,216 @@
+---
+title: "Data manipulation using dplyr"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+
+## Lets begin
+
+### Load dplyr library
+```{r}
+library(dplyr);
+```
+
+### Load Gene Expression Data
+```{r}
+gen=read.table("_site/data/Day2/GenExp_data.txt", header = TRUE, stringsAsFactors = FALSE);
+head(gen);
+dim(gen);
+```
+
+### Filter rows with filter()
+filter() allows you to select a subset of rows in a data frame.
+
+**Filter coding genes.**
+```{r}
+temp=filter(gen, Genetype=="Coding");
+head(temp);
+dim(temp);
+```
+
+*Q1) Filter only those genes which are in pathway P2. How many such genes are there*
+
+**Filter those genes whose gene expression values on Day1 (D1) > 1.5 (up regulated).**
+```{r}
+filter(gen, D1> 1.5);
+```
+
+**Filter those genes whose gene expression values on Day1 (D1) > 1.5 and Day2 (D2) > 1.**
+```{r}
+filter(gen, D1> 1.5, D2>1);
+```
+
+*Q2) Filter those genes whose expression on Day1 > 1.5 and belong to Pathway P2.*
+
+**Filter genes whose D1 or D2 expression is > 1.5**
+```{r}
+# Using OR condition: |
+temp=filter(gen, D1 > 1.5 | D2 > 1.5);
+head(temp);
+dim(temp);
+```
+**Filter genes from pathway P2 whose D1 or D2 expression is > 1.5**
+```{r}
+filter(gen, D1 > 1.5 | D2 > 1.5, Path=="P2")
+```
+
+
+### Piping using %>%
+Piping minimizes the use of variables. It cleans the code. Results from left hand site is piped to right hand side. 
+
+**How many genes are there in Pathway P2**
+```{r}
+filter(gen, Path=="P2") %>% nrow
+```
+
+1. Filter those genes which below to pathway P2.
+2. For the filtered genes, filter further whose D1 expression are > 1
+```{r}
+filter(gen, Path=="P2") %>% filter(., D1 > 1) %>% nrow
+# . is optional if used as 1st argument
+filter(gen, Path=="P2") %>% filter(D1 > 1) %>% nrow
+```
+
+### Arrange rows with arrange()
+```{r}
+# Arrange genes first as per Pathway followed by expression values on D1
+arrange(gen, Path, D1) %>% head
+# Arrange genes first as per Pathway followed by expression values on D1 in descending order
+arrange(gen, Path, desc(D1)) %>% head
+```
+
+### Select rows position wise using slice()
+```{r}
+# Select 25th to 30th row
+slice(gen, 25:30); 
+```
+
+
+### Select column using select()
+```{r}
+# Select D1, D5 and Path column
+select(gen, D1, D5, Path) %>% head;
+# Exclude D2 column
+select(gen, -D2) %>% head;
+# Exclude D2, D5 column
+select(gen, -c(D2,D5)) %>% head;
+# Column name starts with
+select(gen, starts_with("D")) %>% head;
+# Column name ends with 3
+select(gen, ends_with("3")) %>% head;
+# Column name contains "e"
+select(gen, contains("e")) %>% head;
+# Select all column from D1 to Path
+select(gen, D1:Path) %>% head;
+# Select 2nd and 4th column
+select(gen, c(2,4)) %>% head
+```
+
+### Extract unique rows using distinct()
+```{r}
+# Select unique entries in D1 column
+select(gen, D1) %>% distinct %>% nrow
+# Select D2 and Path column then find unique rows
+select(gen, D2, Path) %>% distinct %>% nrow
+```
+
+### Add new columns with mutate() and transmute() function
+```{r}
+# mutate(gen,difD1D2=D1-D2): Adds a column named as “difD1D2”, which consists of difference between values of D1 and D2 gene expressions, to the existing dataset.
+mutate(gen, diffD1D2 = D1-D2) %>% head
+# mutate(gen,difD1D2=D1-D2,pdifD1D2=difD1D2*100) Use newly created column difD1D2 to create another pdifD1D2. So, you can create and reuse newly created columns.
+mutate(gen, diffD1D2 = D1-D2, pdiffD1D2=diffD1D2*100) %>% head
+mutate(gen, diffD1D2 = D1-D2, pdiffD1D2=diffD1D2*100, meanexp=rowMeans(select(gen,D1,D2,D3,D4,D5))) %>% head
+# Just keeps the new columns only.
+transmute(gen, difD1D2=D1-D2, pdifD1D2 = difD1D2 * 100) %>% head
+```
+
+### Summarise values with summarise()
+```{r}
+summarise(gen, D1mean = mean(D1), D2mean = mean(D2))
+```
+
+### Grouped operations
+```{r}
+# Group genes as per pathway
+gengrp=group_by(gen, Path);
+# For every group then do some operation
+summarise(gengrp, n())
+summarise(gengrp, mean(D1), mean(D2), mean(D3))
+summarise(gengrp, mD1=mean(D1), mD2=mean(D2), mD3=mean(D3)) %>% filter(.,mD1>0.05) %>% select(.,Path,mD1);
+summarise(gengrp, OverExp_Genecount_D1=sum(D1>1.5), OverExp_Genecount_D2=sum(D2>1.5), OverExp_Genecount_D3=sum(D3>1.5))
+```
+
+### Joins two table
+Currently dplyr supports following join types:
+
+  * inner_join()
+  * left_join()
+  * right_join()
+  * semi_join()
+  * anti_join()
+  * full_join() 
+
+Create Pathway information data frame which we will use to demonstrate join
+```{r}
+# Select one gene from each pathway, for demo purpose
+tempgen = group_by(gen,Path) %>% slice(1);
+# Create Pathway information. Note that we dont have pathway information for P4
+Pathwayinfo=data.frame(Path=c("P1","P2","P3","P5"), Name=c("Glycolysis","Gluconeogenesis","Purine metabolism","Apotopsis"), ID=c("ID0752","ID3251","ID2567","ID4568"));
+Pathwayinfo;
+```
+
+```{r}
+tempgen;
+Pathwayinfo;
+
+# Return all rows from x where there are matching values in y (i.e. matching x rows)
+# Return all columns from x and y. 
+# If there are multiple matches between x and y, all combination of the matches are returned.
+inner_join(tempgen, Pathwayinfo, by="Path");
+
+
+# Return all rows from x
+# All columns from x and y. 
+# Rows in x with no match in y will have NA values in the new columns. If there are multiple matches between x and y, all combinations of the matches are returned.
+left_join(tempgen, Pathwayinfo, by="Path");
+
+# Return all rows from y
+# all columns from x and y. 
+# Rows in y with no match in x will have NA values in the new columns. If there are multiple matches between x and y, all combinations of the matches are returned.
+right_join(tempgen, Pathwayinfo, by="Path");
+
+
+# Return all rows and all columns from both x and y. 
+# Where there are not matching values, returns NA for the one missing.
+full_join(tempgen, Pathwayinfo, by="Path");
+
+
+# Return all rows from x where there are matching values in y, keeping just columns from x.
+semi_join(tempgen, Pathwayinfo, by="Path");
+
+
+# Return all rows from x where there are not matching values in y, keeping just columns from x.
+anti_join(tempgen, Pathwayinfo, by="Path");
+```
+
+### References
+1. https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html
+
+

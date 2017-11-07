@@ -1,0 +1,157 @@
+---
+title: "File Import & Export in R"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## Input files
+[Input_1.txt](data/Day1/Input_1.txt)  
+[Input_2.txt](data/Day1/Input_2.txt)  
+[Input_3.txt](data/Day1/Input_3.txt)  
+[Input_4.txt](data/Day1/Input_4.txt)
+[Input_3.xlsx](data/Day1/Input_3.xlsx)  
+[1BUW.pdb](data/Day1/1BUW.pdb)  
+
+## Read tabular data using read.table()
+If data is well structured in tabular form, we can use read.table() to read the data.  
+
+### Read data
+In file Input_1.txt all rows have equal numbers of columns. Each cell is separated by tab. Try ?read.table() to check the default values for arguments.  
+
+Default: Header=FALSE, sep=" ", stringsAsFactors=T
+
+```{r}
+in1 = read.table("_site/data/Day1/Input_1.txt");
+in1; 
+str(in1);
+```
+We can see that header is considered as 1st row which is what we dont want. 
+
+### header=TRUE
+```{r}
+in2 = read.table("_site/data/Day1/Input_1.txt", header = TRUE);
+in2; 
+str(in2);
+```
+Header=T allows to read first row in a file as column names vector.
+
+Note the structure of in2. The first four columns are numeric as expected. But Species column has been considered as factors. Species column is considered as factor (categorical variable). If we dont want to read character data type as factor, we can explore stringsAsFactors = FALSE parameter, as shown below.
+
+### stringsAsFactors = FALSE
+```{r}
+in3 = read.table("_site/data/Day1/Input_1.txt", header = TRUE, stringsAsFactors = FALSE);
+in3; 
+str(in3);
+```
+stringsAsFactors=F disables factor formatting of character columns. Check the data types of Species (chr). The first four columns are numeric. Now Species column has been considered as a character vector.
+
+### Other useful parameters: 
+
+ * sep = ""
+ * comment.char = "#"
+ * na.strings = "NA"
+ * quote = "\"'"
+ * row.names
+ * col.names
+ * blank.lines.skip = TRUE
+
+### Read file with unequal columns in first row using read.table.
+Note that in file Input_2.txt, first row has 5 column fields while remaining rows have 6 fields/values i.e. first row has one column less than other rows.
+Under such format Header is automatically set to TRUE by read.table(). So in the below code, we didnt specify header=TRUE (optional here).
+
+```{r}
+in4 = read.table("_site/data/Day1/Input_2.txt", stringsAsFactors = FALSE);
+in4;
+str(in4);
+```
+
+###  Read file consisting of comments, blank lines, null values
+Default  arguments:  skip=0, comment.char="#", na.strings="NA"  
+
+Please note that in file Input_3.txt consists of  
+
+ * First two lines inserted by author but are not required for processing data.
+ * 2 comment lines starting with character "!"
+ * 1 blank line
+ * Row 3 has one missing value shown by NULL
+ * First row has 5 columns while remaining rows havecolumns. Under such input format Header is set to TRUE by read.table().
+
+```{r}
+in5 = read.table("_site/data/Day1/Input_3.txt", stringsAsFactors = FALSE, comment.char = "!", na.strings = NULL, skip=2);
+in5;
+str(in5);
+```
+ * skip=2 removes first two lines not required for processing data by R.  
+ * comment.char=“!”, instructs R to exclude lines starting with “!”. Default comment.char=“#”  
+ * na.strings= “NULL” allows R to interpret NULL values as missing or NA characters, which will be helpful to remove such rows by na.omit() function. Default na.strings= “NA”.
+
+## Read csv file read.csv()
+Please note that values in file Input_4.txt are separated by comma, “,” and all rows have equal number of columns. See help for read.csv to check the default values for arguments. Default Header=TRUE, sep=","
+
+```{r}
+in7= read.csv("_site/data/Day1/Input_4.txt", stringsAsFactors = FALSE, comment.char = "!", na.strings = NULL, skip=2);
+in7;
+str(in7);
+```
+
+## Reading data from excel file
+We need to use gdata package to read excel file. To use, we must have perl installed in the system.
+
+```{r}
+library("gdata");
+xl=read.xls("_site/data/Day1/Input_3.xlsx", sheet=1);
+xl;
+str(xl);
+```
+library(gdata) loads the gdata package to access read.xls() function. sheet option allows to choose sheet from input excel file.
+
+## Read data using readLines()
+By default readLines() read all the lines of a file. It returns a character vector. Check the str(ln). n=10 allows to read first 10 lines.
+```{r}
+pdb=readLines("_site/data/Day1/1BUW.pdb");
+str(pdb);
+pdb=readLines("_site/data/Day1/1BUW.pdb", n=10);
+pdb;
+```
+
+## Read data using clipboard feature
+Read copied text using clipboard
+```{r, eval=FALSE}
+data=read.table("clipboard");
+```
+
+## View data frame using View()
+```{r, eval=FALSE}
+View(in1);
+```
+## Edit data frame using edit()
+```{r, eval=FALSE}
+edit(in1);
+```
+
+## Write R data frames in a file using write.table()
+```{r, eval=FALSE}
+write.table(in1, file="result.txt", sep="\t", eol="\n", quote=FALSE, row.names=FALSE, append = FALSE);
+```
+
+### Write using cat()
+```{r, eval=FALSE}
+cat("Hello", file="result.txt");
+```
+
+

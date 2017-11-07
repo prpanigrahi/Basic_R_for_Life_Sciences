@@ -1,0 +1,53 @@
+---
+title: "Apply Set of Functions"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+
+### apply()
+```{r}
+# Consider a hypothetical gene expression dataset
+# Row: 30 Genes
+# Coulmn: Gene expression measured for 4 consecutive days. D1 to D4
+# Values: between -1, 1
+exp= matrix(rnorm(120), nrow=30)
+rownames(exp)=paste("G", 1:nrow(exp),sep="");
+colnames(exp)=paste("C", 1:ncol(exp),sep="");
+head(exp);
+dim(exp);
+
+# apply mean function on every row (margin=1)
+apply(exp, MARGIN = 1, FUN = mean);
+
+# apply mean function on every column (margin=2)
+apply(exp, MARGIN = 2, FUN = mean);
+
+# Count how many genes up regulated in each day
+apply(exp, MARGIN = 2, FUN = function(x){sum(x>0)});
+
+# Count how many days a gene is down regulated
+apply(exp, MARGIN = 1, FUN = function(x){sum(x>0)});
+
+```
+
+
+### sapply()
+
+
+### lapply()
