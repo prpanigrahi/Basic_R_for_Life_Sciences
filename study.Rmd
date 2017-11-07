@@ -1,0 +1,45 @@
+---
+title: "Study Material"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+### Study Material
+
+* [Day1_Hands-on_Exercises.pdf](data/Day1/Day1_Hands-on_Exercises.pdf)
+* [Day1_Reference card.pdf](data/Day1/Day1_Reference card.pdf)
+* [Day1_Tasks](data/Day1/Day1_Tasks.pdf)  
+
+* [Day2_Hands-on_Exercises](data/Day2/Day2_Hands-on_Exercises.pdf)
+    * Input files
+        * [GenExp_data.txt](data/Day2/GenExp_data.txt)
+        * [GenExp_heatmap.txt](data/Day2/GenExp_heatmap.txt)
+* [Day2_dplyr](data/Day2/Day2_dplyr.pdf)
+* Day2 Tasks
+    * [Task](data/Day2/Day2_Tasks.pdf) 
+    * [Input file](data/Day2/iris.xls)  
+
+* [Day3 CaseStudy](data/CaseStudy)  
+
+* [Resources](data/Resources.pdf)
+
+
+
+
+
+

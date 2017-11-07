@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Solution</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Solution</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="solutions" class="section level1">
+<h1>Solutions</h1>
+<div id="vector-creation" class="section level2">
+<h2>Vector creation</h2>
+<p><strong>1. Create a vector x13 with values 2, 3, 4, 5, 6</strong></p>
+<p>x13=c(2,3,4,5,6)</p>
+<p><strong>2. Create a vector x14 with values 2.0, 2.1, 2.2, 2.3, 2.4, .., 4</strong></p>
+<p>x14=seq(from=2,to=4, by=0.1)</p>
+<p><strong>3. Create a vector x15 with 10 random values between 4 and 6</strong></p>
+<p>x15=sample(4:6,10, replace=T)</p>
+<p><strong>4. Create a vector x16 with repeated values 3, 4, 5, 3, 4, 5, 3, 4, 5</strong></p>
+<p>x16=rep(c(3,4,5),times=3)</p>
+<p><strong>5. create x17 with repeated values 7,7,7,8,8,8,9,9,9</strong></p>
+<p>x17=rep(c(7,8,9),each=3)</p>
+<p><strong>6. Create a vector x18 with 10 random values between 20 and 30</strong></p>
+<p>x18=sample(20:30,10)</p>
+<p><strong>7. Create a vector x19 with 10 normally distributed random values</strong></p>
+<p>x19=rnorm(10)</p>
+<p><strong>8. Create a vector x20 with values of vectors x13 and x16 followed by 3, 5,10</strong></p>
+<p>x20=c(x13,x16,3,5,10)</p>
+</div>
+<div id="fetching-vector-elements" class="section level2">
+<h2>Fetching vector elements</h2>
+<p><strong>9. Create a vector x21 with values 33,55,66,88,99 and fetch its 3rd, 5th and 2nd values</strong></p>
+<p>x21=c(33,55,66,88,99)</p>
+<p>x21[c(3,5,2)]</p>
+<p><strong>10. Fetch its values from 1 to 4</strong></p>
+<p>x21[1:4]</p>
+<p><strong>11. Fetch values of x21 vector excluding 2nd and 3rd elements</strong></p>
+<p>x22=x21[-c(2,3)]</p>
+<p>x22</p>
+<p><strong>12 Fetch last element of x21 using length()</strong></p>
+<p>x21[length(x21)]</p>
+</div>
+<div id="vector-manipulation" class="section level2">
+<h2>Vector manipulation</h2>
+<p><strong>13. Create a vector x23 with values 5, 7, 6, 8, 1, 4.</strong></p>
+<p>x23=c(5,7,6,8,1,4)</p>
+<p><strong>Delete 1st and last elements. </strong></p>
+<p>x23=x23[-c(1,length(x23))]</p>
+<p><strong>Reset the value of second element to 12.</strong></p>
+<p>x23[2]=12</p>
+<p><strong>Add value 0 at the beginning of a vector x23</strong></p>
+<p>x23=c(0,x23)</p>
+</div>
+<div id="vector-arithmetic" class="section level2">
+<h2>Vector arithmetic</h2>
+<p><strong>14. Calculate Variance</strong></p>
+<p>Write the arithmetic expression to calculate variance of a vector. Cross check your result using var() function.</p>
+<p>Formula: Variance= sum((x-mean(x))^2) /n-1 where n is total number of elements.</p>
+<p>x=c(5,7,6,8,1,4)</p>
+<p>xvar=sum((x-mean(x))^2)/(length(x)-1)</p>
+<p>xvar</p>
+<p>var(x)</p>
+<p><strong>15. Distance between atoms</strong></p>
+<p>Given x, y, z coordinates of two atoms. Atom1 (1.2, 2.3, 3.4) and Atom2 (4.5, 5.6, 6.7). Find distance between 2 atoms. Formula: sqrt((x2-x1)2+(y2-y1)2+(z2-z1)2)</p>
+<p>atom1=c(1.2,2.3,3.4)</p>
+<p>atom2=c(4.5,5.6,6.7)</p>
+<p>dist=sum((atom1-atom2)^2)</p>
+<p>dist</p>
+<p><strong>16. Find out the numbers between 1 to 100, which are divisible by 2 or 3.</strong></p>
+<p>x=1:100</p>
+<p>x[which(x%%2==0 &amp; x%%3==0)]</p>
+</div>
+<div id="matrix" class="section level2">
+<h2>Matrix</h2>
+<p><strong>17 Create matrix </strong></p>
+<p>Create a matrix from a vector cosisting of numbers from 1 to 12 with 3 columns</p>
+<p>mt=matrix(1:12,ncol=3)</p>
+<p><strong>18. Fetch 2nd row. Fetch 3rd column</strong></p>
+<p>mt[2,]</p>
+<p>mt[,3]</p>
+<p><strong>19. Fetch the value 6</strong></p>
+<p>mt[2,2]</p>
+<p><strong>20. Fetch the value 8 and 12</strong></p>
+<p>mt[4,c(2,3)]</p>
+<p><strong>21. Fetch the value 7, 8, 11 and 12</strong></p>
+<p>mt[c(3,4),c(2,3)]</p>
+</div>
+<div id="data-frame" class="section level2">
+<h2>Data Frame</h2>
+<p><strong>22. Create a data frame of gene expression data such that</strong></p>
+<p>First column,“Genes”, is a character vector of 6 gene names (G1, G2, …, G6).</p>
+<p>Second column, “C1” is a numeric vector of 6 random values from 3 to 5.</p>
+<p>Hint: Generate random numbers using function sample(). Use R help to see the syntax of sample.</p>
+<p>Third column, “C2” is a numeric vector of 6 random values from 3 to 5.</p>
+<p>Fourth column, “T1” is a numeric vector of 6 random values from 5 to 7.</p>
+<p>Fifth column, “T2” is a numeric vector of 6 random values from 5 to 7.</p>
+<p>Sixth column, “Pathway” is a character vector of which first 3 represent one pathway “P1” and other 3 represent pathway “P2”.</p>
+<p>genes=paste(“G”,1:6,sep=“”)</p>
+<p>C1=sample(3:5,6, replace=T)</p>
+<p>C2=sample(3:5,6, replace=T)</p>
+<p>T1=sample(5:7,6, replace=T)</p>
+<p>T2=sample(5:7,6, replace=T)</p>
+<p>pathway=rep(c(“P1”,“P2”),each=3)</p>
+<p>exp=data.frame(“Genes”=genes,“C1”=C1,“C2”=C2,“T1”=T1,“T2”=T2,“Pathway”=pathway)</p>
+<p><strong>23. Fetch values of column D2</strong></p>
+<p>exp$T2</p>
+<p><strong>24. Fetch values of gene G2</strong></p>
+<p>exp[2,]</p>
+<p><strong>25. Fetch value of gene G3 from C2</strong></p>
+<p>exp[3,3]</p>
+<p><strong>26. Delete column C2</strong></p>
+<p>exp$C2=NULL</p>
+<p><strong>27. Insert column C3, which should be numeric vector of 6 random values from 3 to 5. </strong></p>
+<p>exp$C3=sample(3:5,6, replace=T)</p>
+<p><strong>28. Find mean of column C1</strong></p>
+<p>mean(exp$C1)</p>
+</div>
+<div id="tasks-on-iris-data-set" class="section level2">
+<h2>Tasks on iris data set</h2>
+<p><strong>1. Open iris data set file using read.table() and store in a variable name “iris_data”</strong></p>
+<p>iris_data=read.table(“iris.txt”,header=T)</p>
+<p><strong>2. Check the structure of “iris_data”. Note the column names. How many categories are there in column named as “Species”. Note the names of species.</strong></p>
+<p>str(iris_data)</p>
+<p>levels(iris_data$Species)</p>
+<p><strong>3. How many rows and columns are there?</strong></p>
+<p>dim(iris_data)</p>
+<p><strong>4. How many observations (rows) are there for each species? </strong></p>
+<p><strong>a. Number of rows with Species as setosa</strong></p>
+<p><strong>b. Number of rows with Species as virginica</strong></p>
+<p><strong>c. Number of rows with Species as versicolor</strong></p>
+<p>table(iris_data$Species)</p>
+<p><strong>5. Find the mean of all sepal lengths.</strong></p>
+<p>mean(iris_data$Sepal.Length)</p>
+<p><strong>6. Find the mean of sepal lengths in Species setosa.</strong></p>
+<p>library(dplyr)</p>
+<p>setosa=filter(iris_data, Species==“setosa”)</p>
+<p>mean(setosa$Sepal.Length)</p>
+<p><strong>7. What is the overall correlation between Sepal length and Petal length?</strong></p>
+<p>cor(iris_data$Sepal.Length, iris_data$Petal.Length)</p>
+<p><strong>8. What is the correlation between Sepal width and Petal width of Species virginica?</strong></p>
+<p>virginica=filter(iris_data, Species==“virginica”)</p>
+<p>cor(virginica$Sepal.Width, virginica$Petal.Width)</p>
+<p><strong>9. Find the difference between sepal lengths of species setosa and versicolor. What is the mean difference between them?</strong></p>
+<p>versicolor=filter(iris_data, Species==“versicolor”)</p>
+<p>sldiff= setosa$Sepal.Length - versicolor$Sepal.Length</p>
+<p>mean(sldiff)</p>
+<p><strong>10. Carry out the t-test between sepal lengths of species setosa and versicolor. Is it statistically significant? </strong></p>
+<p>Assumptions: Sepal lengths of two species are normally distributed Their variances may not be equal Observations are not paired Two sided t-test, we are just interested to know if sepal lenghts between species are significantly different or not.</p>
+<p>t.test(setosa$Sepal.Length, versicolor$Sepal.Length)</p>
+<p>Based on p-value we reject null hypothesis at 95 % confidence interval Hence sepal lengths of species setosa and versicolor are significantly different</p>
+<p>Note: Please see the help for t.test to find out various options for t-test</p>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>Plot1: Scatter plot of Sepal length vs Petal length of all 150 flowers, color according to species/plants.</p>
+<pre class="r"><code>library(gdata)
+irisd=read.xls(&quot;iris.xls&quot;);</code></pre>
+<pre class="r"><code>plot(irisd$SL,irisd$PL,col=rep(c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;),each=50),pch=15,xlab=&quot;Sepal Length&quot;,ylab=&quot;Petal Length&quot;,cex.lab=1.2,main=&quot;Sepal Vs Petal Length&quot;,cex.axis=1.2)
+legend(4.2,7,c(&quot;Setosa&quot;,&quot;Versicolor&quot;,&quot;virginia&quot;),col=c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;),pch=15)</code></pre>
+<p>Plot2: Barplot showing distribution of Sepal lengths among 6 classes of flowers (3 plants and 2 colors).</p>
+<pre class="r"><code>barplot(t(table(irisd$SP,irisd$Col)),beside=T,col=c(&quot;red&quot;,&quot;blue&quot;),ylim=c(0,50),cex.axis=1.5,cex.name=1.5)
+legend(1,50,c(&quot;Red&quot;,&quot;Blue&quot;),pch=15,col=c(&quot;red&quot;,&quot;blue&quot;))</code></pre>
+<p>Plot3: Multi panel plot showing the histogram of SL, PL, SW, PW of all 150 flowers.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+hist(irisd[,1],xlab=&quot;Sepal Length&quot;,ylab=&quot;Frequency&quot;,main=&quot;&quot;,cex.lab=1.2,col=&quot;gray&quot;)
+hist(irisd[,2],xlab=&quot;Sepal width&quot;,ylab=&quot;Frequency&quot;,main=&quot;&quot;,cex.lab=1.2,col=&quot;gray&quot;)
+hist(irisd[,3],xlab=&quot;Petal Length&quot;,ylab=&quot;Frequency&quot;,main=&quot;&quot;,cex.lab=1.2,col=&quot;gray&quot;)
+hist(irisd[,4],xlab=&quot;Petal Width&quot;,ylab=&quot;Frequency&quot;,main=&quot;&quot;,cex.lab=1.2,col=&quot;gray&quot;)
+par(mfrow=c(1,1))</code></pre>
+<p>Plot4: Box plot showing SL, SW, PL, PW distribution along with a line joining their mean lengths.</p>
+<pre class="r"><code>boxplot(irisd[,1:4],col=c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;orange&quot;),main=&quot;Length Distribution&quot;,cex.axis=1.2,ylab=&quot;Length (cm)&quot;,cex.lab=1.2)
+l=summarise(irisd,mean(SL),mean(SW),mean(PL),mean(PW))
+lines(c(1,2,3,4),l,lwd=4,col=&quot;brown&quot;)
+legend(3.5,8,c(&quot;Mean\nLength&quot;),lty=1,lwd=4,col=&quot;brown&quot;)</code></pre>
+<p>Plot5: Probability density plot of Sepal lengths among three different categories of plants.</p>
+<pre class="r"><code># First filter
+library(dplyr)
+set_SL=filter(irisd,SP==&quot;setosa&quot;) %&gt;% select(SL)
+versi_SL=filter(irisd,SP==&quot;versicolor&quot;) %&gt;% select(SL)
+virgi_SL=filter(irisd,SP==&quot;virginica&quot;) %&gt;% select(SL)
+
+# Convert them to vector
+set_SL=set_SL$SL
+versi_SL=versi_SL$SL;
+virgi_SL=virgi_SL$SL;
+
+
+# use density to plot
+plot(density(set_SL),xlim=c(4,10),lwd=2,xlab=&quot;Length (cm)&quot;,main=&quot;Prob. Density of Sepal Length across different flowers&quot;)
+lines(density(versi_SL),col=&quot;red&quot;,lwd=2)
+lines(density(virgi_SL),col=&quot;green&quot;,lwd=2)
+legend(8,1.2,lwd=2,c(&quot;Setosa&quot;,&quot;Versicolor&quot;,&quot;Virginica&quot;),col=c(&quot;black&quot;,&quot;red&quot;,&quot;green&quot;))</code></pre>
+<p>Plot6: 3D plot showing distinct clustering of flowers in terms of SL, SW and PL. Different colors for different plants.</p>
+<pre class="r"><code>library(rgl)
+plot3d(irisd[,1:3],col=rep(c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;),each=50))</code></pre>
+<p>Plot7: Scatter plot matrix showing a global view of the distribution of SL, SW, PL and PW across 3 plants.</p>
+<pre class="r"><code>pairs(irisd[,1:4],col=rep(c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;),each=50))</code></pre>
+<p>Plot8: Heatmap showing clustering of flowers in terms of their SL, SW, PL and PW properties.</p>
+<pre class="r"><code>m=as.matrix(irisd[,1:4]);
+library(&quot;gplots&quot;)
+heatmap.2(m, trace=&quot;none&quot;)</code></pre>
+<p>Plot9: Pie chart showing the number of flowers in 6 categories (3 plants and 2 colors)</p>
+<pre class="r"><code>#Subset species by colors
+library(dplyr)
+
+Set_B=filter(irisd, SP==&quot;setosa&quot; &amp; Col==&quot;Blue&quot; )
+Set_R=filter(irisd, SP==&quot;setosa&quot; &amp; Col==&quot;Red&quot; )
+Ver_B=filter(irisd, SP==&quot;versicolor&quot; &amp; Col==&quot;Blue&quot; )
+Ver_R=filter(irisd, SP==&quot;versicolor&quot; &amp; Col==&quot;Red&quot; )
+Vir_B=filter(irisd, SP==&quot;virginica&quot; &amp; Col==&quot;Blue&quot; )
+Vir_R=filter(irisd, SP==&quot;virginica&quot; &amp; Col==&quot;Red&quot; )
+
+#Create vector of counts in each subset
+irisp=c(nrow(Set_B),nrow(Set_R),nrow(Ver_B),nrow(Ver_R),nrow(Vir_B),nrow(Vir_R))
+
+pie(irisp, labels=irisp, col=c(&quot;Red&quot;, &quot;Cyan&quot;, &quot;yellow&quot;, &quot;Blue&quot;, &quot;Green&quot;, &quot;Magenta&quot;))
+legend(0.9,1,c(&quot;Set_B&quot;,&quot;Ver_B&quot;,&quot;Vir_B&quot;,&quot;Set_R&quot;,&quot;Ver_R&quot;,&quot;Vir_R&quot;),pch=15, col=c(&quot;Red&quot;,&quot;Yellow&quot;,&quot;Green&quot;, &quot;Cyan&quot;,&quot;Blue&quot;,&quot;Magenta&quot;))</code></pre>
+<p>Plot10: Dot chart showing clear distribution of SL among 3 plants.</p>
+<pre class="r"><code>dotchart(irisd$SL,group=irisd$SP, main=&quot;Sepal Length across 3 Plants&quot;)</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

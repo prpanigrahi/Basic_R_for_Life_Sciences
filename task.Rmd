@@ -1,0 +1,145 @@
+---
+title: "Task"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+## Tasks
+
+## Vector creation
+1. Create a vector x13 with values 2, 3, 4, 5, 6
+2. Create a vector x14 with values 2.0, 2.1, 2.2, 2.3, 2.4, .., 4
+3. Create a vector x15 with 10 random values between 4 and 6
+4. Create a vector x16 with repeated values 3, 4, 5, 3, 4, 5, 3, 4, 5
+5. Create x17 with repeated values 7,7,7,8,8,8,9,9,9
+6. Create a vector x18 with 10 random values between 20 and 30
+7. Create a vector x19 with 10 normally distributed random values
+8. Create a vector x20 with values of vectors x13 and x16 followed by 3, 5,10
+
+## Fetching vector elements
+9. Create a vector x21 with values 33,55,66,88,99. Fetch its 3rd, 5th and 2nd values
+10. Fetch values of x21 from 1 to 4
+11. Fetch values of x21 vector excluding 2nd and 3rd elements
+12 Fetch last element of x21 using length()
+
+## Vector manipulation
+13. Create a vector x23 with values 5, 7, 6, 8, 1, 4. Delete 1st and last element. Reset the value of second element to 12.
+Add value 0 at the beginning of a vector x
+
+## Vector arithmetic
+14. Write the arithmetic expression to calculate variance of a vector. Cross check your result using var() function.
+Formula: Variance= sum((x-mean(x))^2) /n-1 where n is total number of elements.
+15. Given x, y, z coordinates of two atoms.
+Atom1 (1.2, 2.3, 3.4) and Atom2 (4.5, 5.6, 6.7). Find distance between 2 atoms.
+Formula: sqrt((x2-x1)^2+(y2-y1)^2+(z2-z1)^2)
+16. Find out the numbers between 1 to 100, which are divisible by 2 or 3.
+
+## Matrix
+17. Create a matrix from a vector consisting of numbers from 1 to 12 with 3 columns
+18. Fetch 2nd row. Fetch 3rd column
+19. Fetch the value 6
+20. Fetch the value 8 and 12
+21. Fetch the value 7, 8, 11 and 12
+
+## Data Frame
+22. Create a data frame of gene expression data such that 
+
+First column,"Genes", is a character vector of 6 gene names (G1, G2, ..., G6).
+
+Second column, "C1" is a numeric vector of 6 random values from 3 to 5.
+
+Hint: Generate random numbers using function sample(). Use R help to see the syntax of sample.
+
+Third column, "C2" is a numeric vector of 6 random values from 3 to 5.
+
+Fourth column, "T1" is a numeric vector of 6 random values from 5 to 7.
+
+Fifth column, "T2" is a numeric vector of 6 random values from 5 to 7.
+
+Sixth column, "Pathway" is a character vector of which first 3 represent one pathway "P1" and other 3 represent pathway "P2".
+
+23. Fetch values of column T2
+24. Fetch values of gene G2
+25. Fetch value of gene G3 from C2
+26. Delete column C2
+27. Insert column C3, which should be numeric vector of 6 random values from 3 to 5.
+28. Find mean of column C1
+
+## Tasks on Iris data set
+1. Open iris data set file using read.table() and store in a variable names “iris_data”
+2. Check the structure of “iris_data”. Note the column names. How many categories are there in column named as
+“Species”. Note the names of species.
+3. How many rows and columns are there?
+4. How many observations (rows) are there for each species?
+a. Number of rows with Species as setosa
+b. Number of rows with Species as virginica
+c. Number of rows with Species as versicolor
+5. Find the mean of all sepal lengths.
+6. Find the mean of sepal lengths in Species setosa.
+7. What is the overall correlation between Sepal length and Petal length?
+8. What is the correlation between Sepal width and Petal width of Species virginica?
+9. Find the difference between sepal lengths of species setosa and versicolor. What is the mean difference between
+them?
+10. Carry out the t-test between sepal lengths of species setosa and versicolor. Is it statistically significant?
+
+## Visualization
+You are provided with an excel file “iris.xls”. The file contains IRIS data,
+150 flowers, Categorized into 3 plants (SP:Setosa/Versicolor/Virginica) and two colors (Col:Red/Blue).  
+
+The data consists of SL (Sepal length), SW (Sepal
+width), PL (Petal length) and PW (Petal width) in cm. 
+
+![](image/casestudy_task_fig1.png)
+
+<br>
+<br>
+Task: Load the data in R using appropriate function and extract useful information by data visualization.  
+
+![](image/casestudy_task_fig2.png)  
+
+* Plot1: Scatter plot of Sepal length vs Petal length of all 150 flowers, color according to species/plants.
+* Plot2: Barplot showing distribution of Sepal lengths among 6 classes of
+flowers (3 plants and 2 colors).
+* Plot3: Multi panel plot showing the histogram of SL, PL, SW, PW of all 150 flowers.
+* Plot4: Box plot showing SL, SW, PL, PW distribution along with a line joining their mean lengths.
+ 
+<br>
+<br>
+
+![](image/casestudy_task_fig3.png)  
+
+* Plot5: Probability density plot of Sepal lengths among three different categories of plants.
+ * Plot6: 3D plot showing distinct clustering of flowers in terms of SL, SW and PL. Different colors for different plants.
+
+<br>
+<br>
+
+![](image/casestudy_task_fig5.png)  
+
+
+* Plot7: Scatter plot matrix showing a global view of the distribution of SL, SW, PL and PW across 3 plants.
+ * Plot8: Heatmap showing clustering of flowers in terms of their SL, SW, PL and PW properties.
+
+<br>
+<br>
+
+![](image/casestudy_task_fig6.png)  
+
+* Plot9: Pie chart showing the number of flowers in 6 categories (3 plants and 2 colors)
+* Plot10: Dot chart showing clear distribution of SL among 3 plants.
+

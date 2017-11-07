@@ -1,0 +1,391 @@
+---
+title: "Solution"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Author: Team BioSakshat
+
+Last update: June 2017
+
+<p>Copyright &copy; 2017 BioSakshat, Inc. All rights reserved.</p>
+
+# Solutions
+
+## Vector creation
+
+**1. Create a vector x13 with values 2, 3, 4, 5, 6**
+
+x13=c(2,3,4,5,6)
+
+**2. Create a vector x14 with values 2.0, 2.1, 2.2, 2.3, 2.4, .., 4**
+
+x14=seq(from=2,to=4, by=0.1)
+
+**3. Create a vector x15 with 10 random values between 4 and 6**
+
+x15=sample(4:6,10, replace=T)
+
+**4. Create a vector x16 with repeated values 3, 4, 5, 3, 4, 5, 3, 4, 5**
+
+x16=rep(c(3,4,5),times=3)
+
+**5. create x17 with repeated values 7,7,7,8,8,8,9,9,9**
+
+x17=rep(c(7,8,9),each=3)
+
+**6. Create a vector x18 with 10 random values between 20 and 30**
+
+x18=sample(20:30,10)
+
+**7. Create a vector x19 with 10 normally distributed random values**
+
+x19=rnorm(10)
+
+**8. Create a vector x20 with values of vectors x13 and x16 followed by 3, 5,10**
+
+x20=c(x13,x16,3,5,10)
+
+## Fetching vector elements
+
+**9. Create a vector x21 with values 33,55,66,88,99 and fetch its 3rd, 5th and 2nd values**
+
+x21=c(33,55,66,88,99)
+
+x21[c(3,5,2)]
+
+**10. Fetch its values from 1 to 4**
+
+x21[1:4]
+
+**11. Fetch values of x21 vector excluding 2nd and 3rd elements**
+
+x22=x21[-c(2,3)]
+
+x22
+
+**12 Fetch last element of x21 using length()**
+
+x21[length(x21)]
+
+## Vector manipulation
+**13. Create a vector x23 with values 5, 7, 6, 8, 1, 4.**
+
+x23=c(5,7,6,8,1,4)
+
+**Delete 1st and last elements.  **
+
+x23=x23[-c(1,length(x23))]
+
+**Reset the value of second element to 12.**
+
+x23[2]=12
+
+**Add value 0 at the beginning of a vector x23**
+
+x23=c(0,x23)
+ 
+## Vector arithmetic
+
+**14. Calculate Variance**
+
+Write the arithmetic expression to calculate variance of a vector. Cross check your result using var() function. 
+
+Formula: Variance= sum((x-mean(x))^2) /n-1 where n is total number of elements.
+
+x=c(5,7,6,8,1,4)
+
+xvar=sum((x-mean(x))^2)/(length(x)-1)
+
+xvar
+
+var(x)
+
+**15. Distance between atoms**
+
+Given x, y, z coordinates of two atoms. Atom1 (1.2, 2.3, 3.4) and Atom2 (4.5, 5.6, 6.7). Find distance between 2 atoms. Formula: sqrt((x2-x1)2+(y2-y1)2+(z2-z1)2)
+
+atom1=c(1.2,2.3,3.4)
+
+atom2=c(4.5,5.6,6.7)
+
+dist=sum((atom1-atom2)^2)
+
+dist
+
+**16. Find out the numbers between 1 to 100, which are divisible by 2 or 3.**
+
+x=1:100
+
+x[which(x%%2==0 & x%%3==0)]
+
+## Matrix
+
+**17 Create matrix **
+
+Create a matrix from a vector cosisting of numbers from 1 to 12 with 3 columns
+
+mt=matrix(1:12,ncol=3)
+
+**18. Fetch 2nd row. Fetch 3rd column**
+
+mt[2,]
+
+mt[,3]
+
+**19. Fetch the value 6**
+
+mt[2,2]
+
+**20. Fetch the value 8 and 12**
+
+mt[4,c(2,3)]
+
+**21. Fetch the value 7, 8, 11 and 12**
+
+mt[c(3,4),c(2,3)]
+
+## Data Frame
+
+**22. Create a data frame of gene expression data such that**
+
+First column,"Genes", is a character vector of 6 gene names (G1, G2, ..., G6). 
+
+Second column, "C1" is a numeric vector of 6 random values from 3 to 5. 
+
+Hint: Generate random numbers using function sample(). Use R help to see the syntax of sample.
+
+Third column, "C2" is a numeric vector of 6 random values from 3 to 5. 
+
+Fourth column, "T1" is a numeric vector of 6 random values from 5 to 7. 
+
+Fifth column, "T2" is a numeric vector of 6 random values from 5 to 7. 
+
+Sixth column, "Pathway" is a character vector of which first 3 represent one pathway "P1" and other 3 represent pathway "P2". 
+
+
+
+genes=paste("G",1:6,sep="")
+
+C1=sample(3:5,6, replace=T)
+
+C2=sample(3:5,6, replace=T)
+
+T1=sample(5:7,6, replace=T)
+
+T2=sample(5:7,6, replace=T)
+
+pathway=rep(c("P1","P2"),each=3)
+
+exp=data.frame("Genes"=genes,"C1"=C1,"C2"=C2,"T1"=T1,"T2"=T2,"Pathway"=pathway)
+
+**23. Fetch values of column D2**
+
+exp$T2
+
+**24. Fetch values of gene G2**
+
+exp[2,]
+
+**25. Fetch value of gene G3 from C2**
+
+exp[3,3]
+
+**26. Delete column C2**
+
+exp$C2=NULL
+
+**27. Insert column C3, which should be numeric vector of 6 random values from 3 to 5. **
+
+exp$C3=sample(3:5,6, replace=T)
+
+**28. Find mean of column C1**
+
+mean(exp$C1)
+
+## Tasks on iris data set
+
+**1. Open iris data set file using read.table() and store in a variable name "iris_data"**
+
+iris_data=read.table("iris.txt",header=T)
+
+**2. Check the structure of "iris_data". Note the column names. How many categories are there in column named as "Species". Note the names of species.**
+
+str(iris_data)
+
+levels(iris_data$Species)
+
+**3. How many rows and columns are there?**
+
+dim(iris_data)
+
+**4. How many observations (rows) are there for each species?  **
+
+**a. Number of rows with Species as setosa**
+
+**b. Number of rows with Species as virginica**
+
+**c. Number of rows with Species as versicolor** 
+
+table(iris_data$Species)
+
+**5. Find the mean of all sepal lengths.**
+
+mean(iris_data$Sepal.Length)
+
+**6. Find the mean of sepal lengths in Species setosa.**
+
+library(dplyr)
+
+setosa=filter(iris_data, Species=="setosa")
+
+mean(setosa$Sepal.Length)
+
+**7. What is the overall correlation between Sepal length and Petal length?**
+
+cor(iris_data\$Sepal.Length, iris_data\$Petal.Length)
+
+**8. What is the correlation between Sepal width and Petal width of Species virginica?**
+
+virginica=filter(iris_data, Species=="virginica")
+
+cor(virginica\$Sepal.Width, virginica\$Petal.Width)
+
+**9. Find the difference between sepal lengths of species setosa and versicolor. What is the mean difference between them?**
+
+versicolor=filter(iris_data, Species=="versicolor")
+
+sldiff= setosa\$Sepal.Length - versicolor\$Sepal.Length
+
+mean(sldiff)
+
+**10. Carry out the t-test between sepal lengths of species setosa and versicolor. Is it statistically significant? **
+
+Assumptions:
+Sepal lengths of two species are normally distributed
+Their variances may not be equal
+Observations are not paired
+Two sided t-test, we are just interested to know if sepal lenghts between species are significantly different or not.
+
+
+t.test(setosa\$Sepal.Length, versicolor\$Sepal.Length)
+
+Based on p-value we reject null hypothesis at 95 % confidence interval
+Hence sepal lengths of species setosa and versicolor are significantly different
+
+Note: Please see the help for t.test to find out various options for t-test
+
+
+## Visualization
+Plot1: Scatter plot of Sepal length vs Petal length of all 150 flowers, color according to species/plants.
+```{r, eval=FALSE}
+library(gdata)
+irisd=read.xls("iris.xls");
+```
+
+```{r, eval=FALSE}
+plot(irisd$SL,irisd$PL,col=rep(c("red","blue","green"),each=50),pch=15,xlab="Sepal Length",ylab="Petal Length",cex.lab=1.2,main="Sepal Vs Petal Length",cex.axis=1.2)
+legend(4.2,7,c("Setosa","Versicolor","virginia"),col=c("red","blue","green"),pch=15)
+```
+Plot2: Barplot showing distribution  of Sepal lengths among 6 classes of flowers (3 plants and 2 colors). 
+```{r, eval=FALSE}
+barplot(t(table(irisd$SP,irisd$Col)),beside=T,col=c("red","blue"),ylim=c(0,50),cex.axis=1.5,cex.name=1.5)
+legend(1,50,c("Red","Blue"),pch=15,col=c("red","blue"))
+```
+Plot3: Multi panel plot showing the histogram of SL, PL, SW, PW of all 150 flowers. 
+```{r, eval=FALSE}
+par(mfrow=c(2,2))
+hist(irisd[,1],xlab="Sepal Length",ylab="Frequency",main="",cex.lab=1.2,col="gray")
+hist(irisd[,2],xlab="Sepal width",ylab="Frequency",main="",cex.lab=1.2,col="gray")
+hist(irisd[,3],xlab="Petal Length",ylab="Frequency",main="",cex.lab=1.2,col="gray")
+hist(irisd[,4],xlab="Petal Width",ylab="Frequency",main="",cex.lab=1.2,col="gray")
+par(mfrow=c(1,1))
+```
+
+Plot4: Box plot showing SL, SW, PL, PW distribution along with a line joining their mean lengths.
+```{r, eval=FALSE}
+boxplot(irisd[,1:4],col=c("red","green","blue","orange"),main="Length Distribution",cex.axis=1.2,ylab="Length (cm)",cex.lab=1.2)
+l=summarise(irisd,mean(SL),mean(SW),mean(PL),mean(PW))
+lines(c(1,2,3,4),l,lwd=4,col="brown")
+legend(3.5,8,c("Mean\nLength"),lty=1,lwd=4,col="brown")
+```
+
+Plot5: Probability density plot of Sepal lengths among three different categories of plants.
+
+```{r, eval=FALSE}
+# First filter
+library(dplyr)
+set_SL=filter(irisd,SP=="setosa") %>% select(SL)
+versi_SL=filter(irisd,SP=="versicolor") %>% select(SL)
+virgi_SL=filter(irisd,SP=="virginica") %>% select(SL)
+
+# Convert them to vector
+set_SL=set_SL$SL
+versi_SL=versi_SL$SL;
+virgi_SL=virgi_SL$SL;
+
+
+# use density to plot
+plot(density(set_SL),xlim=c(4,10),lwd=2,xlab="Length (cm)",main="Prob. Density of Sepal Length across different flowers")
+lines(density(versi_SL),col="red",lwd=2)
+lines(density(virgi_SL),col="green",lwd=2)
+legend(8,1.2,lwd=2,c("Setosa","Versicolor","Virginica"),col=c("black","red","green"))
+```
+
+Plot6: 3D plot showing distinct clustering of flowers in terms of SL, SW and PL. Different colors for different plants.
+
+```{r, eval=FALSE}
+library(rgl)
+plot3d(irisd[,1:3],col=rep(c("red","green","blue"),each=50))
+```
+
+Plot7: Scatter plot matrix showing a global view of the distribution of SL, SW, PL and PW across 3 plants.
+
+```{r, eval=FALSE}
+pairs(irisd[,1:4],col=rep(c("red","green","blue"),each=50))
+```
+
+
+Plot8: Heatmap showing clustering of flowers in terms of their SL, SW, PL and PW properties.
+
+```{r, eval=FALSE}
+m=as.matrix(irisd[,1:4]);
+library("gplots")
+heatmap.2(m, trace="none")
+```
+
+Plot9: Pie chart showing the number of flowers in 6 categories (3 plants and 2 colors)
+
+```{r, eval=FALSE}
+#Subset species by colors
+library(dplyr)
+
+Set_B=filter(irisd, SP=="setosa" & Col=="Blue" )
+Set_R=filter(irisd, SP=="setosa" & Col=="Red" )
+Ver_B=filter(irisd, SP=="versicolor" & Col=="Blue" )
+Ver_R=filter(irisd, SP=="versicolor" & Col=="Red" )
+Vir_B=filter(irisd, SP=="virginica" & Col=="Blue" )
+Vir_R=filter(irisd, SP=="virginica" & Col=="Red" )
+
+#Create vector of counts in each subset
+irisp=c(nrow(Set_B),nrow(Set_R),nrow(Ver_B),nrow(Ver_R),nrow(Vir_B),nrow(Vir_R))
+
+pie(irisp, labels=irisp, col=c("Red", "Cyan", "yellow", "Blue", "Green", "Magenta"))
+legend(0.9,1,c("Set_B","Ver_B","Vir_B","Set_R","Ver_R","Vir_R"),pch=15, col=c("Red","Yellow","Green", "Cyan","Blue","Magenta"))
+```
+
+Plot10: Dot chart showing clear distribution of SL among 3 plants. 
+```{r, eval=FALSE}
+dotchart(irisd$SL,group=irisd$SP, main="Sepal Length across 3 Plants")
+```
+
+

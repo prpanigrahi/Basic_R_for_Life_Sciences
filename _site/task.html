@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Task</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Task</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="tasks" class="section level2">
+<h2>Tasks</h2>
+</div>
+<div id="vector-creation" class="section level2">
+<h2>Vector creation</h2>
+<ol style="list-style-type: decimal">
+<li>Create a vector x13 with values 2, 3, 4, 5, 6</li>
+<li>Create a vector x14 with values 2.0, 2.1, 2.2, 2.3, 2.4, .., 4</li>
+<li>Create a vector x15 with 10 random values between 4 and 6</li>
+<li>Create a vector x16 with repeated values 3, 4, 5, 3, 4, 5, 3, 4, 5</li>
+<li>Create x17 with repeated values 7,7,7,8,8,8,9,9,9</li>
+<li>Create a vector x18 with 10 random values between 20 and 30</li>
+<li>Create a vector x19 with 10 normally distributed random values</li>
+<li>Create a vector x20 with values of vectors x13 and x16 followed by 3, 5,10</li>
+</ol>
+</div>
+<div id="fetching-vector-elements" class="section level2">
+<h2>Fetching vector elements</h2>
+<ol start="9" style="list-style-type: decimal">
+<li>Create a vector x21 with values 33,55,66,88,99. Fetch its 3rd, 5th and 2nd values</li>
+<li>Fetch values of x21 from 1 to 4</li>
+<li>Fetch values of x21 vector excluding 2nd and 3rd elements 12 Fetch last element of x21 using length()</li>
+</ol>
+</div>
+<div id="vector-manipulation" class="section level2">
+<h2>Vector manipulation</h2>
+<ol start="13" style="list-style-type: decimal">
+<li>Create a vector x23 with values 5, 7, 6, 8, 1, 4. Delete 1st and last element. Reset the value of second element to 12. Add value 0 at the beginning of a vector x</li>
+</ol>
+</div>
+<div id="vector-arithmetic" class="section level2">
+<h2>Vector arithmetic</h2>
+<ol start="14" style="list-style-type: decimal">
+<li>Write the arithmetic expression to calculate variance of a vector. Cross check your result using var() function. Formula: Variance= sum((x-mean(x))^2) /n-1 where n is total number of elements.</li>
+<li>Given x, y, z coordinates of two atoms. Atom1 (1.2, 2.3, 3.4) and Atom2 (4.5, 5.6, 6.7). Find distance between 2 atoms. Formula: sqrt((x2-x1)<sup>2+(y2-y1)</sup>2+(z2-z1)^2)</li>
+<li>Find out the numbers between 1 to 100, which are divisible by 2 or 3.</li>
+</ol>
+</div>
+<div id="matrix" class="section level2">
+<h2>Matrix</h2>
+<ol start="17" style="list-style-type: decimal">
+<li>Create a matrix from a vector consisting of numbers from 1 to 12 with 3 columns</li>
+<li>Fetch 2nd row. Fetch 3rd column</li>
+<li>Fetch the value 6</li>
+<li>Fetch the value 8 and 12</li>
+<li>Fetch the value 7, 8, 11 and 12</li>
+</ol>
+</div>
+<div id="data-frame" class="section level2">
+<h2>Data Frame</h2>
+<ol start="22" style="list-style-type: decimal">
+<li>Create a data frame of gene expression data such that</li>
+</ol>
+<p>First column,“Genes”, is a character vector of 6 gene names (G1, G2, …, G6).</p>
+<p>Second column, “C1” is a numeric vector of 6 random values from 3 to 5.</p>
+<p>Hint: Generate random numbers using function sample(). Use R help to see the syntax of sample.</p>
+<p>Third column, “C2” is a numeric vector of 6 random values from 3 to 5.</p>
+<p>Fourth column, “T1” is a numeric vector of 6 random values from 5 to 7.</p>
+<p>Fifth column, “T2” is a numeric vector of 6 random values from 5 to 7.</p>
+<p>Sixth column, “Pathway” is a character vector of which first 3 represent one pathway “P1” and other 3 represent pathway “P2”.</p>
+<ol start="23" style="list-style-type: decimal">
+<li>Fetch values of column T2</li>
+<li>Fetch values of gene G2</li>
+<li>Fetch value of gene G3 from C2</li>
+<li>Delete column C2</li>
+<li>Insert column C3, which should be numeric vector of 6 random values from 3 to 5.</li>
+<li>Find mean of column C1</li>
+</ol>
+</div>
+<div id="tasks-on-iris-data-set" class="section level2">
+<h2>Tasks on Iris data set</h2>
+<ol style="list-style-type: decimal">
+<li>Open iris data set file using read.table() and store in a variable names “iris_data”</li>
+<li>Check the structure of “iris_data”. Note the column names. How many categories are there in column named as “Species”. Note the names of species.</li>
+<li>How many rows and columns are there?</li>
+<li>How many observations (rows) are there for each species?</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Number of rows with Species as setosa</li>
+<li>Number of rows with Species as virginica</li>
+<li>Number of rows with Species as versicolor</li>
+</ol>
+<ol start="5" style="list-style-type: decimal">
+<li>Find the mean of all sepal lengths.</li>
+<li>Find the mean of sepal lengths in Species setosa.</li>
+<li>What is the overall correlation between Sepal length and Petal length?</li>
+<li>What is the correlation between Sepal width and Petal width of Species virginica?</li>
+<li>Find the difference between sepal lengths of species setosa and versicolor. What is the mean difference between them?</li>
+<li>Carry out the t-test between sepal lengths of species setosa and versicolor. Is it statistically significant?</li>
+</ol>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>You are provided with an excel file “iris.xls”. The file contains IRIS data, 150 flowers, Categorized into 3 plants (SP:Setosa/Versicolor/Virginica) and two colors (Col:Red/Blue).</p>
+<p>The data consists of SL (Sepal length), SW (Sepal width), PL (Petal length) and PW (Petal width) in cm.</p>
+<div class="figure">
+<img src="image/casestudy_task_fig1.png" />
+
+</div>
+<p><br> <br> Task: Load the data in R using appropriate function and extract useful information by data visualization.</p>
+<div class="figure">
+<img src="image/casestudy_task_fig2.png" />
+
+</div>
+<ul>
+<li>Plot1: Scatter plot of Sepal length vs Petal length of all 150 flowers, color according to species/plants.</li>
+<li>Plot2: Barplot showing distribution of Sepal lengths among 6 classes of flowers (3 plants and 2 colors).</li>
+<li>Plot3: Multi panel plot showing the histogram of SL, PL, SW, PW of all 150 flowers.</li>
+<li>Plot4: Box plot showing SL, SW, PL, PW distribution along with a line joining their mean lengths.</li>
+</ul>
+<p><br> <br></p>
+<div class="figure">
+<img src="image/casestudy_task_fig3.png" />
+
+</div>
+<ul>
+<li>Plot5: Probability density plot of Sepal lengths among three different categories of plants.</li>
+<li>Plot6: 3D plot showing distinct clustering of flowers in terms of SL, SW and PL. Different colors for different plants.</li>
+</ul>
+<p><br> <br></p>
+<div class="figure">
+<img src="image/casestudy_task_fig5.png" />
+
+</div>
+<ul>
+<li>Plot7: Scatter plot matrix showing a global view of the distribution of SL, SW, PL and PW across 3 plants.</li>
+<li>Plot8: Heatmap showing clustering of flowers in terms of their SL, SW, PL and PW properties.</li>
+</ul>
+<p><br> <br></p>
+<div class="figure">
+<img src="image/casestudy_task_fig6.png" />
+
+</div>
+<ul>
+<li>Plot9: Pie chart showing the number of flowers in 6 categories (3 plants and 2 colors)</li>
+<li>Plot10: Dot chart showing clear distribution of SL among 3 plants.</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
