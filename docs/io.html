@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>File Import &amp; Export in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">File Import &amp; Export in R</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="input-files" class="section level2">
+<h2>Input files</h2>
+<p><a href="data/Day1/Input_1.txt">Input_1.txt</a><br />
+<a href="data/Day1/Input_2.txt">Input_2.txt</a><br />
+<a href="data/Day1/Input_3.txt">Input_3.txt</a><br />
+<a href="data/Day1/Input_4.txt">Input_4.txt</a> <a href="data/Day1/Input_3.xlsx">Input_3.xlsx</a><br />
+<a href="data/Day1/1BUW.pdb">1BUW.pdb</a></p>
+</div>
+<div id="read-tabular-data-using-read.table" class="section level2">
+<h2>Read tabular data using read.table()</h2>
+<p>If data is well structured in tabular form, we can use read.table() to read the data.</p>
+<div id="read-data" class="section level3">
+<h3>Read data</h3>
+<p>In file Input_1.txt all rows have equal numbers of columns. Each cell is separated by tab. Try ?read.table() to check the default values for arguments.</p>
+<p>Default: Header=FALSE, sep=&quot; “, stringsAsFactors=T</p>
+<pre class="r"><code>in1 = read.table(&quot;_site/data/Day1/Input_1.txt&quot;);
+in1; </code></pre>
+<pre><code>##             V1          V2           V3          V4      V5
+## 1 Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 2          5.1         3.5          1.4         0.2  setosa
+## 3          4.9           3          1.4         0.2  setosa
+## 4          4.7         3.2          1.3         0.2  setosa
+## 5          4.6         3.1          1.5         0.2  setosa
+## 6            5         3.6          1.4         0.2  setosa
+## 7          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in1);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    7 obs. of  5 variables:
+##  $ V1: Factor w/ 7 levels &quot;4.6&quot;,&quot;4.7&quot;,&quot;4.9&quot;,..: 7 5 3 2 1 4 6
+##  $ V2: Factor w/ 7 levels &quot;3&quot;,&quot;3.1&quot;,&quot;3.2&quot;,..: 7 4 1 3 2 5 6
+##  $ V3: Factor w/ 5 levels &quot;1.3&quot;,&quot;1.4&quot;,&quot;1.5&quot;,..: 5 2 2 1 3 2 4
+##  $ V4: Factor w/ 3 levels &quot;0.2&quot;,&quot;0.4&quot;,&quot;Petal.Width&quot;: 3 1 1 1 1 1 2
+##  $ V5: Factor w/ 2 levels &quot;setosa&quot;,&quot;Species&quot;: 2 1 1 1 1 1 1</code></pre>
+<p>We can see that header is considered as 1st row which is what we dont want.</p>
+</div>
+<div id="headertrue" class="section level3">
+<h3>header=TRUE</h3>
+<pre class="r"><code>in2 = read.table(&quot;_site/data/Day1/Input_1.txt&quot;, header = TRUE);
+in2; </code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in2);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4
+##  $ Species     : Factor w/ 1 level &quot;setosa&quot;: 1 1 1 1 1 1</code></pre>
+<p>Header=T allows to read first row in a file as column names vector.</p>
+<p>Note the structure of in2. The first four columns are numeric as expected. But Species column has been considered as factors. Species column is considered as factor (categorical variable). If we dont want to read character data type as factor, we can explore stringsAsFactors = FALSE parameter, as shown below.</p>
+</div>
+<div id="stringsasfactors-false" class="section level3">
+<h3>stringsAsFactors = FALSE</h3>
+<pre class="r"><code>in3 = read.table(&quot;_site/data/Day1/Input_1.txt&quot;, header = TRUE, stringsAsFactors = FALSE);
+in3; </code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in3);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4
+##  $ Species     : chr  &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; ...</code></pre>
+<p>stringsAsFactors=F disables factor formatting of character columns. Check the data types of Species (chr). The first four columns are numeric. Now Species column has been considered as a character vector.</p>
+</div>
+<div id="other-useful-parameters" class="section level3">
+<h3>Other useful parameters:</h3>
+<ul>
+<li>sep = “”</li>
+<li>comment.char = “#”</li>
+<li>na.strings = “NA”</li>
+<li>quote = “&quot;’”</li>
+<li>row.names</li>
+<li>col.names</li>
+<li>blank.lines.skip = TRUE</li>
+</ul>
+</div>
+<div id="read-file-with-unequal-columns-in-first-row-using-read.table." class="section level3">
+<h3>Read file with unequal columns in first row using read.table.</h3>
+<p>Note that in file Input_2.txt, first row has 5 column fields while remaining rows have 6 fields/values i.e. first row has one column less than other rows. Under such format Header is automatically set to TRUE by read.table(). So in the below code, we didnt specify header=TRUE (optional here).</p>
+<pre class="r"><code>in4 = read.table(&quot;_site/data/Day1/Input_2.txt&quot;, stringsAsFactors = FALSE);
+in4;</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in4);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4
+##  $ Species     : chr  &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; ...</code></pre>
+</div>
+<div id="read-file-consisting-of-comments-blank-lines-null-values" class="section level3">
+<h3>Read file consisting of comments, blank lines, null values</h3>
+<p>Default arguments: skip=0, comment.char=“#”, na.strings=“NA”</p>
+<p>Please note that in file Input_3.txt consists of</p>
+<ul>
+<li>First two lines inserted by author but are not required for processing data.</li>
+<li>2 comment lines starting with character “!”</li>
+<li>1 blank line</li>
+<li>Row 3 has one missing value shown by NULL</li>
+<li>First row has 5 columns while remaining rows havecolumns. Under such input format Header is set to TRUE by read.table().</li>
+</ul>
+<pre class="r"><code>in5 = read.table(&quot;_site/data/Day1/Input_3.txt&quot;, stringsAsFactors = FALSE, comment.char = &quot;!&quot;, na.strings = NULL, skip=2);
+in5;</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3         NULL         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5            5         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in5);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: chr  &quot;5.1&quot; &quot;4.9&quot; &quot;NULL&quot; &quot;4.6&quot; ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4
+##  $ Species     : chr  &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; ...</code></pre>
+<ul>
+<li>skip=2 removes first two lines not required for processing data by R.<br />
+</li>
+<li>comment.char=“!”, instructs R to exclude lines starting with “!”. Default comment.char=“#”<br />
+</li>
+<li>na.strings= “NULL” allows R to interpret NULL values as missing or NA characters, which will be helpful to remove such rows by na.omit() function. Default na.strings= “NA”.</li>
+</ul>
+</div>
+</div>
+<div id="read-csv-file-read.csv" class="section level2">
+<h2>Read csv file read.csv()</h2>
+<p>Please note that values in file Input_4.txt are separated by comma, “,” and all rows have equal number of columns. See help for read.csv to check the default values for arguments. Default Header=TRUE, sep=“,”</p>
+<pre class="r"><code>in7= read.csv(&quot;_site/data/Day1/Input_4.txt&quot;, stringsAsFactors = FALSE, comment.char = &quot;!&quot;, na.strings = NULL, skip=2);
+in7;</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5        NULL  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(in7);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : chr  &quot;0.2&quot; &quot;0.2&quot; &quot;0.2&quot; &quot;NULL&quot; ...
+##  $ Species     : chr  &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; &quot;setosa&quot; ...</code></pre>
+</div>
+<div id="reading-data-from-excel-file" class="section level2">
+<h2>Reading data from excel file</h2>
+<p>We need to use gdata package to read excel file. To use, we must have perl installed in the system.</p>
+<pre class="r"><code>library(&quot;gdata&quot;);</code></pre>
+<pre><code>## Warning: package &#39;gdata&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## gdata: read.xls support for &#39;XLS&#39; (Excel 97-2004) files ENABLED.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## gdata: read.xls support for &#39;XLSX&#39; (Excel 2007+) files ENABLED.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;gdata&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     combine, first, last</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     nobs</code></pre>
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
+## 
+##     object.size</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     startsWith</code></pre>
+<pre class="r"><code>xl=read.xls(&quot;_site/data/Day1/Input_3.xlsx&quot;, sheet=1);
+xl;</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<pre class="r"><code>str(xl);</code></pre>
+<pre><code>## &#39;data.frame&#39;:    6 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4
+##  $ Species     : Factor w/ 1 level &quot;setosa&quot;: 1 1 1 1 1 1</code></pre>
+<p>library(gdata) loads the gdata package to access read.xls() function. sheet option allows to choose sheet from input excel file.</p>
+</div>
+<div id="read-data-using-readlines" class="section level2">
+<h2>Read data using readLines()</h2>
+<p>By default readLines() read all the lines of a file. It returns a character vector. Check the str(ln). n=10 allows to read first 10 lines.</p>
+<pre class="r"><code>pdb=readLines(&quot;_site/data/Day1/1BUW.pdb&quot;);
+str(pdb);</code></pre>
+<pre><code>##  chr [1:5484] &quot;HEADER    OXYGEN STORAGE/TRANSPORT                06-SEP-98   1BUW              &quot; ...</code></pre>
+<pre class="r"><code>pdb=readLines(&quot;_site/data/Day1/1BUW.pdb&quot;, n=10);
+pdb;</code></pre>
+<pre><code>##  [1] &quot;HEADER    OXYGEN STORAGE/TRANSPORT                06-SEP-98   1BUW              &quot;
+##  [2] &quot;TITLE     CRYSTAL STRUCTURE OF S-NITROSO-NITROSYL HUMAN HEMOGLOBIN A            &quot;
+##  [3] &quot;COMPND    MOL_ID: 1;                                                            &quot;
+##  [4] &quot;COMPND   2 MOLECULE: PROTEIN (HEMOGLOBIN);                                      &quot;
+##  [5] &quot;COMPND   3 CHAIN: A, C;                                                         &quot;
+##  [6] &quot;COMPND   4 SYNONYM: S-NITROSO-NITROSYLHB;                                       &quot;
+##  [7] &quot;COMPND   5 OTHER_DETAILS: THE SULFHYDRYL GROUPS OF CYSTEINE 93 OF               &quot;
+##  [8] &quot;COMPND   6 BETA SUBUNITS ARE S-NITROSYLATED. THE HEME GROUPS ARE                &quot;
+##  [9] &quot;COMPND   7 NITROSYLATED.;                                                       &quot;
+## [10] &quot;COMPND   8 MOL_ID: 2;                                                           &quot;</code></pre>
+</div>
+<div id="read-data-using-clipboard-feature" class="section level2">
+<h2>Read data using clipboard feature</h2>
+<p>Read copied text using clipboard</p>
+<pre class="r"><code>data=read.table(&quot;clipboard&quot;);</code></pre>
+</div>
+<div id="view-data-frame-using-view" class="section level2">
+<h2>View data frame using View()</h2>
+<pre class="r"><code>View(in1);</code></pre>
+</div>
+<div id="edit-data-frame-using-edit" class="section level2">
+<h2>Edit data frame using edit()</h2>
+<pre class="r"><code>edit(in1);</code></pre>
+</div>
+<div id="write-r-data-frames-in-a-file-using-write.table" class="section level2">
+<h2>Write R data frames in a file using write.table()</h2>
+<pre class="r"><code>write.table(in1, file=&quot;result.txt&quot;, sep=&quot;\t&quot;, eol=&quot;\n&quot;, quote=FALSE, row.names=FALSE, append = FALSE);</code></pre>
+<div id="write-using-cat" class="section level3">
+<h3>Write using cat()</h3>
+<pre class="r"><code>cat(&quot;Hello&quot;, file=&quot;result.txt&quot;);</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

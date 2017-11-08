@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Bioconductor</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Bioconductor</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The purpose of this section is to introduce you about the steps to install any R package from Bioconductor repository. We will demonstrate the installation and usage of Maftools package.</p>
+<p>Bioconductor provides tools for the analysis and comprehension of high-throughput genomic data. Bioconductor uses the R statistical programming language, and is open source and open development. It has two releases each year, 1383 software packages, and an active user community.</p>
+<p>Website: <a href="https://www.bioconductor.org/" class="uri">https://www.bioconductor.org/</a></p>
+<div id="install" class="section level3">
+<h3>Install</h3>
+<p><strong>How to install Bioconductor</strong><br />
+Open R and type following commands. You must be connected to internet.<br />
+source(“<a href="https://bioconductor.org/biocLite.R" class="uri">https://bioconductor.org/biocLite.R</a>”)<br />
+biocLite()</p>
+<p><strong>How to install bioconductor packages </strong> biocLite(c(“GenomicFeatures”, “AnnotationDbi”))</p>
+<p>Further details <a href="https://www.bioconductor.org/install/" class="uri">https://www.bioconductor.org/install/</a></p>
+</div>
+<div id="explore-bioconductor-tutorials" class="section level3">
+<h3>Explore Bioconductor Tutorials</h3>
+<p><a href="https://www.bioconductor.org/help/workflows/" class="uri">https://www.bioconductor.org/help/workflows/</a></p>
+</div>
+<div id="explore-course-and-conferences-materials" class="section level3">
+<h3>Explore course and conferences materials</h3>
+<p><a href="https://www.bioconductor.org/help/course-materials/" class="uri">https://www.bioconductor.org/help/course-materials/</a></p>
+</div>
+<div id="explore-and-search-for-package-using-biocviews" class="section level3">
+<h3>Explore and Search for package using BiocViews</h3>
+<p>BiocViews allows you to browse through packages avaiable in Bioconductor. Packages are organized under different categories which will allow you to search easily.</p>
+<p><a href="https://www.bioconductor.org/packages/release/BiocViews.html#___Software" class="uri">https://www.bioconductor.org/packages/release/BiocViews.html#___Software</a></p>
+</div>
+<div id="bioconductor-forum" class="section level3">
+<h3>Bioconductor Forum</h3>
+<p><a href="https://support.bioconductor.org/" class="uri">https://support.bioconductor.org/</a></p>
+<p>Here you can ask questions.</p>
+</div>
+</div>
+<div id="explore-maftools" class="section level2">
+<h2>Explore Maftools</h2>
+<p>For demo purpose we will explore maftools [1].</p>
+<p>Suppose you are doing a large scale sequencing project where you have done whole genome sequencing for ~100 patients and you have carried out variant detection pipeline to obtain variants (SNPs, Indels) in each sample. The variant information from each patient is aggregated in MAF file (Mutation Annotation Format. Now you want to analyze this MAF file. You searched in bioconductor for any pacakge that can help you to analyze MAF file and you came across maftools.</p>
+<div id="about-maftools" class="section level3">
+<h3>About MAFtools</h3>
+<p>With advances in Cancer Genomics, Mutation Annotation Format (MAF) is being widley accepted and used to store somatic variants detected. The Cancer Genome Atlas Project has seqenced over 30 different cancers with sample size of each cancer type being over 200. Resulting data consisting of somatic variants are stored in the form of Mutation Annotation Format. This package attempts to summarize, analyze, annotate and visualize MAF files in an efficient manner from either TCGA sources or any in-house studies as long as the data is in MAF format [2].</p>
+</div>
+<div id="about-maf-file" class="section level3">
+<h3>About MAF file</h3>
+<p>MAF files contain many fields ranging from chromosome names to cosmic annotations. However most of the analysis in maftools uses following fields.</p>
+<p>Mandatoty fields: Hugo_Symbol, Chromosome, Start_Position, End_Position, Variant_Classification, Variant_Type and Tumor_Sample_Barcode.</p>
+<p>Complete specififcation of MAF files can be found on <a href="https://wiki.nci.nih.gov/display/TCGA/Mutation+Annotation+Format+(MAF)+Specification">NCI TCGA page</a>.</p>
+</div>
+<div id="install-maftools." class="section level3">
+<h3>Install maftools.</h3>
+<p>source(“<a href="https://bioconductor.org/biocLite.R" class="uri">https://bioconductor.org/biocLite.R</a>”)<br />
+biocLite(“maftools”)</p>
+</div>
+<div id="load-maftools-library" class="section level3">
+<h3>Load maftools library</h3>
+<pre class="r"><code>library(maftools);</code></pre>
+</div>
+<div id="read-example-maf-file" class="section level3">
+<h3>Read example maf file</h3>
+<pre class="r"><code># laml file path
+laml.maf = system.file(&#39;extdata&#39;, &#39;tcga_laml.maf.gz&#39;, package = &#39;maftools&#39;);
+# read laml maf file
+laml = read.maf(maf = laml.maf, removeSilent = TRUE, useAll = FALSE);</code></pre>
+<pre><code>## reading maf..</code></pre>
+<pre><code>## Mutation_Status not found. Assuming all variants are Somatic and validated.</code></pre>
+<pre><code>## Excluding 475 silent variants.</code></pre>
+<pre><code>##         ID   N
+## 1: Samples 157
+## 2: 5&#39;Flank   3
+## 3:     IGR   5
+## 4:  Intron   8
+## 5:     RNA  10
+## 6:  Silent 449</code></pre>
+<pre><code>## Creating oncomatrix (this might take a while)..</code></pre>
+<pre><code>## Sorting..</code></pre>
+<pre><code>## Summarizing..</code></pre>
+<pre><code>##                    ID          summary       Mean Median
+##  1:        NCBI_Build               37         NA     NA
+##  2:            Center genome.wustl.edu         NA     NA
+##  3:           Samples              192         NA     NA
+##  4:            nGenes             1241         NA     NA
+##  5:   Frame_Shift_Del               52 0.27083333      0
+##  6:   Frame_Shift_Ins               91 0.47395833      0
+##  7:      In_Frame_Del               10 0.05208333      0
+##  8:      In_Frame_Ins               42 0.21875000      0
+##  9: Missense_Mutation             1342 6.98958333      7
+## 10: Nonsense_Mutation              103 0.53645833      0
+## 11:       Splice_Site               92 0.47916667      0
+## 12:             total             1732 9.02083333      9</code></pre>
+<pre><code>## Frequently mutated genes..</code></pre>
+<pre><code>##       Hugo_Symbol Frame_Shift_Del Frame_Shift_Ins In_Frame_Del
+##    1:        FLT3               0               0            1
+##    2:      DNMT3A               4               0            0
+##    3:        NPM1               0              33            0
+##    4:        IDH2               0               0            0
+##    5:        IDH1               0               0            0
+##   ---                                                         
+## 1237:      ZNF689               0               0            0
+## 1238:      ZNF75D               0               0            0
+## 1239:      ZNF827               1               0            0
+## 1240:       ZNF99               0               0            0
+## 1241:        ZPBP               0               0            0
+##       In_Frame_Ins Missense_Mutation Nonsense_Mutation Splice_Site total
+##    1:           33                15                 0           3    52
+##    2:            0                39                 5           6    54
+##    3:            0                 1                 0           0    34
+##    4:            0                20                 0           0    20
+##    5:            0                18                 0           0    18
+##   ---                                                                   
+## 1237:            0                 1                 0           0     1
+## 1238:            0                 1                 0           0     1
+## 1239:            0                 0                 0           0     1
+## 1240:            0                 1                 0           0     1
+## 1241:            0                 1                 0           0     1
+##       MutatedSamples
+##    1:             52
+##    2:             48
+##    3:             33
+##    4:             20
+##    5:             18
+##   ---               
+## 1237:              1
+## 1238:              1
+## 1239:              1
+## 1240:              1
+## 1241:              1</code></pre>
+<pre><code>## Done !</code></pre>
+</div>
+<div id="print-maf-object" class="section level3">
+<h3>Print maf object</h3>
+<p>Summarized MAF file is stored as an MAF object. MAF object contains main maf file, summarized data and an oncomatrix which is useful to plot oncoplots (aka waterfall plots).</p>
+<pre class="r"><code>laml;</code></pre>
+<pre><code>## An object of class  MAF 
+##                    ID          summary       Mean Median
+##  1:        NCBI_Build               37         NA     NA
+##  2:            Center genome.wustl.edu         NA     NA
+##  3:           Samples              192         NA     NA
+##  4:            nGenes             1241         NA     NA
+##  5:   Frame_Shift_Del               52 0.27083333      0
+##  6:   Frame_Shift_Ins               91 0.47395833      0
+##  7:      In_Frame_Del               10 0.05208333      0
+##  8:      In_Frame_Ins               42 0.21875000      0
+##  9: Missense_Mutation             1342 6.98958333      7
+## 10: Nonsense_Mutation              103 0.53645833      0
+## 11:       Splice_Site               92 0.47916667      0
+## 12:             total             1732 9.02083333      9</code></pre>
+</div>
+<div id="structure-of-maf-object" class="section level3">
+<h3>Structure of maf object</h3>
+<pre class="r"><code>str(laml);</code></pre>
+<pre><code>## Formal class &#39;MAF&#39; [package &quot;maftools&quot;] with 10 slots
+##   ..@ data                          :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  1732 obs. of  17 variables:
+##   .. ..$ Hugo_Symbol           : chr [1:1732] &quot;ABCA10&quot; &quot;ABCA4&quot; &quot;ABCB11&quot; &quot;ABCC3&quot; ...
+##   .. ..$ Entrez_Gene_Id        : int [1:1732] 10349 24 8647 8714 23 64137 64241 25 55289 92370 ...
+##   .. ..$ Center                : chr [1:1732] &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; ...
+##   .. ..$ NCBI_Build            : int [1:1732] 37 37 37 37 37 37 37 37 37 37 ...
+##   .. ..$ Chromosome            : int [1:1732] 17 1 2 17 6 11 2 9 2 3 ...
+##   .. ..$ Start_Position        : int [1:1732] 67170917 94490594 169780250 48760974 30554429 119031351 44079555 133760430 111542370 141011154 ...
+##   .. ..$ End_Position          : int [1:1732] 67170917 94490594 169780250 48760974 30554429 119031351 44079555 133760430 111542370 141011154 ...
+##   .. ..$ Strand                : chr [1:1732] &quot;+&quot; &quot;+&quot; &quot;+&quot; &quot;+&quot; ...
+##   .. ..$ Variant_Classification: Factor w/ 7 levels &quot;Frame_Shift_Del&quot;,..: 7 5 5 5 5 5 5 5 5 5 ...
+##   .. ..$ Variant_Type          : Factor w/ 3 levels &quot;DEL&quot;,&quot;INS&quot;,&quot;SNP&quot;: 3 3 3 3 3 3 3 3 3 3 ...
+##   .. ..$ Reference_Allele      : chr [1:1732] &quot;T&quot; &quot;C&quot; &quot;G&quot; &quot;C&quot; ...
+##   .. ..$ Tumor_Seq_Allele1     : chr [1:1732] &quot;T&quot; &quot;C&quot; &quot;G&quot; &quot;C&quot; ...
+##   .. ..$ Tumor_Seq_Allele2     : chr [1:1732] &quot;C&quot; &quot;T&quot; &quot;A&quot; &quot;T&quot; ...
+##   .. ..$ Tumor_Sample_Barcode  : Factor w/ 192 levels &quot;TCGA.AB.2802&quot;,..: 171 63 190 81 111 125 96 182 140 114 ...
+##   .. ..$ Protein_Change        : chr [1:1732] &quot;p.K960R&quot; &quot;p.R1517H&quot; &quot;p.A1283V&quot; &quot;p.P1271S&quot; ...
+##   .. ..$ i_TumorVAF_WU         : num [1:1732] 45.7 38.1 47 56.4 41 ...
+##   .. ..$ i_transcript_name     : chr [1:1732] &quot;NM_080282.3&quot; &quot;NM_000350.2&quot; &quot;NM_003742.2&quot; &quot;NM_003786.1&quot; ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   .. ..- attr(*, &quot;index&quot;)= atomic (0) 
+##   .. .. ..- attr(*, &quot;__Variant_Type&quot;)= int [1:1732] 34 62 64 72 82 89 115 118 160 178 ...
+##   ..@ variants.per.sample           :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  192 obs. of  2 variables:
+##   .. ..$ Tumor_Sample_Barcode: Factor w/ 192 levels &quot;TCGA.AB.2802&quot;,..: 190 6 146 185 114 155 45 103 118 71 ...
+##   .. ..$ Variants            : int [1:192] 34 25 23 21 20 20 20 19 18 18 ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   ..@ variant.type.summary          :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  192 obs. of  5 variables:
+##   .. ..$ Tumor_Sample_Barcode: Factor w/ 192 levels &quot;TCGA.AB.2802&quot;,..: 190 6 146 185 45 114 155 103 71 118 ...
+##   .. ..$ DEL                 : int [1:192] 0 2 0 0 0 1 0 0 0 0 ...
+##   .. ..$ INS                 : int [1:192] 6 0 0 0 1 1 1 1 1 2 ...
+##   .. ..$ SNP                 : int [1:192] 28 23 23 21 19 18 19 18 17 16 ...
+##   .. ..$ total               : num [1:192] 34 25 23 21 20 20 20 19 18 18 ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   ..@ variant.classification.summary:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  192 obs. of  9 variables:
+##   .. ..$ Tumor_Sample_Barcode: Factor w/ 192 levels &quot;TCGA.AB.2802&quot;,..: 190 6 146 185 45 114 155 103 71 118 ...
+##   .. ..$ Frame_Shift_Del     : int [1:192] 0 1 0 0 0 1 0 0 0 0 ...
+##   .. ..$ Frame_Shift_Ins     : int [1:192] 5 0 0 0 1 1 1 1 0 2 ...
+##   .. ..$ In_Frame_Del        : int [1:192] 0 1 0 0 0 0 0 0 0 0 ...
+##   .. ..$ In_Frame_Ins        : int [1:192] 1 0 0 0 0 0 0 0 1 0 ...
+##   .. ..$ Missense_Mutation   : int [1:192] 25 16 22 15 16 15 16 15 17 11 ...
+##   .. ..$ Nonsense_Mutation   : int [1:192] 2 3 0 1 1 3 2 1 0 2 ...
+##   .. ..$ Splice_Site         : int [1:192] 1 4 1 5 2 0 1 2 0 3 ...
+##   .. ..$ total               : num [1:192] 34 25 23 21 20 20 20 19 18 18 ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   ..@ gene.summary                  :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  1241 obs. of  10 variables:
+##   .. ..$ Hugo_Symbol      : chr [1:1241] &quot;FLT3&quot; &quot;DNMT3A&quot; &quot;NPM1&quot; &quot;IDH2&quot; ...
+##   .. ..$ Frame_Shift_Del  : int [1:1241] 0 4 0 0 0 10 1 2 0 6 ...
+##   .. ..$ Frame_Shift_Ins  : int [1:1241] 0 0 33 0 0 4 3 2 0 2 ...
+##   .. ..$ In_Frame_Del     : int [1:1241] 1 0 0 0 0 0 1 0 0 2 ...
+##   .. ..$ In_Frame_Ins     : int [1:1241] 33 0 0 0 0 0 0 0 0 6 ...
+##   .. ..$ Missense_Mutation: int [1:1241] 15 39 1 20 18 4 8 11 15 2 ...
+##   .. ..$ Nonsense_Mutation: int [1:1241] 0 5 0 0 0 8 5 1 0 1 ...
+##   .. ..$ Splice_Site      : int [1:1241] 3 6 0 0 0 1 1 3 0 0 ...
+##   .. ..$ total            : num [1:1241] 52 54 34 20 18 27 19 19 15 19 ...
+##   .. ..$ MutatedSamples   : int [1:1241] 52 48 33 20 18 17 16 15 15 13 ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   ..@ oncoMatrix                    : chr [1:1241, 1:192] &quot;Missense_Mutation&quot; &quot;Missense_Mutation&quot; &quot;Frame_Shift_Ins&quot; &quot;&quot; ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:1241] &quot;FLT3&quot; &quot;DNMT3A&quot; &quot;NPM1&quot; &quot;IDH2&quot; ...
+##   .. .. ..$ : chr [1:192] &quot;TCGA.AB.2945&quot; &quot;TCGA.AB.2965&quot; &quot;TCGA.AB.2993&quot; &quot;TCGA.AB.2869&quot; ...
+##   ..@ numericMatrix                 : num [1:1241, 1:192] 2 2 5 0 2 0 0 0 0 0 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:1241] &quot;FLT3&quot; &quot;DNMT3A&quot; &quot;NPM1&quot; &quot;IDH2&quot; ...
+##   .. .. ..$ : chr [1:192] &quot;TCGA.AB.2945&quot; &quot;TCGA.AB.2965&quot; &quot;TCGA.AB.2993&quot; &quot;TCGA.AB.2869&quot; ...
+##   ..@ summary                       :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  12 obs. of  4 variables:
+##   .. ..$ ID     : chr [1:12] &quot;NCBI_Build&quot; &quot;Center&quot; &quot;Samples&quot; &quot;nGenes&quot; ...
+##   .. ..$ summary: chr [1:12] &quot;37&quot; &quot;genome.wustl.edu&quot; &quot;192&quot; &quot;1241&quot; ...
+##   .. ..$ Mean   : num [1:12] NA NA NA NA 0.271 ...
+##   .. ..$ Median : num [1:12] NA NA NA NA 0 0 0 0 7 0 ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+##   ..@ classCode                     : Named chr [1:9] &quot;&quot; &quot;Splice_Site&quot; &quot;Missense_Mutation&quot; &quot;Frame_Shift_Del&quot; ...
+##   .. ..- attr(*, &quot;names&quot;)= chr [1:9] &quot;0&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot; ...
+##   ..@ maf.silent                    :Classes &#39;data.table&#39; and &#39;data.frame&#39;:  475 obs. of  17 variables:
+##   .. ..$ Hugo_Symbol           : chr [1:475] &quot;ABCC11&quot; &quot;ACAN&quot; &quot;ACAT1&quot; &quot;ACCN2&quot; ...
+##   .. ..$ Entrez_Gene_Id        : int [1:475] 85320 176 38 41 59 284382 8728 56999 111 83440 ...
+##   .. ..$ Center                : chr [1:475] &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; &quot;genome.wustl.edu&quot; ...
+##   .. ..$ NCBI_Build            : int [1:475] 37 37 37 37 37 37 37 37 37 37 ...
+##   .. ..$ Chromosome            : int [1:475] 16 15 11 12 10 19 5 3 3 15 ...
+##   .. ..$ Start_Position        : int [1:475] 48244997 89401084 108009744 50452780 90695109 8808551 156920098 64532572 123071312 73045153 ...
+##   .. ..$ End_Position          : int [1:475] 48244997 89401084 108009744 50452780 90695109 8808551 156920098 64532572 123071312 73045153 ...
+##   .. ..$ Strand                : chr [1:475] &quot;+&quot; &quot;+&quot; &quot;+&quot; &quot;+&quot; ...
+##   .. ..$ Variant_Classification: chr [1:475] &quot;Silent&quot; &quot;Silent&quot; &quot;Silent&quot; &quot;Silent&quot; ...
+##   .. ..$ Variant_Type          : chr [1:475] &quot;SNP&quot; &quot;SNP&quot; &quot;SNP&quot; &quot;SNP&quot; ...
+##   .. ..$ Reference_Allele      : chr [1:475] &quot;G&quot; &quot;C&quot; &quot;T&quot; &quot;C&quot; ...
+##   .. ..$ Tumor_Seq_Allele1     : chr [1:475] &quot;G&quot; &quot;C&quot; &quot;T&quot; &quot;C&quot; ...
+##   .. ..$ Tumor_Seq_Allele2     : chr [1:475] &quot;A&quot; &quot;T&quot; &quot;G&quot; &quot;G&quot; ...
+##   .. ..$ Tumor_Sample_Barcode  : chr [1:475] &quot;TCGA.AB.2830&quot; &quot;TCGA.AB.2898&quot; &quot;TCGA.AB.2887&quot; &quot;TCGA.AB.3009&quot; ...
+##   .. ..$ Protein_Change        : chr [1:475] &quot;p.I490I&quot; &quot;p.S1756S&quot; &quot;p.T185T&quot; &quot;p.L77L&quot; ...
+##   .. ..$ i_TumorVAF_WU         : num [1:475] 34.27 38.3 49.04 48.1 0.201 ...
+##   .. ..$ i_transcript_name     : chr [1:475] &quot;NM_032583.3&quot; &quot;NM_013227.2&quot; &quot;NM_000019.3&quot; &quot;NM_020039.2&quot; ...
+##   .. ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+</div>
+<div id="shows-sample-summry." class="section level3">
+<h3>Shows sample summry.</h3>
+<pre class="r"><code>getSampleSummary(laml);</code></pre>
+<pre><code>##      Tumor_Sample_Barcode Frame_Shift_Del Frame_Shift_Ins In_Frame_Del
+##   1:         TCGA.AB.3009               0               5            0
+##   2:         TCGA.AB.2807               1               0            1
+##   3:         TCGA.AB.2959               0               0            0
+##   4:         TCGA.AB.3002               0               0            0
+##   5:         TCGA.AB.2849               0               1            0
+##  ---                                                                  
+## 188:         TCGA.AB.2933               0               0            0
+## 189:         TCGA.AB.2942               0               0            0
+## 190:         TCGA.AB.2946               0               0            0
+## 191:         TCGA.AB.2954               0               0            0
+## 192:         TCGA.AB.2982               0               0            0
+##      In_Frame_Ins Missense_Mutation Nonsense_Mutation Splice_Site total
+##   1:            1                25                 2           1    34
+##   2:            0                16                 3           4    25
+##   3:            0                22                 0           1    23
+##   4:            0                15                 1           5    21
+##   5:            0                16                 1           2    20
+##  ---                                                                   
+## 188:            0                 1                 0           0     1
+## 189:            1                 0                 0           0     1
+## 190:            0                 1                 0           0     1
+## 191:            0                 1                 0           0     1
+## 192:            0                 1                 0           0     1</code></pre>
+</div>
+<div id="show-frequently-mutated-genes." class="section level3">
+<h3>Show frequently mutated genes.</h3>
+<pre class="r"><code>getGeneSummary(laml);</code></pre>
+<pre><code>##       Hugo_Symbol Frame_Shift_Del Frame_Shift_Ins In_Frame_Del
+##    1:        FLT3               0               0            1
+##    2:      DNMT3A               4               0            0
+##    3:        NPM1               0              33            0
+##    4:        IDH2               0               0            0
+##    5:        IDH1               0               0            0
+##   ---                                                         
+## 1237:      ZNF689               0               0            0
+## 1238:      ZNF75D               0               0            0
+## 1239:      ZNF827               1               0            0
+## 1240:       ZNF99               0               0            0
+## 1241:        ZPBP               0               0            0
+##       In_Frame_Ins Missense_Mutation Nonsense_Mutation Splice_Site total
+##    1:           33                15                 0           3    52
+##    2:            0                39                 5           6    54
+##    3:            0                 1                 0           0    34
+##    4:            0                20                 0           0    20
+##    5:            0                18                 0           0    18
+##   ---                                                                   
+## 1237:            0                 1                 0           0     1
+## 1238:            0                 1                 0           0     1
+## 1239:            0                 0                 0           0     1
+## 1240:            0                 1                 0           0     1
+## 1241:            0                 1                 0           0     1
+##       MutatedSamples
+##    1:             52
+##    2:             48
+##    3:             33
+##    4:             20
+##    5:             18
+##   ---               
+## 1237:              1
+## 1238:              1
+## 1239:              1
+## 1240:              1
+## 1241:              1</code></pre>
+</div>
+<div id="shows-all-fields-in-maf" class="section level3">
+<h3>Shows all fields in MAF</h3>
+<pre class="r"><code>getFields(laml);</code></pre>
+<pre><code>##  [1] &quot;Hugo_Symbol&quot;            &quot;Entrez_Gene_Id&quot;        
+##  [3] &quot;Center&quot;                 &quot;NCBI_Build&quot;            
+##  [5] &quot;Chromosome&quot;             &quot;Start_Position&quot;        
+##  [7] &quot;End_Position&quot;           &quot;Strand&quot;                
+##  [9] &quot;Variant_Classification&quot; &quot;Variant_Type&quot;          
+## [11] &quot;Reference_Allele&quot;       &quot;Tumor_Seq_Allele1&quot;     
+## [13] &quot;Tumor_Seq_Allele2&quot;      &quot;Tumor_Sample_Barcode&quot;  
+## [15] &quot;Protein_Change&quot;         &quot;i_TumorVAF_WU&quot;         
+## [17] &quot;i_transcript_name&quot;</code></pre>
+</div>
+<div id="plotting-maf-summary" class="section level3">
+<h3>Plotting MAF summary</h3>
+<pre class="r"><code>plotmafSummary(maf = laml, rmOutlier = TRUE, addStat = &#39;median&#39;, dashboard = TRUE);</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="bioconductor_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="oncoplots" class="section level3">
+<h3>Oncoplots</h3>
+<pre class="r"><code>#We will draw oncoplots for top ten mutated genes. (Removing non-mutated samples from the plot for better visualization)
+oncoplot(maf = laml, top = 10, removeNonMutated = TRUE);</code></pre>
+<p><img src="bioconductor_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="transition-and-transversions." class="section level3">
+<h3>Transition and Transversions.</h3>
+<pre class="r"><code>laml.titv = titv(maf = laml, plot = FALSE, useSyn = TRUE);
+#plot titv summary
+plotTiTv(res = laml.titv);</code></pre>
+<p><img src="bioconductor_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+<div id="explore-cummerbund-for-diffrential-gene-expression-analysis" class="section level2">
+<h2>Explore cummeRbund for Diffrential Gene Expression Analysis</h2>
+<p>cummeRbund: Allows for persistent storage, access, exploration, and manipulation of Cufflinks high-throughput sequencing data. In addition, provides numerous plotting functions for commonly used visualizations.</p>
+<p><a href="https://bioconductor.org/packages/release/bioc/html/cummeRbund.html" class="uri">https://bioconductor.org/packages/release/bioc/html/cummeRbund.html</a></p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ol style="list-style-type: decimal">
+<li><a href="https://bioconductor.org/packages/release/bioc/html/maftools.html" class="uri">https://bioconductor.org/packages/release/bioc/html/maftools.html</a></li>
+<li>Mayakonda, A. &amp; Koeffler, H.P. Maftools: Efficient analysis, visualization and summarization of MAF files from large-scale cohort based cancer studies. bioRxiv (2016). doi: <a href="http://dx.doi.org/10.1101/052662" class="uri">http://dx.doi.org/10.1101/052662</a></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

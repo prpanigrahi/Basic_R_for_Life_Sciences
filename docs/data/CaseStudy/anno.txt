@@ -1,0 +1,492 @@
+Gene	Annotation	Accession
+G1	heat shock 90kDa protein 1, beta /// heat shock 90kDa protein 1, beta	AF275719
+G2	squamous cell carcinoma antigen recognised by T cells 3 /// squamous cell carcinoma antigen recognised by T cells 3	AI656011
+G3	heterogeneous nuclear ribonucleoprotein M /// heterogeneous nuclear ribonucleoprotein M	AF061832
+G4	heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa) /// heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa)	M94630
+G5	tryptophanyl-tRNA synthetase	NM_004184
+G6	splicing factor, arginine/serine-rich 11	NM_004768
+G7	heat shock 70kDa protein 9B (mortalin-2)	AA927701
+G8	hexokinase 1	NM_000188
+G9	splicing factor, arginine/serine-rich 2	BE866585
+G10	splicing factor, arginine/serine-rich 2	NM_003016
+G11	heat shock 70kDa protein 1A /// heat shock 70kDa protein 1B	NM_005345
+G12	seryl-tRNA synthetase	NM_006513
+G13	RAB11A, member RAS oncogene family	NM_004663
+G14	ras homolog gene family, member C	NM_005167
+G15	splicing factor, arginine/serine-rich 10 (transformer 2 homolog, Drosophila)	NM_004593
+G16	fusion (involved in t(12;16) in malignant liposarcoma)	NM_004960
+G17	actin, alpha 2, smooth muscle, aorta	NM_001613
+G18	eukaryotic translation initiation factor 5B	BG261322
+G19	eukaryotic translation initiation factor 5B	AB018284
+G20	guanine nucleotide binding protein (G protein), alpha inhibiting activity polypeptide 2	NM_002070
+G21	heterogeneous nuclear ribonucleoprotein H2 (H)	NM_019597
+G22	Sjogren syndrome antigen B (autoantigen La)	BG532929
+G23	guanine nucleotide binding protein (G protein), alpha inhibiting activity polypeptide 3	NM_006496
+G24	DEAD (Asp-Glu-Ala-Asp) box polypeptide 3, X-linked	AF061337
+G25	chaperonin containing TCP1, subunit 6A (zeta 1)	NM_001762
+G26	DEAH (Asp-Glu-Ala-His) box polypeptide 15	AF279891
+G27	glutathione synthetase	NM_000178
+G28	Ras homolog enriched in brain	AW138374
+G29	nuclear cap binding protein subunit 2, 20kDa	NM_007362
+G30	poly(A) binding protein, nuclear 1	BF675004
+G31	poly(A) binding protein, nuclear 1	NM_004643
+G32	DEAD (Asp-Glu-Ala-Asp) box polypeptide 39	NM_005804
+G33	splicing factor proline/glutamine-rich (polypyrimidine tract binding protein associated)	NM_005066
+G34	SMC4 structural maintenance of chromosomes 4-like 1 (yeast)	NM_005496
+G35	arsenate resistance protein ARS2	BE646076
+G36	splicing factor, arginine/serine-rich 4	NM_005626
+G37	proteasome (prosome, macropain) 26S subunit, ATPase, 6	NM_002806
+G38	serum/glucocorticoid regulated kinase	NM_005627
+G39	splicing factor, arginine/serine-rich 1 (splicing factor 2, alternate splicing factor)	M69040
+G40	MCM5 minichromosome maintenance deficient 5, cell division cycle 46 (S. cerevisiae)	NM_006739
+G41	MCM6 minichromosome maintenance deficient 6 (MIS5 homolog, S. pombe) (S. cerevisiae)	NM_005915
+G42	guanine nucleotide binding protein-like 2 (nucleolar)	NM_013285
+G43	heterogeneous nuclear ribonucleoprotein D-like	NM_005463
+G44	spen homolog, transcriptional regulator (Drosophila)	AL524033
+G45	v-ral simian leukemia viral oncogene homolog B (ras related; GTP binding protein)	NM_002881
+G46	spastic paraplegia 7, paraplegin (pure and complicated autosomal recessive)	NM_003119
+G47	PRP4 pre-mRNA processing factor 4 homolog B (yeast)	AA156948
+G48	PRP4 pre-mRNA processing factor 4 homolog B (yeast)	AB011108
+G49	ADP-ribosylation factor-like 7	AW450363
+G50	ADP-ribosylation factor-like 7	BG435404
+G51	ADP-ribosylation factor-like 7	BC001051
+G52	polo-like kinase 1 (Drosophila)	NM_005030
+G53	tribbles homolog 1 (Drosophila)	NM_025195
+G54	dynamin 2	NM_004945
+G55	transporter 1, ATP-binding cassette, sub-family B (MDR/TAP)	NM_000593
+G56	torsin family 1, member A (torsin A)	NM_000113
+G57	limkain b1	NM_019081
+G58	N-ethylmaleimide-sensitive factor	NM_006178
+G59	TIA1 cytotoxic granule-associated RNA binding protein-like 1	BF432532
+G60	DEAH (Asp-Glu-Ala-His) box polypeptide 9	NM_001357
+G61	6-phosphofructo-2-kinase/fructose-2,6-biphosphatase 3	NM_004566
+G62	cleavage and polyadenylation specific factor 6, 68kDa	NM_007007
+G63	dehydrogenase/reductase (SDR family) member 3	NM_004753
+G64	myosin, light polypeptide kinase /// myosin, light polypeptide kinase	NM_005965
+G65	stress 70 protein chaperone, microsome-associated, 60kDa	NM_006948
+G66	heat shock 70kDa protein 1B	NM_005346
+G67	adenylate kinase 1	BC001116
+G68	tousled-like kinase 1	NM_012290
+G69	pyridoxal (pyridoxine, vitamin B6) kinase	NM_003681
+G70	AXL receptor tyrosine kinase	NM_021913
+G71	serine/threonine kinase 17a (apoptosis-inducing)	AW194730
+G72	serine/threonine kinase 17a (apoptosis-inducing)	NM_004760
+G73	ATP-binding cassette, sub-family C (CFTR/MRP), member 1	AI539710
+G74	phosphoenolpyruvate carboxykinase 2 (mitochondrial)	NM_004563
+G75	splicing factor, arginine/serine-rich 3	NM_003017
+G76	dual-specificity tyrosine-(Y)-phosphorylation regulated kinase 2	NM_006482
+G77	3-phosphoadenosine 5-phosphosulfate synthase 2	AW299958
+G78	3-phosphoadenosine 5-phosphosulfate synthase 2	NM_004670
+G79	3-phosphoadenosine 5-phosphosulfate synthase 2	AF074331
+G80	myosin VI	AA877789
+G81	myosin VI	NM_004999
+G82	origin recognition complex, subunit 4-like (yeast)	NM_002552
+G83	ribosomal protein S6 kinase, 90kDa, polypeptide 1	NM_002953
+G84	EPH receptor A2	NM_004431
+G85	ATP-binding cassette, sub-family A (ABC1), member 1	NM_005502
+G86	ATP-binding cassette, sub-family A (ABC1), member 1	AF285167
+G87	insulin-like growth factor 1 receptor	H05812
+G88	peroxisome proliferative activated receptor, gamma, coactivator-related 1	NM_015062
+G89	IGF-II mRNA-binding protein 3	NM_006547
+G90	mitogen-activated protein kinase kinase kinase 5	NM_005923
+G91	ribosomal protein S6 kinase, 90kDa, polypeptide 3	AA906056
+G92	propionyl Coenzyme A carboxylase, alpha polypeptide	NM_000282
+G93	5-nucleotidase, ecto (CD73)	NM_002526
+G94	CDC6 cell division cycle 6 homolog (S. cerevisiae)	U77949
+G95	CDC6 cell division cycle 6 homolog (S. cerevisiae)	NM_001254
+G96	v-Ki-ras2 Kirsten rat sarcoma viral oncogene homolog	W80678
+G97	centaurin, gamma 2	NM_014914
+G98	CUG triplet repeat, RNA binding protein 1	NM_006560
+G99	tubulin, beta 2	NM_001069
+G100	KIAA0999 protein	AA044154
+G101	ribosomal protein S6 kinase, 70kDa, polypeptide 1	NM_003161
+G102	RNA binding motif protein 14	NM_006328
+G103	chromodomain helicase DNA binding protein 1	NM_001270
+G104	pim-2 oncogene	NM_006875
+G105	phenylalanine-tRNA synthetase 2 (mitochondrial)	NM_006567
+G106	FUS interacting protein (serine/arginine-rich) 1	NM_021993
+G107	ATP-binding cassette, sub-family A (ABC1), member 3	NM_001089
+G108	galactokinase 1	BG474736
+G109	calcium/calmodulin-dependent protein kinase I	NM_003656
+G110	G protein-coupled receptor kinase 5	NM_005308
+G111	kinesin family member 11	NM_004523
+G112	eukaryotic translation elongation factor 1 alpha 2	NM_001958
+G113	RAB40B, member RAS oncogene family	NM_006822
+G114	ATP-binding cassette, sub-family G (WHITE), member 1	NM_004915
+G115	NUAK family, SNF1-like kinase, 1	NM_014840
+G116	ribosomal protein S6 kinase, 90kDa, polypeptide 5	AF074393
+G117	Cyclin-dependent kinase 8	R59697
+G118	bone morphogenetic protein receptor, type IA	NM_004329
+G119	polymerase (DNA directed), alpha	NM_016937
+G120	apoptotic peptidase activating factor	NM_013229
+G121	peroxisome biogenesis factor 1	NM_000466
+G122	polo-like kinase 4 (Drosophila)	AL043646
+G123	polo-like kinase 4 (Drosophila)	NM_014264
+G124	DEAD (Asp-Glu-Ala-Asp) box polypeptide 6	NM_004397
+G125	carbamoyl-phosphate synthetase 1, mitochondrial	AF154830
+G126	solute carrier family 22 (organic cation transporter), member 5	NM_003060
+G127	vaccinia related kinase 2	NM_006296
+G128	ATPase, Cu++ transporting, alpha polypeptide (Menkes syndrome)	BE567813
+G129	galactokinase 2	NM_002044
+G130	U11/U12 snRNP 35K	NM_022717
+G131	CHK1 checkpoint homolog (S. pombe)	NM_001274
+G132	heat shock 70kDa protein 4-like	NM_014278
+G133	solute carrier family 27 (fatty acid transporter), member 2	NM_003645
+G134	solute carrier family 27 (fatty acid transporter), member 2	NM_003645
+G135	Janus kinase 2 (a protein tyrosine kinase)	AF001362
+G136	RAB3B, member RAS oncogene family	BC005035
+G137	RAB3B, member RAS oncogene family	NM_002867
+G138	adenylate kinase 2	NM_013411
+G139	Dicer1, Dcr-1 homolog (Drosophila)	NM_030621
+G140	RAD51 homolog C (S. cerevisiae)	NM_002876
+G141	splicing factor, arginine/serine-rich 6	NM_006275
+G142	guanine nucleotide binding protein (G protein), alpha activating activity polypeptide, olfactory type	R20102
+G143	guanine nucleotide binding protein (G protein), alpha activating activity polypeptide, olfactory type	NM_002071
+G144	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 2	AV725365
+G145	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 2	NM_003070
+G146	chaperonin containing TCP1, subunit 6B (zeta 2)	NM_006584
+G147	heterogeneous nuclear ribonucleoprotein A3	NM_005758
+G148	mitogen-activated protein kinase kinase kinase 7	NM_003188
+G149	guanine nucleotide binding protein (G protein), alpha 13	NM_006572
+G150	protein kinase C, alpha	NM_002737
+G151	argininosuccinate synthetase	NM_000050
+G152	heterogeneous nuclear ribonucleoprotein H3 (2H9)	NM_021644
+G153	v-akt murine thymoma viral oncogene homolog 1	NM_005163
+G154	discoidin domain receptor family, member 1	NM_001954
+G155	ligase III, DNA, ATP-dependent	NM_002311
+G156	RAD17 homolog (S. pombe)	NM_002873
+G157	protein kinase, cGMP-dependent, type II	NM_006259
+G158	hyperpolarization activated cyclic nucleotide-gated potassium channel 2	NM_001194
+G159	synaptojanin 1	NM_003895
+G160	PTK2 protein tyrosine kinase 2	NM_005607
+G161	RNA-binding region (RNP1, RRM) containing 2	NM_004902
+G162	EH-domain containing 1	NM_006795
+G163	DEAD (Asp-Glu-Ala-Asp) box polypeptide 17 /// DEAD (Asp-Glu-Ala-Asp) box polypeptide 17	NM_030881
+G164	activin A receptor, type IB	NM_020327
+G165	eukaryotic translation initiation factor 5	NM_001969
+G166	Down syndrome critical region gene 1	NM_004414
+G167	splicing factor, arginine/serine-rich 3	AF107405
+G168	eukaryotic translation initiation factor 5	BG481972
+G169	eukaryotic translation initiation factor 5	AK026933
+G170	eukaryotic translation initiation factor 5	AL080102
+G171	DEAD (Asp-Glu-Ala-Asp) box polypeptide 17	Z97056
+G172	RNA-binding region (RNP1, RRM) containing 2	AI890947
+G173	cell division cycle 42 (GTP binding protein, 25kDa)	BC002711
+G174	RAB2, member RAS oncogene family	M28213
+G175	heterogeneous nuclear ribonucleoprotein R	NM_005826
+G176	t-complex 1	BC000665
+G177	MCM7 minichromosome maintenance deficient 7 (S. cerevisiae)	D55716
+G178	heat shock 70kDa protein 4	AB023420
+G179	PTK2 protein tyrosine kinase 2	AL037339
+G180	alpha thalassemia/mental retardation syndrome X-linked (RAD54 homolog, S. cerevisiae)	AI650257
+G181	splicing factor, arginine/serine-rich 1 (splicing factor 2, alternate splicing factor)	M72709
+G182	La ribonucleoprotein domain family, member 5	AU154358
+G183	La ribonucleoprotein domain family, member 5	BC003381
+G184	heterogeneous nuclear ribonucleoprotein H3 (2H9)	AF132362
+G185	septin 8	D86957
+G186	triple functional domain (PTPRF interacting)	AI797657
+G187	protease, serine, 15	U02389
+G188	synaptotagmin binding, cytoplasmic RNA interacting protein	AI472757
+G189	synaptotagmin binding, cytoplasmic RNA interacting protein	AF037448
+G190	dual-specificity tyrosine-(Y)-phosphorylation regulated kinase 1A	D86550
+G191	EH-domain containing 1	AW182860
+G192	EH-domain containing 1	AF001434
+G193	heterogeneous nuclear ribonucleoprotein D-like	D89092
+G194	RAB28, member RAS oncogene family	BE504689
+G195	squamous cell carcinoma antigen recognised by T cells 3	AW173076
+G196	tubulin, beta 6	BC002654
+G197	chondroitin sulfate proteoglycan 6 (bamacan)	BF795297
+G198	chondroitin sulfate proteoglycan 6 (bamacan)	AI373676
+G199	chondroitin sulfate proteoglycan 6 (bamacan)	AF020043
+G200	ATPase, Ca++ transporting, plasma membrane 1	M95541
+G201	protein kinase D2	AF309082
+G202	HBS1-like (S. cerevisiae)	AK024258
+G203	heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa)	D55674
+G204	tubulin, beta 2 /// tubulin, beta polypeptide paralog	BF971587
+G205	DNA-damage-inducible transcript 3	BC003637
+G206	kynurenine aminotransferase III	BC000819
+G207	RAB27A, member RAS oncogene family	BE502030
+G208	general transcription factor IIF, polypeptide 2, 30kDa	BC001771
+G209	ATP-binding cassette, sub-family B (MDR/TAP), member 7	AB005289
+G210	BUB1 budding uninhibited by benzimidazoles 1 homolog (yeast)	AF043294
+G211	spastin	AB029006
+G212	uridine-cytidine kinase 2	BC002906
+G213	RAD51 homolog C (S. cerevisiae)	AF029669
+G214	RNA binding motif, single stranded interacting protein 1	D28482
+G215	ras homolog gene family, member D	BC001338
+G216	RNA binding motif protein 5	AF107493
+G217	glycogen synthase kinase 3 beta	BC000251
+G218	Rho family GTPase 1	U69563
+G219	mitogen-activated protein kinase 13	BC000433
+G220	FYN oncogene related to SRC, FGR, YES	M14333
+G221	heterogeneous nuclear ribonucleoprotein H3 (2H9)	AF132363
+G222	sperm associated antigen 1	AF311312
+G223	splicing factor, arginine/serine-rich 10 (transformer 2 homolog, Drosophila)	U87836
+G224	tousled-like kinase 1	AF162666
+G225	tubulin, delta 1	BC000258
+G226	myosin VI	U90236
+G227	heterogeneous nuclear ribonucleoprotein H3 (2H9)	L32610
+G228	synaptojanin 2	AF318616
+G229	ADP-ribosylation factor-like	AF119889
+G230	inositol 1,3,4-triphosphate 5/6 kinase	AF279372
+G231	DEAD (Asp-Glu-Ala-Asp) box polypeptide 49	BC000979
+G232	fibroblast growth factor receptor 1 (fms-related tyrosine kinase 2, Pfeiffer syndrome)	M63889
+G233	MCM7 minichromosome maintenance deficient 7 (S. cerevisiae)	AF279900
+G234	heat shock 70kDa protein 4	L12723
+G235	heat shock 70kDa protein 4	BC002526
+G236	alpha thalassemia/mental retardation syndrome X-linked (RAD54 homolog, S. cerevisiae)	BC002521
+G237	phosphofructokinase, liver /// phosphofructokinase, liver	BC006422
+G238	tousled-like kinase 1 /// tousled-like kinase 1	Z25421
+G239	serine/threonine kinase 4 /// serine/threonine kinase 4	Z25430
+G240	polo-like kinase 4 (Drosophila) /// polo-like kinase 4 (Drosophila)	Z25433
+G241	mutS homolog 6 (E. coli)	D89646
+G242	eukaryotic translation initiation factor 3, subunit 9 eta, 116kDa	BC001173
+G243	fibroblast growth factor receptor 1 (fms-related tyrosine kinase 2, Pfeiffer syndrome)	M60485
+G244	heat shock 70kDa protein 2	U56725
+G245	G protein-coupled receptor kinase 6	AF040752
+G246	ribosomal protein S6 kinase, 70kDa, polypeptide 1	M60725
+G247	glutathione synthetase /// glutathione synthetase	L42531
+G248	splicing factor, arginine/serine-rich 1 (splicing factor 2, alternate splicing factor) /// splicing factor, arginine/serine-rich 1 (splicing factor 2, alternate splicing factor)	BC006181
+G249	mitofusin 1	AF329637
+G250	heterogeneous nuclear ribonucleoprotein A3	AA527502
+G251	heterogeneous nuclear ribonucleoprotein A3	BF195526
+G252	RAB7, member RAS oncogene family	AK000826
+G253	topoisomerase (DNA) II beta 180kDa	NM_001068
+G254	WNK lysine deficient protein kinase 1 /// WNK lysine deficient protein kinase 1	AI445745
+G255	WNK lysine deficient protein kinase 1 /// WNK lysine deficient protein kinase 1	AI768512
+G256	polypyrimidine tract binding protein 1	AA679988
+G257	antigen identified by monoclonal antibody Ki-67	AU152107
+G258	antigen identified by monoclonal antibody Ki-67	AU147044
+G259	RNA binding motif protein 25	AI925305
+G260	RNA binding motif protein 25	BG251218
+G261	RNA binding motif protein 25	BF055107
+G262	U2-associated SR140 protein	AB002330
+G263	ATPase, Class II, type 9A	AB014511
+G264	ras homolog gene family, member B	AI263909
+G265	DEAH (Asp-Glu-Ala-His) box polypeptide 9	BF313832
+G266	DEAH (Asp-Glu-Ala-His) box polypeptide 9	BE561014
+G267	ATPase, Ca++ transporting, plasma membrane 4	AW517686
+G268	ATPase, Ca++ transporting, plasma membrane 4	AW517686
+G269	RNA binding motif protein 12	AL514547
+G270	adenylate kinase 2	W02312
+G271	adenylate kinase 2	AL513611
+G272	acetyl-Coenzyme A carboxylase alpha	BE855983
+G273	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 2	AW131754
+G274	ATPase type 13A3	BF218804
+G275	myosin ID	AA621962
+G276	myosin, heavy polypeptide 10, non-muscle	AK026977
+G277	E1A binding protein p400	BE880591
+G278	septin 6 /// cytokine-like nuclear factor n-pac	D50918
+G279	DEAD (Asp-Glu-Ala-Asp) box polypeptide 3, X-linked	R60068
+G280	WEE1 homolog (S. pombe)	X62048
+G281	protein kinase, cAMP-dependent, regulatory, type I, beta	AU148827
+G282	v-akt murine thymoma viral oncogene homolog 3 (protein kinase B, gamma)	N32526
+G283	Serologically defined colon cancer antigen 8	U79271
+G284	protein kinase N2	AI633689
+G285	DEAH (Asp-Glu-Ala-His) box polypeptide 29	AL079292
+G286	tubulin, beta 4	AL567012
+G287	DEAH (Asp-Glu-Ala-His) box polypeptide 30	AK002076
+G288	phosphoinositide-3-kinase, catalytic, beta polypeptide	BC003393
+G289	MDN1, midasin homolog (yeast)	BE670928
+G290	Rho family GTPase 3	BG054844
+G291	phosphoinositide-3-kinase, regulatory subunit 4, p150	BF740111
+G292	Dicer1, Dcr-1 homolog (Drosophila)	BG109746
+G293	superkiller viralicidic activity 2-like 2 (S. cerevisiae)	D29641
+G294	RecQ protein-like (DNA helicase Q1-like)	AI962943
+G295	ATPase, Ca++ transporting, plasma membrane 1	AW576457
+G296	KIAA0999 protein	AB023216
+G297	Rho-associated, coiled-coil containing protein kinase 1	N22548
+G298	protein kinase C, alpha	AI471375
+G299	phosphatidylinositol-3-phosphate/phosphatidylinositol 5-kinase, type III	AB023198
+G300	Dicer1, Dcr-1 homolog (Drosophila)	BF590131
+G301	ATPase, Class V, type 10D	AI478147
+G302	NIMA (never in mitosis gene a)-related kinase 1	AV700007
+G303	ATP-binding cassette, sub-family A (ABC1), member 5	BF693921
+G304	Heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa)	W74620
+G305	KIAA1240 protein	AB033066
+G306	heterogeneous nuclear ribonucleoprotein H1 (H)	BF983406
+G307	heterogeneous nuclear ribonucleoprotein H1 (H)	AI022387
+G308	tubulin, beta 3	AL565749
+G309	bone morphogenetic protein receptor, type IA	AI678679
+G310	Transformer-2 alpha	AW978896
+G311	FUS interacting protein (serine/arginine-rich) 1	AU130523
+G312	kinesin family member 3A	NM_007054
+G313	RNA binding motif protein 4	BE222257
+G314	RNA binding motif protein, X-linked	AI452524
+G315	RNA binding motif protein 8A	BG289199
+G316	RecQ protein-like (DNA helicase Q1-like)	AI685944
+G317	RAP2B, member of RAS oncogene family	AW005535
+G318	DEAD (Asp-Glu-Ala-Asp) box polypeptide 17	AW188131
+G319	Splicing factor proline/glutamine-rich (polypyrimidine tract binding protein associated)	AL558875
+G320	tubulin, beta polypeptide paralog	AL533838
+G321	ATP-binding cassette, sub-family C (CFTR/MRP), member 6	AI084637
+G322	splicing factor, arginine/serine-rich 7, 35kDa	BF033354
+G323	KIAA0564 protein	AI744626
+G324	septin 6	AL568374
+G325	Eukaryotic translation initiation factor 5B	BE138647
+G326	eukaryotic translation initiation factor 5B	BE138647
+G327	v-Ki-ras2 Kirsten rat sarcoma viral oncogene homolog	BF673699
+G328	heat shock 90kDa protein 1, beta	AI218219
+G329	heat shock 70kDa protein 12A	AB007877
+G330	CDC42 binding protein kinase alpha (DMPK-like)	NM_003607
+G331	Rho-associated, coiled-coil containing protein kinase 1	AV683882
+G332	ATPase, Class I, type 8B, member 1	BG252666
+G333	Eukaryotic translation initiation factor 4A, isoform 1	U79273
+G334	splicing factor, arginine/serine-rich 2	BG254869
+G335	protein kinase, AMP-activated, alpha 1 catalytic subunit	AK024252
+G336	ATPase, Class II, type 9B	AW411030
+G337	activating signal cointegrator 1 complex subunit 3-like 1	AK021418
+G338	peroxisome biogenesis factor 1	AC000064
+G339	protein kinase C, alpha	AF035594
+G340	Myosin IE	AK025072
+G341	ATP-binding cassette, sub-family A (ABC1), member 12	AL080207
+G342	A kinase (PRKA) anchor protein (yotiao) 9	AK000270
+G343	DIRAS family, GTP-binding RAS-like 3	AK021882
+G344	BUB1 budding uninhibited by benzimidazoles 1 homolog (yeast)	AL137654
+G345	SMC4 structural maintenance of chromosomes 4-like 1 (yeast)	AK002200
+G346	WEE1 homolog (S. pombe)	AJ277546
+G347	Non-metastatic cells 7, protein expressed in (nucleoside-diphosphate kinase)	AL049331
+G348	Septin 11	AL353942
+G349	myosin X	AI561354
+G350	MCM5 minichromosome maintenance deficient 5, cell division cycle 46 (S. cerevisiae)	AA807529
+G351	Dicer1, Dcr-1 homolog (Drosophila)	AK001827
+G352	galactokinase 2	AK023699
+G353	IGF-II mRNA-binding protein 3	AL023775
+G354	heterogeneous nuclear ribonucleoprotein U (scaffold attachment factor A)	D13413
+G355	fusion (involved in t(12;16) in malignant liposarcoma)	S75762
+G356	SMC1 structural maintenance of chromosomes 1-like 1 (yeast)	AI042030
+G357	carbamoyl-phosphate synthetase 1, mitochondrial	W80357
+G358	phosphoinositide-3-kinase, catalytic, beta polypeptide	AA805318
+G359	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 2	AI535683
+G360	synaptotagmin binding, cytoplasmic RNA interacting protein	BE672181
+G361	synaptotagmin binding, cytoplasmic RNA interacting protein	NM_006372
+G362	guanine nucleotide binding protein-like 3 (nucleolar)	NM_014366
+G363	ADP-ribosylation factor-like 10C	NM_018184
+G364	RNA binding motif protein 8A	AF182415
+G365	pyridoxal (pyridoxine, vitamin B6) kinase	AW449022
+G366	mitogen-activated protein kinase kinase kinase kinase 4	NM_017792
+G367	N-acetylglucosamine kinase /// N-acetylglucosamine kinase	NM_017567
+G368	neuron navigator 2	NM_018162
+G369	U2 (RNU2) small nuclear RNA auxiliary factor 2	NM_007279
+G370	chromosome 13 open reading frame 10	NM_022118
+G371	TANK-binding kinase 1	NM_013254
+G372	La ribonucleoprotein domain family, member 6	NM_018357
+G373	sno, strawberry notch homolog 1 (Drosophila)	NM_018183
+G374	protein kinase C, eta	NM_024064
+G375	sterile alpha motif and leucine zipper containing kinase AZK	NM_016653
+G376	chromosome 20 open reading frame 6	NM_016649
+G377	polynucleotide kinase 3-phosphatase	NM_007254
+G378	myosin VC	NM_018728
+G379	ras homolog gene family, member F (in filopodia)	NM_019034
+G380	chromosome 9 open reading frame 95	NM_017881
+G381	heat shock 70kDa protein 14	NM_016299
+G382	hypothetical protein FLJ23441	NM_024678
+G383	CDC2-related protein kinase 7	NM_016507
+G384	v-akt murine thymoma viral oncogene homolog 3 (protein kinase B, gamma)	NM_005465
+G385	chromosome 20 open reading frame 23	NM_024704
+G386	NOD9 protein	NM_024618
+G387	helicase, lymphoid-specific	NM_018063
+G388	nucleotide binding protein-like	NM_025152
+G389	ADP-ribosylation factor 7	NM_025047
+G390	chromosome 13 open reading frame 10	NM_018605
+G391	chromodomain helicase DNA binding protein 9	NM_025134
+G392	RAB33B, member RAS oncogene family /// RAB33B, member RAS oncogene family	NM_031296
+G393	TAR DNA binding protein /// TAR DNA binding protein	NM_031214
+G394	tubulin, delta 1	NM_016261
+G395	heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa)	BG180941
+G396	heterogeneous nuclear ribonucleoprotein D (AU-rich element RNA binding protein 1, 37kDa)	D55672
+G397	casein kinase 1, gamma 1	AB042563
+G398	mitogen-activated protein kinase kinase kinase 2 /// mitogen-activated protein kinase kinase kinase 2	AF239798
+G399	BRCA1 interacting protein C-terminal helicase 1 /// BRCA1 interacting protein C-terminal helicase 1	AF360549
+G400	RAB15, member RAS onocogene family	AA631242
+G401	ClpB caseinolytic peptidase B homolog (E. coli)	AI655698
+G402	arsenate resistance protein ARS2	AI523895
+G403	ras homolog gene family, member T1	BF688108
+G404	Fibroblast growth factor receptor 1 (fms-related tyrosine kinase 2, Pfeiffer syndrome)	AU145411
+G405	EH-domain containing 1	AY007161
+G406	hexokinase 2	AW975638
+G407	splicing factor, arginine/serine-rich 15	AA648521
+G408	heterogeneous nuclear ribonucleoprotein L	X16135
+G409	BMP2 inducible kinase	AB015331
+G410	protein kinase D2	AL050147
+G411	WNK lysine deficient protein kinase 1	AB002342
+G412	serine/threonine kinase 10	AB015718
+G413	acetyl-Coenzyme A carboxylase beta	AI970898
+G414	acetyl-Coenzyme A carboxylase beta	AI057637
+G415	RNA binding motif protein 12B	N36928
+G416	RAB15, member RAS onocogene family	AA582932
+G417	thyroid hormone receptor associated protein 3	BE967048
+G418	ADP-ribosylation factor-like 10C	AW055237
+G419	dynein, cytoplasmic, light intermediate polypeptide 1	AK001081
+G420	pyridoxal (pyridoxine, vitamin B6) kinase	AW262867
+G421	mitogen-activated protein kinase kinase kinase kinase 4	AL561281
+G422	mitogen-activated protein kinase kinase kinase kinase 4	AL561281
+G423	sterile alpha motif and leucine zipper containing kinase AZK	AB030034
+G424	ras homolog gene family, member F (in filopodia)	AF239923
+G425	v-akt murine thymoma viral oncogene homolog 3 (protein kinase B, gamma)	AF135794
+G426	RAB10, member RAS oncogene family	AL136650
+G427	RAB10, member RAS oncogene family	BC000896
+G428	DEAH (Asp-Glu-Ala-His) box polypeptide 36	AI937206
+G429	DEAH (Asp-Glu-Ala-His) box polypeptide 36	BE501133
+G430	amyotrophic lateral sclerosis 2 (juvenile) chromosome region, candidate 2	AB038950
+G431	chromosome 1 open reading frame 57	BC005102
+G432	spastic paraplegia 3A (autosomal dominant)	AF131801
+G433	sterile alpha motif and leucine zipper containing kinase AZK	AW069181
+G434	IGF-II mRNA-binding protein 1	AF198254
+G435	serine/threonine kinase 4	BC005231
+G436	Mov10, Moloney leukemia virus 10, homolog (mouse)	BC002548
+G437	ras homolog gene family, member T1	AL136929
+G438	adenylate kinase 3	AF183419
+G439	caspase recruitment domain family, member 4	AF126484
+G440	v-akt murine thymoma viral oncogene homolog 3 (protein kinase B, gamma)	AL117525
+G441	transient receptor potential cation channel, subfamily M, member 6 /// transient receptor potential cation channel, subfamily M, member 6	AF350881
+G442	adenylate kinase 3	AA432267
+G443	trinucleotide repeat containing 6A	N21600
+G444	trinucleotide repeat containing 6A	AI684626
+G445	neuron navigator 1	AB032977
+G446	myosin, light polypeptide kinase	AA526844
+G447	cytoplasmic polyadenylation element binding protein 4	AV704132
+G448	cytoplasmic polyadenylation element binding protein 4	AA772278
+G449	3-phosphoinositide dependent protein kinase-1	AL040394
+G450	Epidermal growth factor receptor (erythroblastic leukemia viral (v-erb-b) oncogene homolog, avian)	BE878463
+G451	Heterogeneous nuclear ribonucleoprotein A2/B1	AI963008
+G452	eukaryotic translation initiation factor 2 alpha kinase 4	AB037759
+G453	muscle RAS oncogene homolog	BF343625
+G454	myosin VB	AB032945
+G455	myosin VB	AI991160
+G456	RNA binding motif protein, X-linked	AI928344
+G457	RNA binding motif protein 27	AB037732
+G458	adenylate kinase 3-like 1	AK026966
+G459	homolog of yeast INO80	AI659419
+G460	MADP-1 protein	AI146850
+G461	DEAD (Asp-Glu-Ala-Asp) box polypeptide 6	BF129093
+G462	PABP1-dependent poly A-specific ribonuclease subunit PAN3	AI970788
+G463	microtubule associated serine/threonine kinase family member 4	AI922968
+G464	microtubule associated serine/threonine kinase family member 4	AI096389
+G465	CDC2-related protein kinase 7	AI823766
+G466	CDC2-related protein kinase 7	AI651265
+G467	heterogeneous nuclear ribonucleoprotein U (scaffold attachment factor A)	AW137669
+G468	mitogen-activated protein kinase kinase kinase 1	AA541479
+G469	Heterogeneous nuclear ribonucleoprotein A2/B1	AI375753
+G470	nuclear receptor binding protein 2	N21030
+G471	transporter 2, ATP-binding cassette, sub-family B (MDR/TAP)	AA573502
+G472	KIAA1970 protein	AL520723
+G473	RAB, member of RAS oncogene family-like 3	AI742028
+G474	RAB, member of RAS oncogene family-like 3	AK025772
+G475	Musashi homolog 2 (Drosophila)	AI978754
+G476	Family with sequence similarity 80, member B	AI760919
+G477	THO complex 4	AF047002
+G478	adenylosuccinate synthase like 1	BF593252
+G479	ribosomal protein S6 kinase, 90kDa, polypeptide 3	BG498334
+G480	ATP-binding cassette, sub-family C (CFTR/MRP), member 5	BE550362
+G481	Mitogen-activated protein kinase kinase kinase 2	AA045204
+G482	ADP-ribosylation factor-like 5	AW291264
+G483	pantothenate kinase 1	AI373299
+G484	ribosomal protein S6 kinase, 70kDa, polypeptide 1	AI142096
+G485	Fibroblast growth factor receptor 1 (fms-related tyrosine kinase 2, Pfeiffer syndrome)	BE467261
+G486	6-phosphofructo-2-kinase/fructose-2,6-biphosphatase 2	AA587884
+G487	ATPase, Class I, type 8B, member 2	AB032963
+G488	ATPase, Class VI, type 11C	BF475862
+G489	kinesin family member C2	BF515031
+G490	Chromosome 1 open reading frame 57	AA883980
+

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data manipulation using dplyr</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BRLS-2017</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Structure
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="vector.html">Vector</a>
+    </li>
+    <li>
+      <a href="matrix.html">Matrix and Array</a>
+    </li>
+    <li>
+      <a href="dataframe.html">Data Frame</a>
+    </li>
+    <li>
+      <a href="list.html">List</a>
+    </li>
+    <li>
+      <a href="loop.html">Conditions/Loops</a>
+    </li>
+    <li>
+      <a href="function.html">Function</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Data Manipulation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="io.html">Input-Output</a>
+    </li>
+    <li>
+      <a href="apply.html">Apply set of function</a>
+    </li>
+    <li>
+      <a href="dplyr.html">Dplyr</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="baseGraphics.html">Base Graphics</a>
+    </li>
+    <li>
+      <a href="ggplot2.html">ggplot2 Graphics</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="bioconductor.html">Bioconductor</a>
+</li>
+<li>
+  <a href="casestudy.html">Case study</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="task.html">Tasks</a>
+    </li>
+    <li>
+      <a href="solution.html">Solutions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="study.html">StudyMore</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data manipulation using dplyr</h1>
+
+</div>
+
+
+<p>Author: Team BioSakshat</p>
+<p>Last update: June 2017</p>
+<p>
+Copyright © 2017 BioSakshat, Inc. All rights reserved.
+</p>
+<div id="lets-begin" class="section level2">
+<h2>Lets begin</h2>
+<div id="load-dplyr-library" class="section level3">
+<h3>Load dplyr library</h3>
+<pre class="r"><code>library(dplyr);</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+</div>
+<div id="load-gene-expression-data" class="section level3">
+<h3>Load Gene Expression Data</h3>
+<pre class="r"><code>gen=read.table(&quot;_site/data/Day2/GenExp_data.txt&quot;, header = TRUE, stringsAsFactors = FALSE);
+head(gen);</code></pre>
+<pre><code>##    Gene    D1    D2    D3    D4    D5 Path Genetype
+## 1 Gene1  0.25  0.90 -0.59 -0.48  0.10   P1   Coding
+## 2 Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1   Coding
+## 3 Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1   Coding
+## 4 Gene4  0.43 -1.69 -1.88 -0.39  0.10   P1   Coding
+## 5 Gene5  1.04  1.04 -2.00 -2.44  1.07   P1   Coding
+## 6 Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1   Coding</code></pre>
+<pre class="r"><code>dim(gen);</code></pre>
+<pre><code>## [1] 200   8</code></pre>
+</div>
+<div id="filter-rows-with-filter" class="section level3">
+<h3>Filter rows with filter()</h3>
+<p>filter() allows you to select a subset of rows in a data frame.</p>
+<p><strong>Filter coding genes.</strong></p>
+<pre class="r"><code>temp=filter(gen, Genetype==&quot;Coding&quot;);</code></pre>
+<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.3.3</code></pre>
+<pre class="r"><code>head(temp);</code></pre>
+<pre><code>##    Gene    D1    D2    D3    D4    D5 Path Genetype
+## 1 Gene1  0.25  0.90 -0.59 -0.48  0.10   P1   Coding
+## 2 Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1   Coding
+## 3 Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1   Coding
+## 4 Gene4  0.43 -1.69 -1.88 -0.39  0.10   P1   Coding
+## 5 Gene5  1.04  1.04 -2.00 -2.44  1.07   P1   Coding
+## 6 Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1   Coding</code></pre>
+<pre class="r"><code>dim(temp);</code></pre>
+<pre><code>## [1] 100   8</code></pre>
+<p><em>Q1) Filter only those genes which are in pathway P2. How many such genes are there</em></p>
+<p><strong>Filter those genes whose gene expression values on Day1 (D1) &gt; 1.5 (up regulated).</strong></p>
+<pre class="r"><code>filter(gen, D1&gt; 1.5);</code></pre>
+<pre><code>##       Gene   D1    D2    D3    D4    D5 Path  Genetype
+## 1   Gene18 1.78 -0.07  1.28  0.69 -0.41   P1    Coding
+## 2   Gene26 2.12  0.14  0.54 -0.43  1.88   P1    Coding
+## 3   Gene30 1.69 -0.26  0.05 -0.29  0.80   P1    Coding
+## 4   Gene36 1.83 -0.28 -1.08 -1.08  0.43   P1 Noncoding
+## 5   Gene49 1.90  0.67  0.20  0.07  1.17   P1 Noncoding
+## 6   Gene66 1.82 -0.08  0.61  1.99  0.17   P1 Noncoding
+## 7  Gene106 3.16  0.77 -0.11  0.67 -0.37   P2    Coding
+## 8  Gene111 1.99 -0.47  0.36  0.19 -0.83   P2    Coding
+## 9  Gene134 1.99 -0.83  0.08 -0.31  1.92   P3    Coding
+## 10 Gene135 1.66 -1.58  0.43  0.22 -0.91   P3    Coding
+## 11 Gene145 2.24 -1.69  0.70 -0.94  1.63   P3    Coding
+## 12 Gene173 1.63 -0.89  0.59  2.56 -0.41   P4    Coding
+## 13 Gene185 1.75 -0.20 -0.96 -0.40 -0.40   P4 Noncoding
+## 14 Gene199 1.76  1.02  0.06 -0.79  0.69   P4 Noncoding</code></pre>
+<p><strong>Filter those genes whose gene expression values on Day1 (D1) &gt; 1.5 and Day2 (D2) &gt; 1.</strong></p>
+<pre class="r"><code>filter(gen, D1&gt; 1.5, D2&gt;1);</code></pre>
+<pre><code>##      Gene   D1   D2   D3    D4   D5 Path  Genetype
+## 1 Gene199 1.76 1.02 0.06 -0.79 0.69   P4 Noncoding</code></pre>
+<p><em>Q2) Filter those genes whose expression on Day1 &gt; 1.5 and belong to Pathway P2.</em></p>
+<p><strong>Filter genes whose D1 or D2 expression is &gt; 1.5</strong></p>
+<pre class="r"><code># Using OR condition: |
+temp=filter(gen, D1 &gt; 1.5 | D2 &gt; 1.5);
+head(temp);</code></pre>
+<pre><code>##     Gene    D1    D2    D3    D4    D5 Path  Genetype
+## 1  Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1    Coding
+## 2 Gene18  1.78 -0.07  1.28  0.69 -0.41   P1    Coding
+## 3 Gene25 -2.09  2.12  0.11 -0.72 -0.17   P1    Coding
+## 4 Gene26  2.12  0.14  0.54 -0.43  1.88   P1    Coding
+## 5 Gene30  1.69 -0.26  0.05 -0.29  0.80   P1    Coding
+## 6 Gene36  1.83 -0.28 -1.08 -1.08  0.43   P1 Noncoding</code></pre>
+<pre class="r"><code>dim(temp);</code></pre>
+<pre><code>## [1] 27  8</code></pre>
+<p><strong>Filter genes from pathway P2 whose D1 or D2 expression is &gt; 1.5</strong></p>
+<pre class="r"><code>filter(gen, D1 &gt; 1.5 | D2 &gt; 1.5, Path==&quot;P2&quot;)</code></pre>
+<pre><code>##      Gene    D1    D2    D3    D4    D5 Path  Genetype
+## 1  Gene75  0.05  2.33  1.25  0.79  1.75   P2 Noncoding
+## 2  Gene81 -1.90  1.57 -1.05 -0.63 -0.26   P2 Noncoding
+## 3 Gene106  3.16  0.77 -0.11  0.67 -0.37   P2    Coding
+## 4 Gene109  0.55  1.65 -0.49  0.56 -0.66   P2    Coding
+## 5 Gene111  1.99 -0.47  0.36  0.19 -0.83   P2    Coding</code></pre>
+</div>
+<div id="piping-using" class="section level3">
+<h3>Piping using %&gt;%</h3>
+<p>Piping minimizes the use of variables. It cleans the code. Results from left hand site is piped to right hand side.</p>
+<p><strong>How many genes are there in Pathway P2</strong></p>
+<pre class="r"><code>filter(gen, Path==&quot;P2&quot;) %&gt;% nrow</code></pre>
+<pre><code>## [1] 60</code></pre>
+<ol style="list-style-type: decimal">
+<li>Filter those genes which below to pathway P2.</li>
+<li>For the filtered genes, filter further whose D1 expression are &gt; 1</li>
+</ol>
+<pre class="r"><code>filter(gen, Path==&quot;P2&quot;) %&gt;% filter(., D1 &gt; 1) %&gt;% nrow</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code># . is optional if used as 1st argument
+filter(gen, Path==&quot;P2&quot;) %&gt;% filter(D1 &gt; 1) %&gt;% nrow</code></pre>
+<pre><code>## [1] 6</code></pre>
+</div>
+<div id="arrange-rows-with-arrange" class="section level3">
+<h3>Arrange rows with arrange()</h3>
+<pre class="r"><code># Arrange genes first as per Pathway followed by expression values on D1
+arrange(gen, Path, D1) %&gt;% head</code></pre>
+<pre><code>##     Gene    D1    D2    D3    D4    D5 Path  Genetype
+## 1 Gene25 -2.09  2.12  0.11 -0.72 -0.17   P1    Coding
+## 2  Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1    Coding
+## 3 Gene35 -1.62  0.44  2.04  3.35 -0.58   P1 Noncoding
+## 4 Gene20 -1.57 -1.12  1.08  0.60 -0.64   P1    Coding
+## 5  Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1    Coding
+## 6 Gene68 -1.32  0.37  1.50 -0.08  1.04   P1 Noncoding</code></pre>
+<pre class="r"><code># Arrange genes first as per Pathway followed by expression values on D1 in descending order
+arrange(gen, Path, desc(D1)) %&gt;% head</code></pre>
+<pre><code>##     Gene   D1    D2    D3    D4    D5 Path  Genetype
+## 1 Gene26 2.12  0.14  0.54 -0.43  1.88   P1    Coding
+## 2 Gene49 1.90  0.67  0.20  0.07  1.17   P1 Noncoding
+## 3 Gene36 1.83 -0.28 -1.08 -1.08  0.43   P1 Noncoding
+## 4 Gene66 1.82 -0.08  0.61  1.99  0.17   P1 Noncoding
+## 5 Gene18 1.78 -0.07  1.28  0.69 -0.41   P1    Coding
+## 6 Gene30 1.69 -0.26  0.05 -0.29  0.80   P1    Coding</code></pre>
+</div>
+<div id="select-rows-position-wise-using-slice" class="section level3">
+<h3>Select rows position wise using slice()</h3>
+<pre class="r"><code># Select 25th to 30th row
+slice(gen, 25:30); </code></pre>
+<pre><code>## # A tibble: 6 x 8
+##     Gene    D1    D2    D3    D4    D5  Path Genetype
+##    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;
+## 1 Gene25 -2.09  2.12  0.11 -0.72 -0.17    P1   Coding
+## 2 Gene26  2.12  0.14  0.54 -0.43  1.88    P1   Coding
+## 3 Gene27  0.09 -0.78 -0.72 -0.21  0.47    P1   Coding
+## 4 Gene28 -0.49 -0.92  1.56  0.59 -1.37    P1   Coding
+## 5 Gene29  1.01 -0.72  0.07  0.32  0.99    P1   Coding
+## 6 Gene30  1.69 -0.26  0.05 -0.29  0.80    P1   Coding</code></pre>
+</div>
+<div id="select-column-using-select" class="section level3">
+<h3>Select column using select()</h3>
+<pre class="r"><code># Select D1, D5 and Path column
+select(gen, D1, D5, Path) %&gt;% head;</code></pre>
+<pre><code>##      D1    D5 Path
+## 1  0.25  0.10   P1
+## 2 -0.12 -1.31   P1
+## 3 -1.34 -0.59   P1
+## 4  0.43  0.10   P1
+## 5  1.04  1.07   P1
+## 6 -1.83  0.04   P1</code></pre>
+<pre class="r"><code># Exclude D2 column
+select(gen, -D2) %&gt;% head;</code></pre>
+<pre><code>##    Gene    D1    D3    D4    D5 Path Genetype
+## 1 Gene1  0.25 -0.59 -0.48  0.10   P1   Coding
+## 2 Gene2 -0.12 -1.74 -0.43 -1.31   P1   Coding
+## 3 Gene3 -1.34 -0.86 -0.59 -0.59   P1   Coding
+## 4 Gene4  0.43 -1.88 -0.39  0.10   P1   Coding
+## 5 Gene5  1.04 -2.00 -2.44  1.07   P1   Coding
+## 6 Gene6 -1.83 -0.01 -0.99  0.04   P1   Coding</code></pre>
+<pre class="r"><code># Exclude D2, D5 column
+select(gen, -c(D2,D5)) %&gt;% head;</code></pre>
+<pre><code>##    Gene    D1    D3    D4 Path Genetype
+## 1 Gene1  0.25 -0.59 -0.48   P1   Coding
+## 2 Gene2 -0.12 -1.74 -0.43   P1   Coding
+## 3 Gene3 -1.34 -0.86 -0.59   P1   Coding
+## 4 Gene4  0.43 -1.88 -0.39   P1   Coding
+## 5 Gene5  1.04 -2.00 -2.44   P1   Coding
+## 6 Gene6 -1.83 -0.01 -0.99   P1   Coding</code></pre>
+<pre class="r"><code># Column name starts with
+select(gen, starts_with(&quot;D&quot;)) %&gt;% head;</code></pre>
+<pre><code>##      D1    D2    D3    D4    D5
+## 1  0.25  0.90 -0.59 -0.48  0.10
+## 2 -0.12  1.66 -1.74 -0.43 -1.31
+## 3 -1.34  0.04 -0.86 -0.59 -0.59
+## 4  0.43 -1.69 -1.88 -0.39  0.10
+## 5  1.04  1.04 -2.00 -2.44  1.07
+## 6 -1.83  1.37 -0.01 -0.99  0.04</code></pre>
+<pre class="r"><code># Column name ends with 3
+select(gen, ends_with(&quot;3&quot;)) %&gt;% head;</code></pre>
+<pre><code>##      D3
+## 1 -0.59
+## 2 -1.74
+## 3 -0.86
+## 4 -1.88
+## 5 -2.00
+## 6 -0.01</code></pre>
+<pre class="r"><code># Column name contains &quot;e&quot;
+select(gen, contains(&quot;e&quot;)) %&gt;% head;</code></pre>
+<pre><code>##    Gene Genetype
+## 1 Gene1   Coding
+## 2 Gene2   Coding
+## 3 Gene3   Coding
+## 4 Gene4   Coding
+## 5 Gene5   Coding
+## 6 Gene6   Coding</code></pre>
+<pre class="r"><code># Select all column from D1 to Path
+select(gen, D1:Path) %&gt;% head;</code></pre>
+<pre><code>##      D1    D2    D3    D4    D5 Path
+## 1  0.25  0.90 -0.59 -0.48  0.10   P1
+## 2 -0.12  1.66 -1.74 -0.43 -1.31   P1
+## 3 -1.34  0.04 -0.86 -0.59 -0.59   P1
+## 4  0.43 -1.69 -1.88 -0.39  0.10   P1
+## 5  1.04  1.04 -2.00 -2.44  1.07   P1
+## 6 -1.83  1.37 -0.01 -0.99  0.04   P1</code></pre>
+<pre class="r"><code># Select 2nd and 4th column
+select(gen, c(2,4)) %&gt;% head</code></pre>
+<pre><code>##      D1    D3
+## 1  0.25 -0.59
+## 2 -0.12 -1.74
+## 3 -1.34 -0.86
+## 4  0.43 -1.88
+## 5  1.04 -2.00
+## 6 -1.83 -0.01</code></pre>
+</div>
+<div id="extract-unique-rows-using-distinct" class="section level3">
+<h3>Extract unique rows using distinct()</h3>
+<pre class="r"><code># Select unique entries in D1 column
+select(gen, D1) %&gt;% distinct %&gt;% nrow</code></pre>
+<pre><code>## [1] 154</code></pre>
+<pre class="r"><code># Select D2 and Path column then find unique rows
+select(gen, D2, Path) %&gt;% distinct %&gt;% nrow</code></pre>
+<pre><code>## [1] 191</code></pre>
+</div>
+<div id="add-new-columns-with-mutate-and-transmute-function" class="section level3">
+<h3>Add new columns with mutate() and transmute() function</h3>
+<pre class="r"><code># mutate(gen,difD1D2=D1-D2): Adds a column named as “difD1D2”, which consists of difference between values of D1 and D2 gene expressions, to the existing dataset.
+mutate(gen, diffD1D2 = D1-D2) %&gt;% head</code></pre>
+<pre><code>##    Gene    D1    D2    D3    D4    D5 Path Genetype diffD1D2
+## 1 Gene1  0.25  0.90 -0.59 -0.48  0.10   P1   Coding    -0.65
+## 2 Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1   Coding    -1.78
+## 3 Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1   Coding    -1.38
+## 4 Gene4  0.43 -1.69 -1.88 -0.39  0.10   P1   Coding     2.12
+## 5 Gene5  1.04  1.04 -2.00 -2.44  1.07   P1   Coding     0.00
+## 6 Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1   Coding    -3.20</code></pre>
+<pre class="r"><code># mutate(gen,difD1D2=D1-D2,pdifD1D2=difD1D2*100) Use newly created column difD1D2 to create another pdifD1D2. So, you can create and reuse newly created columns.
+mutate(gen, diffD1D2 = D1-D2, pdiffD1D2=diffD1D2*100) %&gt;% head</code></pre>
+<pre><code>##    Gene    D1    D2    D3    D4    D5 Path Genetype diffD1D2 pdiffD1D2
+## 1 Gene1  0.25  0.90 -0.59 -0.48  0.10   P1   Coding    -0.65       -65
+## 2 Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1   Coding    -1.78      -178
+## 3 Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1   Coding    -1.38      -138
+## 4 Gene4  0.43 -1.69 -1.88 -0.39  0.10   P1   Coding     2.12       212
+## 5 Gene5  1.04  1.04 -2.00 -2.44  1.07   P1   Coding     0.00         0
+## 6 Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1   Coding    -3.20      -320</code></pre>
+<pre class="r"><code>mutate(gen, diffD1D2 = D1-D2, pdiffD1D2=diffD1D2*100, meanexp=rowMeans(select(gen,D1,D2,D3,D4,D5))) %&gt;% head</code></pre>
+<pre><code>##    Gene    D1    D2    D3    D4    D5 Path Genetype diffD1D2 pdiffD1D2
+## 1 Gene1  0.25  0.90 -0.59 -0.48  0.10   P1   Coding    -0.65       -65
+## 2 Gene2 -0.12  1.66 -1.74 -0.43 -1.31   P1   Coding    -1.78      -178
+## 3 Gene3 -1.34  0.04 -0.86 -0.59 -0.59   P1   Coding    -1.38      -138
+## 4 Gene4  0.43 -1.69 -1.88 -0.39  0.10   P1   Coding     2.12       212
+## 5 Gene5  1.04  1.04 -2.00 -2.44  1.07   P1   Coding     0.00         0
+## 6 Gene6 -1.83  1.37 -0.01 -0.99  0.04   P1   Coding    -3.20      -320
+##   meanexp
+## 1   0.036
+## 2  -0.388
+## 3  -0.668
+## 4  -0.686
+## 5  -0.258
+## 6  -0.284</code></pre>
+<pre class="r"><code># Just keeps the new columns only.
+transmute(gen, difD1D2=D1-D2, pdifD1D2 = difD1D2 * 100) %&gt;% head</code></pre>
+<pre><code>##   difD1D2 pdifD1D2
+## 1   -0.65      -65
+## 2   -1.78     -178
+## 3   -1.38     -138
+## 4    2.12      212
+## 5    0.00        0
+## 6   -3.20     -320</code></pre>
+</div>
+<div id="summarise-values-with-summarise" class="section level3">
+<h3>Summarise values with summarise()</h3>
+<pre class="r"><code>summarise(gen, D1mean = mean(D1), D2mean = mean(D2))</code></pre>
+<pre><code>##   D1mean  D2mean
+## 1  0.041 0.00235</code></pre>
+</div>
+<div id="grouped-operations" class="section level3">
+<h3>Grouped operations</h3>
+<pre class="r"><code># Group genes as per pathway
+gengrp=group_by(gen, Path);
+# For every group then do some operation
+summarise(gengrp, n())</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##    Path `n()`
+##   &lt;chr&gt; &lt;int&gt;
+## 1    P1    70
+## 2    P2    60
+## 3    P3    40
+## 4    P4    30</code></pre>
+<pre class="r"><code>summarise(gengrp, mean(D1), mean(D2), mean(D3))</code></pre>
+<pre><code>## # A tibble: 4 x 4
+##    Path  `mean(D1)` `mean(D2)` `mean(D3)`
+##   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1    P1  0.04528571    -0.0510 -0.1077143
+## 2    P2 -0.04500000     0.0115 -0.1471667
+## 3    P3  0.15225000    -0.1180 -0.1107500
+## 4    P4  0.05466667     0.2690 -0.2690000</code></pre>
+<pre class="r"><code>summarise(gengrp, mD1=mean(D1), mD2=mean(D2), mD3=mean(D3)) %&gt;% filter(.,mD1&gt;0.05) %&gt;% select(.,Path,mD1);</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##    Path        mD1
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1    P3 0.15225000
+## 2    P4 0.05466667</code></pre>
+<pre class="r"><code>summarise(gengrp, OverExp_Genecount_D1=sum(D1&gt;1.5), OverExp_Genecount_D2=sum(D2&gt;1.5), OverExp_Genecount_D3=sum(D3&gt;1.5))</code></pre>
+<pre><code>## # A tibble: 4 x 4
+##    Path OverExp_Genecount_D1 OverExp_Genecount_D2 OverExp_Genecount_D3
+##   &lt;chr&gt;                &lt;int&gt;                &lt;int&gt;                &lt;int&gt;
+## 1    P1                    6                    3                    7
+## 2    P2                    2                    3                    4
+## 3    P3                    3                    2                    0
+## 4    P4                    3                    5                    1</code></pre>
+</div>
+<div id="joins-two-table" class="section level3">
+<h3>Joins two table</h3>
+<p>Currently dplyr supports following join types:</p>
+<ul>
+<li>inner_join()</li>
+<li>left_join()</li>
+<li>right_join()</li>
+<li>semi_join()</li>
+<li>anti_join()</li>
+<li>full_join()</li>
+</ul>
+<p>Create Pathway information data frame which we will use to demonstrate join</p>
+<pre class="r"><code># Select one gene from each pathway, for demo purpose
+tempgen = group_by(gen,Path) %&gt;% slice(1);
+# Create Pathway information. Note that we dont have pathway information for P4
+Pathwayinfo=data.frame(Path=c(&quot;P1&quot;,&quot;P2&quot;,&quot;P3&quot;,&quot;P5&quot;), Name=c(&quot;Glycolysis&quot;,&quot;Gluconeogenesis&quot;,&quot;Purine metabolism&quot;,&quot;Apotopsis&quot;), ID=c(&quot;ID0752&quot;,&quot;ID3251&quot;,&quot;ID2567&quot;,&quot;ID4568&quot;));
+Pathwayinfo;</code></pre>
+<pre><code>##   Path              Name     ID
+## 1   P1        Glycolysis ID0752
+## 2   P2   Gluconeogenesis ID3251
+## 3   P3 Purine metabolism ID2567
+## 4   P5         Apotopsis ID4568</code></pre>
+<pre class="r"><code>tempgen;</code></pre>
+<pre><code>## # A tibble: 4 x 8
+## # Groups:   Path [4]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding
+## 4 Gene171  1.44 -0.31 -0.56 -1.09 -0.76    P4    Coding</code></pre>
+<pre class="r"><code>Pathwayinfo;</code></pre>
+<pre><code>##   Path              Name     ID
+## 1   P1        Glycolysis ID0752
+## 2   P2   Gluconeogenesis ID3251
+## 3   P3 Purine metabolism ID2567
+## 4   P5         Apotopsis ID4568</code></pre>
+<pre class="r"><code># Return all rows from x where there are matching values in y (i.e. matching x rows)
+# Return all columns from x and y. 
+# If there are multiple matches between x and y, all combination of the matches are returned.
+inner_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 3 x 10
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype              Name
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;fctr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding        Glycolysis
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding   Gluconeogenesis
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding Purine metabolism
+## # ... with 1 more variables: ID &lt;fctr&gt;</code></pre>
+<pre class="r"><code># Return all rows from x
+# All columns from x and y. 
+# Rows in x with no match in y will have NA values in the new columns. If there are multiple matches between x and y, all combinations of the matches are returned.
+left_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 4 x 10
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype              Name
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;fctr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding        Glycolysis
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding   Gluconeogenesis
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding Purine metabolism
+## 4 Gene171  1.44 -0.31 -0.56 -1.09 -0.76    P4    Coding              &lt;NA&gt;
+## # ... with 1 more variables: ID &lt;fctr&gt;</code></pre>
+<pre class="r"><code># Return all rows from y
+# all columns from x and y. 
+# Rows in y with no match in x will have NA values in the new columns. If there are multiple matches between x and y, all combinations of the matches are returned.
+right_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 4 x 10
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype              Name
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;fctr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding        Glycolysis
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding   Gluconeogenesis
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding Purine metabolism
+## 4    &lt;NA&gt;    NA    NA    NA    NA    NA    P5      &lt;NA&gt;         Apotopsis
+## # ... with 1 more variables: ID &lt;fctr&gt;</code></pre>
+<pre class="r"><code># Return all rows and all columns from both x and y. 
+# Where there are not matching values, returns NA for the one missing.
+full_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 5 x 10
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype              Name
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;            &lt;fctr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding        Glycolysis
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding   Gluconeogenesis
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding Purine metabolism
+## 4 Gene171  1.44 -0.31 -0.56 -1.09 -0.76    P4    Coding              &lt;NA&gt;
+## 5    &lt;NA&gt;    NA    NA    NA    NA    NA    P5      &lt;NA&gt;         Apotopsis
+## # ... with 1 more variables: ID &lt;fctr&gt;</code></pre>
+<pre class="r"><code># Return all rows from x where there are matching values in y, keeping just columns from x.
+semi_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 3 x 8
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path  Genetype
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;
+## 1   Gene1  0.25  0.90 -0.59 -0.48  0.10    P1    Coding
+## 2  Gene71 -1.05  0.84 -1.43  0.65 -1.05    P2 Noncoding
+## 3 Gene131  0.59  0.00  0.51  0.20  0.33    P3    Coding</code></pre>
+<pre class="r"><code># Return all rows from x where there are not matching values in y, keeping just columns from x.
+anti_join(tempgen, Pathwayinfo, by=&quot;Path&quot;);</code></pre>
+<pre><code>## Warning: Column `Path` joining character vector and factor, coercing into
+## character vector</code></pre>
+<pre><code>## # A tibble: 1 x 8
+## # Groups:   Path [?]
+##      Gene    D1    D2    D3    D4    D5  Path Genetype
+##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;
+## 1 Gene171  1.44 -0.31 -0.56 -1.09 -0.76    P4   Coding</code></pre>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<ol style="list-style-type: decimal">
+<li><a href="https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html" class="uri">https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html</a></li>
+</ol>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
