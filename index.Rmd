@@ -1,11 +1,9 @@
 
 ---
-title: "BioSakshat"
+title: "Basic R for Life Sciences"
 ---
 
-Hello, Participants!
-
-Welcome you to the 3-day hands on workshop on Basic R for Life Sciences (2017).
+The material was prepared during 3-day hands on workshop on Basic R for Life Sciences (2017), organized by BioSakshat.
 
 http://biosakshat.weebly.com/
 
@@ -13,8 +11,12 @@ http://biosakshat.weebly.com/
 ![](image/biosakshat.png)
 <br>
 <br>
-<br>
-<br>
+
+## Contributor
+* [Dr. Priyabrata Panigrahi](https://in.linkedin.com/in/priyabrata-panigrahi-31621918)
+* [Dr. Pandurang Kolekar](https://www.linkedin.com/in/pandurang-kolekar-14baa259/?ppe=1)
+
+
 
 ## How to explore the site
  * Start with **Data structure** module followed by **Data Manipulation** and **Visualization** module.
