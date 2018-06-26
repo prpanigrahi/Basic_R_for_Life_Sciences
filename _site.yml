@@ -37,10 +37,18 @@ navbar:
           href: baseGraphics.html
         - text: "ggplot2 Graphics"
           href: ggplot2.html
-    - text: "Bioconductor"
-      href: bioconductor.html
-    - text: "Case study"
-      href: casestudy.html
+    - text: "Statistics"
+      icon: fa-gear
+      menu:
+        - text: "Descriptive Statistics"
+          href: Descriptive_statistics.html
+    - text: "Case studies"
+      icon: fa-gear
+      menu:
+        - text: "Bioconductor"
+          href: bioconductor.html
+        - text: "Case study"
+          href: casestudy.html
     - text: "Tasks"
       icon: fa-gear
       menu:

@@ -1,0 +1,160 @@
+---
+title: "Descriptive_statistics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Measure of Centrality (Mean, Median), summary and quantile function
+```{r}
+data=c(11,2,35,46,55);
+print(data);
+mean(data); # Estimate mean
+median(data); # Estimate median
+summary(data); # Summarise the data
+quantile(data); # Estimate quartiles
+quantile(x = data, probs = 0.25); # First quantile
+quantile(x = data, probs = 0.5); # Second quantile or Median
+quantile(x = data, probs = 0.75); # Third quantile
+
+# Percentile
+quantile(x = data, probs = c(0.30, 0.45, 0.65)); # 30th, 45th and 65th percentile
+```
+
+### Measure of Spread (Variance, Standard deviation, Range, IQR)
+```{r}
+var(data); # Variance
+sd(data); # Standard deviation
+range(data); # range, returns min and max
+max(data) - min(data); # Range
+IQR(data); # Inter quartile range
+# Estimate IQR by yourself, IQR= quantile3-quantil1 i.e. Q3-Q1
+# Compare the result with the result of IQR function
+q1 = quantile(x = data, probs = 0.25); # First quantile
+q3 = quantile(x = data, probs = 0.75); # Third quantile
+print(q3-q1);
+```
+
+### Missing values if present in the data, use na.rm parameter
+
+```{r}
+# Before adding NA, data:
+print(data);
+# Add one missing value at the end
+data=c(data,NA);
+# After adding NA, data:
+print(data);
+mean(data); # without na.rm parameter, if Na is present result will be NA
+mean(data, na.rm = TRUE); # with na.rm parameter, if NA is present, then they are excluded
+# u have to use na.rm in median, var, sd, IQR, range, quantile function
+summary(data); # no need to give na.rm, NA are treated separately
+```
+
+### Look at the distribution of iris dataset by ploting
+```{r, cache=TRUE}
+# Consider iris dataset
+head(iris); 
+# Check sepal length distribution
+# Since sepal length is numerical data, we can use hist() and density() to see the distribution
+
+# Histogram
+hist(iris$Sepal.Length, xlab="Sepal Length", main="Histogram of Sepal Length");
+
+# Density plot
+# You can see its a unimodal distribution
+plot(density(iris$Sepal.Length), xlab="Sepal Length", main="Density of Sepal Length")
+
+# Box plot
+boxplot(iris$Sepal.Length, main="Boxplot of Sepal Length")
+
+# Histogram of four features (Sepal.Length Sepal.Width Petal.Length Petal.Width) of iris dataset
+par(mfrow=c(2,2));
+hist(iris$Sepal.Length, xlab="Sepal Length", main="Histogram of Sepal Length")
+hist(iris$Sepal.Width, xlab="Sepal Width", main="Histogram of Sepal Width")
+hist(iris$Petal.Length, xlab="Petal Length", main="Histogram of Petal Length")
+hist(iris$Petal.Width, xlab="Petal Width", main="Histogram of Petal Width")
+
+# Density plot of four features (Sepal.Length Sepal.Width Petal.Length Petal.Width) of iris dataset
+par(mfrow=c(2,2));
+plot(density(iris$Sepal.Length), xlab="Sepal Length", main="Density plot of Sepal Length")
+plot(density(iris$Sepal.Width), xlab="Sepal Width", main="Density plot of Sepal Width")
+plot(density(iris$Petal.Length), xlab="Petal Length", main="Density plot of Petal Length")
+plot(density(iris$Petal.Width), xlab="Petal Width", main="Density plot of Petal Width")
+
+# Box plot of four features (Sepal.Length Sepal.Width Petal.Length Petal.Width) of iris dataset
+par(mfrow=c(1,1));
+boxplot(iris[,1:4])
+
+# Density plot of four features (Sepal.Length Sepal.Width Petal.Length Petal.Width) of iris dataset. Mean is marked in red line while median in blue.
+par(mfrow=c(2,2));
+plot(density(iris$Sepal.Length), xlab="Sepal Length", main="Density plot of Sepal Length")
+meanval= mean(iris$Sepal.Length)
+medianval=median(iris$Sepal.Length);
+lines(c(meanval, meanval),c(0,1), lwd=2, col="red"); # mean line
+lines(c(medianval, medianval),c(0,1), lwd=2, col="blue"); # mean line
+
+plot(density(iris$Sepal.Width), xlab="Sepal Width", main="Density plot of Sepal Width")
+meanval= mean(iris$Sepal.Width)
+medianval=median(iris$Sepal.Width);
+lines(c(meanval, meanval),c(0,1), lwd=2, col="red"); # mean line
+lines(c(medianval, medianval),c(0,1), lwd=2, col="blue"); # mean line
+
+plot(density(iris$Petal.Length), xlab="Petal Length", main="Density plot of Petal Length")
+meanval= mean(iris$Petal.Length)
+medianval=median(iris$Petal.Length);
+lines(c(meanval, meanval),c(0,1), lwd=2, col="red"); # mean line
+lines(c(medianval, medianval),c(0,1), lwd=2, col="blue"); # mean line
+
+plot(density(iris$Petal.Width), xlab="Petal Width", main="Density plot of Petal Width")
+meanval= mean(iris$Petal.Width)
+medianval=median(iris$Petal.Width);
+lines(c(meanval, meanval),c(0,1), lwd=2, col="red"); # mean line
+lines(c(medianval, medianval),c(0,1), lwd=2, col="blue"); # mean line
+```
+
+### Estimate Skewness and Kurtosis
+Load the moments library
+```{r, cache=TRUE}
+library(moments);  
+```
+Calculate skewness. 
+Skewness is a measure of symmetry. 
+
+Negative skewness: mean of the data < median and the data distribution is left-skewed. 
+
+Positive skewness: mean of the data > median and the data distribution is right-skewed. 
+```{r, cache=TRUE}
+skewness(iris$Sepal.Length); # distribution is skewed towards the right. 
+skewness(iris$Sepal.Width); # distribution is skewed towards the right. 
+skewness(iris$Petal.Length); # distribution is skewed towards the left. 
+skewness(iris$Petal.Width); # distribution is skewed towards the left. 
+```
+Estimate kurtosis. kurtosis describes the tail shape of the data distribution.
+
+![](images/kurtosis.png)
+
+The normal distribution has zero kurtosis and thus the standard tail shape. It is said to be mesokurtic. 
+
+Negative kurtosis would indicate a thin-tailed data distribution, and is said to be platykurtic. 
+
+Positive kurtosis would indicate a fat-tailed distribution, and is said to be leptokurtic. 
+```{r, cache=TRUE}
+kurtosis(iris$Sepal.Length);
+kurtosis(iris$Sepal.Width);
+kurtosis(iris$Petal.Length);
+kurtosis(iris$Petal.Width);
+```
+
+#### Dealing with Skewness and Kurtosis.
+Source: http://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm
+
+
+Many classical statistical tests and intervals depend on normality assumptions. Significant skewness and kurtosis clearly indicate that data are not normal. If a data set exhibits significant skewness or kurtosis (as indicated by a histogram or the numerical measures), what can we do about it?
+
+One approach is to apply some type of transformation to try to make the data normal, or more nearly normal. The Box-Cox transformation is a useful technique for trying to normalize a data set. In particular, taking the log or square root of a data set is often useful for data that exhibit moderate right skewness.
+
+Another approach is to use techniques based on distributions other than the normal. For example, in reliability studies, the exponential, Weibull, and lognormal distributions are typically used as a basis for modeling rather than using the normal distribution.
+

@@ -23,9 +23,11 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -34,10 +36,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,6 +95,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -346,11 +353,36 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="bioconductor.html">Bioconductor</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Statistics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Descriptive_statistics.html">Descriptive Statistics</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="casestudy.html">Case study</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Case studies
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="bioconductor.html">Bioconductor</a>
+    </li>
+    <li>
+      <a href="casestudy.html">Case study</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -405,40 +437,42 @@ rownames(exp)=paste(&quot;G&quot;, 1:nrow(exp),sep=&quot;&quot;);
 colnames(exp)=paste(&quot;C&quot;, 1:ncol(exp),sep=&quot;&quot;);
 head(exp);</code></pre>
 <pre><code>##            C1         C2         C3         C4
-## G1 -1.1500747 -1.8179142  1.4698198 -0.3887606
-## G2 -0.3719477  0.6035657  0.2914873  0.9032487
-## G3  2.0787764  0.5428010 -1.0773028 -1.6428261
-## G4  1.3688886  1.7084788 -0.6743444 -0.7166482
-## G5  0.3220043  0.8343495 -0.3468018 -0.3315549
-## G6 -0.1815653  2.0337400 -1.5658554 -0.5518661</code></pre>
+## G1  1.2703290 -0.7434216  0.7393211 -1.2381350
+## G2 -0.7356198  0.1774974 -1.5546834 -1.0751483
+## G3 -1.0584351 -1.7042316 -0.7565837 -0.4938180
+## G4  0.5286347 -0.2095499  1.3521899 -0.8348628
+## G5 -1.5328875  1.4459670 -0.1720949  0.5487213
+## G6 -0.1358578  0.9976933 -1.0978771 -0.7975672</code></pre>
 <pre class="r"><code>dim(exp);</code></pre>
 <pre><code>## [1] 30  4</code></pre>
 <pre class="r"><code># apply mean function on every row (margin=1)
 apply(exp, MARGIN = 1, FUN = mean);</code></pre>
-<pre><code>##          G1          G2          G3          G4          G5          G6 
-## -0.47173243  0.35658850 -0.02463788  0.42159367  0.11949926 -0.06638668 
-##          G7          G8          G9         G10         G11         G12 
-## -0.51241397  0.03138218 -1.19786759 -0.74760394  0.69192023 -1.25472682 
-##         G13         G14         G15         G16         G17         G18 
-## -0.34117519  0.30140084  0.06482206  0.03227568 -0.35380744  0.45749011 
-##         G19         G20         G21         G22         G23         G24 
-## -0.07502399 -0.85017705  0.48871453 -0.43074166  0.21988972  0.13144441 
-##         G25         G26         G27         G28         G29         G30 
-##  0.18544976  0.18787709 -0.14026945  0.24909481  0.07761420  0.66061978</code></pre>
+<pre><code>##           G1           G2           G3           G4           G5 
+##  0.007023364 -0.796988528 -1.003267095  0.209102968  0.072426467 
+##           G6           G7           G8           G9          G10 
+## -0.258402209  0.468522005 -1.309019785  0.296417450 -0.608521067 
+##          G11          G12          G13          G14          G15 
+## -0.810316290 -0.544956665 -0.063088259  0.040172293  0.130035458 
+##          G16          G17          G18          G19          G20 
+##  0.318760852  0.580419752 -0.031496610 -0.054421114 -0.111517232 
+##          G21          G22          G23          G24          G25 
+## -0.051645393  0.343789493  0.439540206 -0.256769770 -0.273730110 
+##          G26          G27          G28          G29          G30 
+##  0.279540145 -0.390613446 -1.075724827 -0.631337857 -0.041398594</code></pre>
 <pre class="r"><code># apply mean function on every column (margin=2)
 apply(exp, MARGIN = 2, FUN = mean);</code></pre>
 <pre><code>##          C1          C2          C3          C4 
-##  0.15287672 -0.05643489 -0.24917934 -0.08578080</code></pre>
+## -0.02377464 -0.30559239 -0.13622516 -0.21806973</code></pre>
 <pre class="r"><code># Count how many genes up regulated in each day
 apply(exp, MARGIN = 2, FUN = function(x){sum(x&gt;0)});</code></pre>
 <pre><code>## C1 C2 C3 C4 
-## 16 16 12 14</code></pre>
+## 16 12 13 16</code></pre>
 <pre class="r"><code># Count how many days a gene is down regulated
 apply(exp, MARGIN = 1, FUN = function(x){sum(x&gt;0)});</code></pre>
 <pre><code>##  G1  G2  G3  G4  G5  G6  G7  G8  G9 G10 G11 G12 G13 G14 G15 G16 G17 G18 
-##   1   3   2   2   2   1   1   2   0   1   3   0   1   3   2   2   2   3 
+##   2   1   0   2   2   1   3   0   2   2   0   1   3   3   3   2   3   2 
 ## G19 G20 G21 G22 G23 G24 G25 G26 G27 G28 G29 G30 
-##   2   1   3   1   3   2   3   3   2   2   2   3</code></pre>
+##   2   2   3   3   2   1   3   3   1   1   2   2</code></pre>
 </div>
 <div id="sapply" class="section level3">
 <h3>sapply()</h3>
