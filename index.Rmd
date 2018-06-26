@@ -1,6 +1,6 @@
 
 ---
-title: "Basic R for Life Sciences"
+title: "*Basic R for Life Sciences"
 ---
 
 The material was prepared during 3-day hands on workshop on Basic R for Life Sciences (2017), organized by BioSakshat.
