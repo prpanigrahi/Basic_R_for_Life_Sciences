@@ -23,9 +23,11 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -34,10 +36,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,6 +95,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -346,11 +353,36 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="bioconductor.html">Bioconductor</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Statistics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Descriptive_statistics.html">Descriptive Statistics</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="casestudy.html">Case study</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Case studies
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="bioconductor.html">Bioconductor</a>
+    </li>
+    <li>
+      <a href="casestudy.html">Case study</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -503,39 +535,39 @@ x3;</code></pre>
 <p>sample takes a sample of the specified size from the elements of x using either with or without replacement.</p>
 <pre class="r"><code># Fetch 10 random number from the database 1:50
 sample(1:50, 10);</code></pre>
-<pre><code>##  [1]  2 49 27 31 16 14 33 26 15 10</code></pre>
+<pre><code>##  [1]  7 31 33 20 47 43 49 12  5 15</code></pre>
 <pre class="r"><code># Fetch 100 random number from the database 20:30. Since we are fetching more elements than present in database, we need to specify replace=TRUE (Should sampling be with replacement?)
 sample(20:30, 100, replace = TRUE);</code></pre>
-<pre><code>##   [1] 21 25 25 27 27 24 28 28 21 28 29 25 29 30 29 21 20 22 23 20 25 24 24
-##  [24] 27 30 27 29 21 30 20 29 22 21 29 21 30 21 23 24 24 28 30 21 20 28 29
-##  [47] 25 26 22 20 22 23 24 29 24 20 24 26 30 23 24 21 30 27 25 22 27 23 29
-##  [70] 21 29 28 29 21 20 29 23 29 20 28 24 23 22 22 28 30 22 22 24 20 27 30
-##  [93] 27 25 30 29 25 20 28 24</code></pre>
+<pre><code>##   [1] 27 20 21 28 27 25 27 25 21 26 25 26 27 30 26 21 22 23 23 26 26 30 25
+##  [24] 20 20 29 25 28 26 21 25 30 27 28 28 27 23 24 23 30 29 30 26 23 26 30
+##  [47] 29 27 25 29 27 25 25 22 23 29 30 25 24 28 24 22 23 25 24 23 20 20 20
+##  [70] 29 20 26 21 21 25 21 30 24 24 22 26 27 21 23 29 28 22 21 21 23 21 23
+##  [93] 25 20 27 25 30 30 24 27</code></pre>
 </div>
 <div id="rnorm-function" class="section level3">
 <h3>rnorm() function</h3>
 <p>The Normal Distribution.</p>
 <pre class="r"><code># Fetch 50 element from a normal distribution
 rnorm(50);</code></pre>
-<pre><code>##  [1] -0.33947659  1.18421330  1.26449736 -0.80094934 -0.11101353
-##  [6] -0.17163330 -0.57014025  0.89615922 -0.16436141  0.78442586
-## [11]  0.47038024 -0.25916965 -1.34957804 -0.49907908  1.09746627
-## [16]  1.24201865 -0.67916731 -0.36130357  0.76689316  0.09572528
-## [21] -0.78032864 -0.74065061  0.53857052  0.85625262 -0.63400637
-## [26]  0.56723804  0.45377112  0.47416407 -0.41020812  0.25702847
-## [31] -0.48518615  0.33864976 -1.85886543  1.35713175  0.52229644
-## [36] -0.11380629  0.36442696 -1.27874689  1.78400211 -0.68902175
-## [41]  0.75980679 -0.84037241 -1.58303509  0.13358215  1.22526276
-## [46] -0.30302856 -2.10579478 -0.86309893 -0.75388509  0.95585698</code></pre>
+<pre><code>##  [1] -0.98024775 -0.13022293  0.69775182 -0.17149855  2.06509917
+##  [6] -1.37101095  0.92745073 -0.95735394 -0.48425980 -0.59306674
+## [11] -1.15144813 -1.06840463  0.07719101  1.34289410  0.76926079
+## [16]  2.19371883  0.68575902  0.78432044 -1.47882817 -0.91537684
+## [21]  1.23404182  1.46797719  0.71182274 -0.53410802 -0.01399147
+## [26] -0.60111084 -0.06898556  2.66732100  0.38112483 -0.07585638
+## [31] -1.97938546  0.35954522 -0.28033736  1.56269582  0.04512534
+## [36]  1.16259897  0.08973440 -1.38827453 -1.19494094  0.09513593
+## [41]  0.51673314 -0.16879540  0.80121049  0.61197890  0.55864518
+## [46]  1.58549331 -0.28713522 -2.19667458  0.09992880 -1.02211991</code></pre>
 <pre class="r"><code>rnorm(50, mean=5, sd=2);</code></pre>
-<pre><code>##  [1]  4.591098  4.086869  3.291382  3.236566  4.393003  5.137515  9.624502
-##  [8]  4.978015  4.999060  1.951534  3.107941  5.280697  7.120681  2.809229
-## [15]  6.328117  4.692529  7.350387  3.825919  6.151406  4.538983  5.030422
-## [22]  5.023429  5.909770  4.972700  2.259665  7.044727 11.091493  7.590905
-## [29]  8.327381  7.384594  5.434234  5.740811  6.590314  6.496393  6.425664
-## [36]  4.455996  7.363049  6.107538  4.787815  5.288657  3.718269  5.204330
-## [43]  6.363852  4.539236  2.277308  5.327213  6.291902  5.036022  8.221094
-## [50]  6.630806</code></pre>
+<pre><code>##  [1] 4.1168401 4.1950184 5.5347245 4.4190260 4.5414977 4.8085977 3.3456860
+##  [8] 4.4312835 5.8616133 6.8870142 5.6806015 4.9689215 4.1687741 4.8443788
+## [15] 4.2567564 8.2886370 3.6308459 0.9696953 5.9286739 4.8916501 5.9301444
+## [22] 2.8231053 3.0784665 5.9326167 4.7995092 7.2279563 6.2970264 2.2942212
+## [29] 3.9115146 3.0397054 9.8186533 4.5195706 5.5077489 1.9597425 5.0141108
+## [36] 6.2824027 4.4966184 6.9991433 5.1466843 9.4910931 9.2729368 6.1935974
+## [43] 4.8627800 4.6856383 5.8917954 3.2939146 4.7642300 7.4972740 5.3471335
+## [50] 6.4215637</code></pre>
 <p><strong>Task: Now Go to <a href="task.html">Task page</a> and finish Vector creation</strong></p>
 </div>
 </div>
@@ -603,13 +635,13 @@ x;</code></pre>
 <h2>Replace elements in existing vector</h2>
 <pre class="r"><code>x=sample(20:30, 5);
 x;</code></pre>
-<pre><code>## [1] 20 22 21 25 24</code></pre>
+<pre><code>## [1] 23 21 29 24 25</code></pre>
 <pre class="r"><code>x[2]=111111;
 x;</code></pre>
-<pre><code>## [1]     20 111111     21     25     24</code></pre>
+<pre><code>## [1]     23 111111     29     24     25</code></pre>
 <pre class="r"><code>x[c(1,3)]=c(555, 777);
 x;</code></pre>
-<pre><code>## [1]    555 111111    777     25     24</code></pre>
+<pre><code>## [1]    555 111111    777     24     25</code></pre>
 <p><strong>Task: Now Go to <a href="task.html">Task page</a> and finish Fetching vector elements and Vector manipulation section</strong></p>
 </div>
 <div id="inbuilt-functions-for-numeric-vector" class="section level2">
@@ -662,30 +694,30 @@ x;</code></pre>
 <pre class="r"><code>x=sample(1:100,20);
 y=sample(1:100,20);
 x;</code></pre>
-<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89</code></pre>
+<pre><code>##  [1] 45 11 59 85 30 71 24  7  5 16 10 19 52 75 93 90  8 68 99 86</code></pre>
 <pre class="r"><code>y;</code></pre>
-<pre><code>##  [1] 56 27 29 26 95  2 87 73 60 65 55 63 96 79  6 15 54 89 94  7</code></pre>
+<pre><code>##  [1] 46 72 54 23 56 44 84  5 87 21  4 10 32  2 59 24  6 22 69 83</code></pre>
 <pre class="r"><code># Methods: &quot;pearson&quot;, &quot;kendall&quot;, &quot;spearman&quot;
 cor(x,y, method = &quot;spearman&quot;);</code></pre>
-<pre><code>## [1] -0.437594</code></pre>
+<pre><code>## [1] 0.1834586</code></pre>
 <pre class="r"><code>cor(x,y, method = &quot;pearson&quot;);</code></pre>
-<pre><code>## [1] -0.5226678</code></pre>
+<pre><code>## [1] 0.1377221</code></pre>
 </div>
 <div id="set-operations" class="section level2">
 <h2>Set operations</h2>
 <pre class="r"><code>x;</code></pre>
-<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89</code></pre>
+<pre><code>##  [1] 45 11 59 85 30 71 24  7  5 16 10 19 52 75 93 90  8 68 99 86</code></pre>
 <pre class="r"><code>y;</code></pre>
-<pre><code>##  [1] 56 27 29 26 95  2 87 73 60 65 55 63 96 79  6 15 54 89 94  7</code></pre>
+<pre><code>##  [1] 46 72 54 23 56 44 84  5 87 21  4 10 32  2 59 24  6 22 69 83</code></pre>
 <pre class="r"><code>union(x,y);</code></pre>
-<pre><code>##  [1] 95 98 78 52  3 77 85 88 72  2  4  7 41 84 83 87 50 15  8 89 56 27 29
-## [24] 26 73 60 65 55 63 96 79  6 54 94</code></pre>
+<pre><code>##  [1] 45 11 59 85 30 71 24  7  5 16 10 19 52 75 93 90  8 68 99 86 46 72 54
+## [24] 23 56 44 84 87 21  4 32  2  6 22 69 83</code></pre>
 <pre class="r"><code>intersect(x,y); </code></pre>
-<pre><code>## [1] 95  2  7 87 15 89</code></pre>
+<pre><code>## [1] 59 24  5 10</code></pre>
 <pre class="r"><code>setdiff(x,y); # x - y</code></pre>
-<pre><code>##  [1] 98 78 52  3 77 85 88 72  4 41 84 83 50  8</code></pre>
+<pre><code>##  [1] 45 11 85 30 71  7 16 19 52 75 93 90  8 68 99 86</code></pre>
 <pre class="r"><code>setdiff(y,x); # y - x</code></pre>
-<pre><code>##  [1] 56 27 29 26 73 60 65 55 63 96 79  6 54 94</code></pre>
+<pre><code>##  [1] 46 72 54 23 56 44 84 87 21  4 32  2  6 22 69 83</code></pre>
 </div>
 <div id="arithmetic-expressions" class="section level2">
 <h2>Arithmetic expressions</h2>
@@ -799,7 +831,7 @@ str(x4);</code></pre>
 str(x5);</code></pre>
 <pre><code>##  logi [1:2] TRUE FALSE</code></pre>
 <pre class="r"><code>str(letters);</code></pre>
-<pre><code>##  chr [1:26] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; ...</code></pre>
+<pre><code>##  chr [1:26] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; ...</code></pre>
 </div>
 <div id="implicit-data-type-conversion" class="section level2">
 <h2>Implicit Data type conversion</h2>

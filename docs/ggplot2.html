@@ -280,9 +280,9 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
-     
+
     Data Structure
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -312,9 +312,9 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
-     
+
     Data Manipulation
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -332,9 +332,9 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
-     
+
     Visualization
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -355,9 +355,9 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
-     
+
     Tasks
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -374,7 +374,7 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -397,13 +397,13 @@ div.tocify {
 <pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.3</code></pre>
 <pre class="r"><code>library(dplyr);</code></pre>
 <pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.3.3</code></pre>
-<pre><code>## 
+<pre><code>##
 ## Attaching package: &#39;dplyr&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
+##
 ##     filter, lag</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
+##
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>head(diamonds);</code></pre>
 <pre><code>## # A tibble: 6 x 10
@@ -418,7 +418,7 @@ div.tocify {
 <pre class="r"><code># This will just loads the dataset. No plot will be printed until you add the geom layers.
 ggplot(diamonds);</code></pre>
 <p><img src="ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code># Here we have added x and y axis. Still no plot of data. 
+<pre class="r"><code># Here we have added x and y axis. Still no plot of data.
 ggplot(diamonds, aes(x=carat, y=price)); </code></pre>
 <p><img src="ggplot2_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 </div>
@@ -430,7 +430,7 @@ ggplot(diamonds, aes(x=carat, y=price))+ geom_point() </code></pre>
 </div>
 <div id="add-geom_smooth-layer-linear-modeling" class="section level3">
 <h3>Add geom_smooth() layer, linear modeling</h3>
-<pre class="r"><code># 
+<pre class="r"><code>#
 ggplot(diamonds, aes(x=carat, y=price))+ geom_point() + geom_smooth();</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
 <p><img src="ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -498,14 +498,25 @@ print(g);</code></pre>
 <p>We can use theme() function to adjust size of labels. Parameters plot.title, axis.text.x, axis.text.y, axis.title.x, axis.title.y can be set using element_text() function</p>
 <pre class="r"><code>g &lt;- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + labs(title=&quot;Scatterplot&quot;, x=&quot;Carat&quot;, y=&quot;Price&quot;);
 
-gg1 &lt;- g + theme(plot.title=element_text(size=30, face=&quot;bold&quot;), 
-                  axis.text.x=element_text(size=15), 
+gg1 &lt;- g + theme(plot.title=element_text(size=30, face=&quot;bold&quot;),
+                  axis.text.x=element_text(size=15),
                   axis.text.y=element_text(size=15),
                   axis.title.x=element_text(size=25),
                   axis.title.y=element_text(size=25));
 
 print(gg1);</code></pre>
 <p><img src="ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3848514720264642"
+     data-ad-slot="8864343484"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </div>
 <div id="adjusting-the-legend-title" class="section level3">
 <h3>Adjusting the legend title</h3>

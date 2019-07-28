@@ -23,9 +23,11 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -34,10 +36,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,6 +95,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -346,11 +353,36 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="bioconductor.html">Bioconductor</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Statistics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Descriptive_statistics.html">Descriptive Statistics</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="casestudy.html">Case study</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Case studies
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="bioconductor.html">Bioconductor</a>
+    </li>
+    <li>
+      <a href="casestudy.html">Case study</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -393,28 +425,18 @@ div.tocify {
 <h2>Plot using ggplot2</h2>
 <div id="scatter-plot" class="section level3">
 <h3>Scatter plot</h3>
-<pre class="r"><code>library(ggplot2);</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.3.3</code></pre>
-<pre class="r"><code>library(dplyr);</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.3.3</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>head(diamonds);</code></pre>
+<pre class="r"><code>library(ggplot2);
+library(dplyr);
+head(diamonds);</code></pre>
 <pre><code>## # A tibble: 6 x 10
-##   carat       cut color clarity depth table price     x     y     z
-##   &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
-## 2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
-## 3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
-## 4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
-## 5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
-## 6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48</code></pre>
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
 <pre class="r"><code># This will just loads the dataset. No plot will be printed until you add the geom layers.
 ggplot(diamonds);</code></pre>
 <p><img src="ggplot2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>

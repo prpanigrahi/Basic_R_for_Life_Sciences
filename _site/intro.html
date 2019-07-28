@@ -23,9 +23,11 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -34,10 +36,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -91,6 +95,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -346,11 +353,36 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="bioconductor.html">Bioconductor</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Statistics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Descriptive_statistics.html">Descriptive Statistics</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="casestudy.html">Case study</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Case studies
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="bioconductor.html">Bioconductor</a>
+    </li>
+    <li>
+      <a href="casestudy.html">Case study</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -427,7 +459,7 @@ x;</code></pre>
 <h2>Working directory</h2>
 <pre class="r"><code># Present working directory
 getwd();</code></pre>
-<pre><code>## [1] &quot;E:/BioSakshat/Gitprojects/LearnR_website&quot;</code></pre>
+<pre><code>## [1] &quot;D:/BioSakshat/Gitprojects/LearnR_website&quot;</code></pre>
 <pre class="r"><code># setwd(): change the working directory by passing path of new directory.
 # Enclose the path between &quot; &quot; (double quotes)
 setwd(&quot;/home/user/&quot;)</code></pre>
@@ -436,7 +468,15 @@ setwd(&quot;/home/user/&quot;)</code></pre>
 <h2>List of objects in workspace/environment</h2>
 <pre class="r"><code># Lists all objects/variables created in the workspace/environment
 ls();</code></pre>
-<pre><code>## [1] &quot;x&quot;</code></pre>
+<pre><code>##  [1] &quot;A&quot;           &quot;cmd&quot;         &quot;col_breaks&quot;  &quot;d&quot;           &quot;data&quot;       
+##  [6] &quot;distmat&quot;     &quot;exp&quot;         &quot;g&quot;           &quot;gen&quot;         &quot;genes&quot;      
+## [11] &quot;gengrp&quot;      &quot;getcolmax&quot;   &quot;gg&quot;          &quot;gg1&quot;         &quot;gg2&quot;        
+## [16] &quot;gg3&quot;         &quot;hc&quot;          &quot;m&quot;           &quot;m1&quot;          &quot;mat&quot;        
+## [21] &quot;my_palette&quot;  &quot;network&quot;     &quot;oldpar&quot;      &quot;pathway&quot;     &quot;Pathwayinfo&quot;
+## [26] &quot;piris&quot;       &quot;tab&quot;         &quot;temp&quot;        &quot;tempdf&quot;      &quot;tempgen&quot;    
+## [31] &quot;v1&quot;          &quot;v2&quot;          &quot;v3&quot;          &quot;veccol&quot;      &quot;x&quot;          
+## [36] &quot;x1&quot;          &quot;x2&quot;          &quot;x3&quot;          &quot;x4&quot;          &quot;x5&quot;         
+## [41] &quot;y&quot;           &quot;z&quot;</code></pre>
 <pre class="r"><code># rm():Delete provided object
 rm(x); </code></pre>
 </div>
